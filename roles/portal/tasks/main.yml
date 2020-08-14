@@ -1,0 +1,39 @@
+---
+# tasks file for portal
+- name: installing configuration file
+  copy:
+     src:  00-callisto.conf
+     dest: /etc/httpd/conf.d
+     owner: root
+     group: root
+     mode: '0644'
+     backup: yes
+  notify: restart apache
+
+- name: installing assets directory and other files
+  copy:
+     src:  callisto/{{ item }}
+     dest: /var/www/html/callisto
+     owner: root
+     group: root
+     mode: '0644'
+     backup: yes
+  loop:
+     - assets
+     - work.html
+
+- name: installing web site
+  template:
+     src:  callisto-{{ callisto_living_on }}/{{ item }}
+     dest: /var/www/html/callisto
+     owner: root
+     group: root
+     mode: '0644'
+     backup: yes
+  loop:
+     - index.php
+     - index-dataverse.php
+     - contact.html
+     - tools.html
+
+

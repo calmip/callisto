@@ -1,0 +1,128 @@
+---
+# tasks file for create_containers
+- name: containers exist
+  delegate_to: localhost
+  connection: local
+  lxd_container:
+     url: https://127.0.0.1:8443
+     ephemeral: no
+     source:
+         type: image
+         mode: pull
+         server: https://images.linuxcontainers.org
+         protocol: lxd # if you get a 404, try setting protocol: simplestreams
+         alias: centos/7/amd64
+     name: "{{ inventory_hostname }}"
+     architecture: x86_64
+     state: started
+  notify:
+    - attach port80
+    - attach port443
+
+     #- name: Declaring CallistoProxy as an http proxy (port 443)
+     #delegate_to: localhost
+     # connection: local
+     # shell: lxc config device get CallistoProxy callport443 name 2>/dev/null || lxc config device add CallistoProxy callport443 proxy listen=tcp:0.0.0.0:443 connect=tcp:127.0.0.1:443 proxy_protocol=true
+
+  #- 
+  #debug:
+  #  var: ansible_host
+
+      #- name: Declaring CallistoProxy as an http proxy (port 80)
+      #delegate_to: localhost
+      #connection: local
+      #shell: lxc config device get CallistoProxy callport80 name 2>/dev/null || lxc config device add CallistoProxy callport80 proxy listen=tcp:0.0.0.0:80 connect=tcp:127.0.0.1:80 proxy_protocol=true
+      #when: ansible_host == "CallistoProxy"
+
+      #- name: network configuration
+      #delegate_to: localhost
+      #shell: 
+      #cmd: bash network-configuration.bash
+      #creates: NETWORK-OK
+
+- name: Set the timezone to {{ callisto_timezone }}
+  timezone:
+     name: "{{ callisto_timezone }}"
+
+     #- name: from the inventory, edit the /etc/hosts file
+     #  lineinfile:
+     #path: "/etc/hosts"
+     #regexp: ".+{{ item }}"
+     #line: "{{ hostvars[item]['container_addr'] }} {{ item }}"
+     #state: present
+     #backup: true
+     #loop: "{{ groups['all'] }}"
+
+- name: Installing required software
+  yum:
+    name:
+       - httpd
+       - mod_ssl
+       - vim
+       - epel-release
+    update_cache: true
+    state: latest
+  notify: restart apache
+
+- name: enable httpd
+  service: name=httpd enabled=true
+
+- name: Ensure apache is running
+  service: name=httpd state=started enabled=yes
+
+- name: Installing some stuff recommended for server administration
+  yum:
+    name:
+       - ssmtp
+       - yum-cron
+       - logwatch
+    state: latest
+  when: callisto_living_on == "server"
+
+- name: Configuring ssmtp -> ssmtp.conf
+  template:
+     src: ssmtp.conf
+     dest: /etc/ssmtp/ssmtp.conf
+     owner: root
+     group: root
+     mode: '0644'
+     backup: yes
+  when: callisto_living_on == "server"
+
+- name: Configuring ssmtp -> revaliases
+  template:
+     src: revaliases
+     dest: /etc/ssmtp/revaliases
+     owner: root
+     group: mail
+     mode: '0640'
+     backup: yes
+  when: callisto_living_on == "server"
+
+- name: Configuring yum-cron -> yum-cron.conf
+  template:
+     src: yum-cron.conf
+     dest: /etc/yum/yum-cron.conf
+     owner: root
+     group: root
+     mode: u=rx,go=r
+     backup: yes
+  when: callisto_living_on == "server"
+
+- name: Configuring logwatch -> logwatch.conf
+  template:
+     src: logwatch.conf
+     dest: /etc/logwatch/logwatch.conf
+     owner: root
+     group: root
+     mode: u=rx,go=r
+     backup: yes
+  when: callisto_living_on == "server"
+
+- name: Configuring logwatch -> weekly, not daily
+  command:  
+     removes: /etc/cron.daily/0logwatch
+     creates: /etc/cron.weekly/0logwatch
+     cmd: mv /etc/cron.daily/0logwatch /etc/cron.weekly
+  when: callisto_living_on == "server"
+

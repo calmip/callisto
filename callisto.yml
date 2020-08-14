@@ -1,0 +1,43 @@
+---
+- name:  Modify host configuration
+  hosts: localhost
+  connection: local
+  become: true
+  vars_files:
+     - vars.yml
+  roles:
+     - name: etc_host
+       tags:
+         - etc_host
+
+- name: Creating and configuring containers for Callisto
+  hosts: all
+  connection: local
+  become: true
+  gather_facts: false
+  vars_files:
+     - vars.yml
+  roles:
+     - name: create_containers
+       tags:
+         - create_containers
+
+- name:  Working on proxy
+  hosts: CallistoProxy
+  vars_files:
+     - vars.yml
+  roles:
+     - name: proxy
+       tags: 
+         - proxy
+
+- name:  Working on portal
+  hosts: CallistoPortal
+  vars_files:
+     - vars.yml
+  roles:
+     - name: portal
+       tags: 
+         - portal
+
+

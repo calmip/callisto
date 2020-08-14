@@ -1,0 +1,25 @@
+<VirtualHost *:80>
+    ServerName dataverse.{{ callisto_url }} 
+
+    #LogLevel trace4
+
+    # MANU - L'objectif ici est de faire le sorte que les connexions
+    #        https://dataverse.{{ callisto_url }}
+    #        soient INTERDITES si elles ne proviennent pas de callisto-dev
+    #        Comme cela on ne peut utiliser dataverse en-dehors de callisto !
+    #
+    # see http://www.htaccess-guide.com/deny-visitors-by-referrer/
+    # LogLevel alert rewrite:trace4
+    RewriteEngine on
+    RewriteCond %{HTTP_REFERER} !{{ callisto_url }} [NC]
+    RewriteCond %{QUERY_STRING} !key= 
+    RewriteRule .* - [F] 
+
+   ProxyPass        / https://CallistoDataverse:80/
+   ProxyPassReverse / https://CallistoDataverse:80/
+
+   ErrorLog /var/log/httpd/dataverse-error.log
+   CustomLog /var/log/httpd/dataverse-access.log combined
+
+</VirtualHost>
+

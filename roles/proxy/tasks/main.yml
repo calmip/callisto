@@ -1,0 +1,28 @@
+---
+# tasks file for proxy
+- name: launching rewrite module
+  apache2_module:
+     name: "rewrite"
+     state: present
+  notify: restart apache
+
+- name: installing configuration file for dataverse
+  template:
+     src:  dataverse-{{ callisto_living_on }}.conf
+     dest: /etc/httpd/conf.d
+     owner: root
+     group: root
+     mode: '0644'
+     backup: yes
+  notify: restart apache
+
+- name: installing configuration file for portal
+  template:
+     src:  portal-{{ callisto_living_on }}.conf
+     dest: /etc/httpd/conf.d
+     owner: root
+     group: root
+     mode: '0644'
+     backup: yes
+  notify: restart apache
+

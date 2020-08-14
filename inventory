@@ -1,0 +1,4 @@
+CallistoProxy     ansible_connection=lxd
+CallistoPortal    ansible_connection=lxd
+CallistoDataverse ansible_connection=lxd
+
