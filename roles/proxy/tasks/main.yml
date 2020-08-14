@@ -9,7 +9,7 @@
 - name: installing configuration file for dataverse
   template:
      src:  dataverse-{{ callisto_living_on }}.conf
-     dest: /etc/httpd/conf.d
+     dest: /etc/httpd/conf.d/dataverse.conf
      owner: root
      group: root
      mode: '0644'
@@ -19,7 +19,7 @@
 - name: installing configuration file for portal
   template:
      src:  portal-{{ callisto_living_on }}.conf
-     dest: /etc/httpd/conf.d
+     dest: /etc/httpd/conf.d/portal.conf
      owner: root
      group: root
      mode: '0644'
