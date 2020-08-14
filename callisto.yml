@@ -1,15 +1,4 @@
 ---
-- name:  Modify host configuration
-  hosts: localhost
-  connection: local
-  become: true
-  vars_files:
-     - vars.yml
-  roles:
-     - name: etc_host
-       tags:
-         - etc_host
-
 - name: Creating and configuring containers for Callisto
   hosts: all
   connection: local

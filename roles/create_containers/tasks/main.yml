@@ -1,5 +1,15 @@
 ---
 # tasks file for create_containers
+
+- name: if running on laptop, add an alias for Callisto, dataverse etc.
+  delegate_to: localhost
+  connection: local
+  lineinfile:
+     path: "/etc/hosts"
+     line: "127.0.0.1 www.{{callisto_url}} {{callisto_url}} dataverse.{{callisto_url}}"
+     state: present
+  when: callisto_living_on == "laptop"
+
 - name: containers exist
   delegate_to: localhost
   connection: local
