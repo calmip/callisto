@@ -72,13 +72,45 @@
        - epel-release
     update_cache: true
     state: latest
-  notify: restart apache
-
-- name: enable httpd
-  service: name=httpd enabled=true
 
 - name: Ensure apache is running
   service: name=httpd state=started enabled=yes
+
+- name: Installing mod_ssl
+  yum:
+    name:
+       - mod_ssl
+    state: latest
+  notify: restart apache
+
+- name: Install ssh and firefox in containers
+  yum:
+    name:
+      - openssh-server
+      - xauth
+      - firefox
+    state: latest
+  when: ssh_wanted == true
+  
+- name: Ensure sshd is running
+  service: name=sshd state=started enabled=yes
+- name: Create the root .ssh directory
+  file:
+    dest: "/root/.ssh"
+    state: directory
+    group: root
+    owner: root
+    mode: '0700'
+  when: ssh_wanted == true
+
+- name: Send my ssh key to the new container
+  copy:
+    src: "{{ lookup('env','HOME') }}/.ssh/id_rsa.pub"
+    dest: .ssh/authorized_keys
+    group: root
+    owner: root
+    mode: '0600'
+  when: ssh_wanted == true
 
 - name: Installing some stuff recommended for server administration
   yum:
