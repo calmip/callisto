@@ -2,6 +2,12 @@
 # Values allowed: laptop/server
 callisto_living_on: laptop
 
+# Do we want ssh server on the containers ?
+# This is useful for testing prupose, as ssh is the easiest way of running graphical applications
+# on the container (ie firefox)
+ssh_wanted: true
+#ssh_wanted: false
+
 # The following is useful ONLY if running on a server
 # The platform name - Avoid "_" in the name, prefer "-": callisto-local is OK, callisto_local is BAD
 callisto_name: "callisto-local"
