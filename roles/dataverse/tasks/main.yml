@@ -1,0 +1,12 @@
+---
+# tasks file for dataverse
+- name: installing configuration file
+  template:
+    src:  dataverse.conf
+    dest: /etc/httpd/conf.d/dataverse.conf
+    owner: root
+    group: root
+    mode: '0644'
+    backup: yes
+  notify: restart apache
+
