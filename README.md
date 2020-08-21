@@ -19,12 +19,16 @@ Pre-requisites
 Installing Callisto
 -------------------
 
+- Copy the file vars.yml.dist:
+       cp vars.yml.dist vars.yml
 - Edit the file vars.yml: at least choose laptop or server for the variable "callisto_living_on"
 - If installing on server, there are other variables to set (domain name, mail addresses etc)
-- Then run ansible-playbook -i inventory callisto.yml to create the containers and deploy Callisto on them
+- Then run the command:
+           ansible-playbook -i inventory callisto.yml 
+  to create the containers and deploy Callisto on them
 
-       - If this does not work with a password related message, add the -K switch to the above command
-       - Partial installs can be done with the --tags switch (have a look to callisto.yml to know the tags)
+- If this does not work with a password related message, add the -K switch to the above command
+- Partial installs can be done with the --tags switch (have a look to callisto.yml to know the tags)
 
 Running Callisto
 ----------------
@@ -32,7 +36,6 @@ Running Callisto
 
 License
 -------
-
 To be defined
 
 Author Information
