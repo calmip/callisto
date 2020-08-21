@@ -34,6 +34,7 @@
   loop:
      - index.php
      - index-dataverse.php
+     - menu.php
      - contact.html
      - tools.html
 

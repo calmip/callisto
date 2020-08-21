@@ -47,48 +47,12 @@
   ?>
 -->
 
-<?php $logged = true ?>
+  <?php include_once "menu.php" ?>
 
-  <!-- End header  -->
-  <!-- Start menu -->
-  <div style="height:10%;margin:0;padding:0;" id="mu-menu" >
-    <nav class="navbar navbar-default" role="navigation">  
-      <div class="container">
-        <img src="assets/img/logo_calmip.svg" alt="logo" style="height:50px;margin:10px;float: left;"/>
-        <div class="navbar-header">
-          <!-- FOR MOBILE VIEW COLLAPSED BUTTON -->
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-          <ul id="top-menu" class="nav navbar-nav navbar-right main-nav">
-            <li class="active"><a href="/index.php">Home</a></li>            
-            <li><a href="/index-dataverse.php">Collaborate</a></li>
-            <li><a href="work.html">Work</a></li>
-	    <li><a href="tools.html">Tools</a></li>
-            <li><a href="contact.html">Contact</a></li>
-	    <?php if ($logged == false): ?>
-               <li><a href="/login">Login</a></li>
-	    <?php else: ?>
-               <li><a href="/logout">Logout</a></li>
-               <li><a href="#"><?php echo $user ?></a></li>
-	    <?php endif ?>
-
-          </ul>                     
-        </div><!--/.nav-collapse -->        
-      </div>     
-    </nav>
-  </div>
-  <!-- End menu -->
   <!-- Dataverse frame -->
 
   <div style="height:90%;margin:0;padding:0;">
-  <iframe width="100%" height="100%" sandbox="allow-scripts allow-forms allow-modals allow-popups allow-same-origin " src="{{ callisto_protocol }}://dataverse.{{ callisto_url }}/loginpage.xhtml"></iframe>
+  <iframe width="100%" height="100%" sandbox="allow-scripts allow-forms allow-modals allow-popups allow-same-origin " src="http://dataverse.callisto-local.mylaptop/loginpage.xhtml"></iframe>
   </div>
 
   <!-- jQuery library -->

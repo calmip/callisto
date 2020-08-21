@@ -99,6 +99,14 @@
   notify: restart apache
   when: inventory_hostname == "CallistoPortal"
 
+- name: Configuring php (display_errors On on laptop) 
+  lineinfile:
+     path: "/etc/php.ini"
+     regexp: "^display_errors *="
+     line: "display_errors = On"
+     state: present
+  when: callisto_living_on == "laptop" and inventory_hostname == "CallistoPortal"
+
 - name: Install ssh and firefox in containers
   yum:
     name:
