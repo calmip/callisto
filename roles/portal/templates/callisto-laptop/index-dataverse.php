@@ -67,8 +67,8 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul id="top-menu" class="nav navbar-nav navbar-right main-nav">
-            <li class="active"><a href="/callisto/index.php">Home</a></li>            
-            <li><a href="/callisto/index-dataverse.php">Collaborate</a></li>
+            <li class="active"><a href="/index.php">Home</a></li>            
+            <li><a href="/index-dataverse.php">Collaborate</a></li>
             <li><a href="work.html">Work</a></li>
 	    <li><a href="tools.html">Tools</a></li>
             <li><a href="contact.html">Contact</a></li>
