@@ -19,7 +19,7 @@
      mode: '0644'
      backup: yes
   loop:
-     - assets
+          #- assets
      - work.html
 
 - name: installing web site

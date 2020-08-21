@@ -48,7 +48,7 @@
 
 -->
 
-<?php $logged=true ?>
+<?php $logged="NEVER" ?>
 
   <!--START SCROLL TOP BUTTON -->
     <a class="scrollToTop" href="#">
@@ -72,15 +72,16 @@
         <div id="navbar" class="navbar-collapse collapse">
           <ul id="top-menu" class="nav navbar-nav navbar-right main-nav">
             <li class="active"><a href="index.php">Home</a></li>            
-	    <?php if ($logged==true): ?>
-            <li><a href="{{ callisto_protocol }}://{{ callisto_url }}/callisto/index-dataverse.php">Collaborate</a></li>
+	    <?php if ($logged===true || $logged==="NEVER"): ?>
+            <li><a href="{{ callisto_protocol }}://{{ callisto_url }}/index-dataverse.php">Collaborate</a></li>
 	    <?php endif ?>
             <li><a href="work.html">Work</a></li>
 	    <li><a href="tools.html">Tools</a></li>
             <li><a href="contact.html">Contact</a></li>
-	    <?php if ($logged == false): ?>
-               <li><a href="/login">Login</a></li>
-	    <?php else: ?>
+	    <?php if ($logged === false): ?>
+	       <li><a href="/login">Login</a></li>
+	    <?php endif ?>
+            <?php if ($logged === true): ?>
                <li><a href="/logout">Logout</a></li>
                <li><a href="#"><?php echo $user ?></a></li>
 	    <?php endif ?>
@@ -140,9 +141,9 @@
               <p>Use the CALLISTO DataVerse instance to share your data, and discover other datasets useful for you.</p>
 	      <!-- <a href="https://callisto.calmip.univ-toulouse.fr/loginpage.xhtml" target="_blank" class="mu-read-more-btn">Begin</a> -->
 	      <?php if ($logged==true): ?>
-	      <a href="/callisto/index-dataverse.php" target="_blank" class="mu-read-more-btn">Begin</a>
+	      <a href="/index-dataverse.php" target="_blank" class="mu-read-more-btn">Begin</a>
 	      <?php else: ?>
-	      <a href="/Shibboleth.sso/Login?target=/callisto/index-dataverse.php" target="_blank" class="mu-read-more-btn">Begin</a>
+	      <a href="/Shibboleth.sso/Login?target=/index-dataverse.php" target="_blank" class="mu-read-more-btn">Begin</a>
               <?php endif ?>
             </div>
             <!-- Start single service -->
