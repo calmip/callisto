@@ -19,8 +19,9 @@
      mode: '0644'
      backup: yes
   loop:
-          #- assets
+     - assets
      - work.html
+  when: send_all_files == true 
 
 - name: installing web site
   template:

@@ -63,6 +63,15 @@
      #backup: true
      #loop: "{{ groups['all'] }}"
 
+- name: creating callisto directory on portal
+  file:
+    path: /var/www/html/callisto
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+  when: ansible_host == "CallistoPortal"
+
 - name: Installing required software
   yum:
     name:

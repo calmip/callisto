@@ -2,6 +2,9 @@
 # Values allowed: laptop/server
 callisto_living_on: laptop
 
+# It takes a long time to send all files to the containers !
+send_all_files: true
+
 # Do we want ssh server on the containers ?
 # This is useful for testing prupose, as ssh is the easiest way of running graphical applications
 # on the container (ie firefox)
