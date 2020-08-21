@@ -29,15 +29,6 @@
        tags: 
          - portal
 
-- name:  Working on portal
-  hosts: CallistoPortal
-  vars_files:
-     - vars.yml
-  roles:
-     - name: portal
-       tags: 
-         - portal
-
 - name:  Working on dataverse
   hosts: CallistoDataverse
   vars_files:
