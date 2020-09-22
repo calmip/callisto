@@ -1,0 +1,126 @@
+.title{
+    width:90%;
+    height:112px;
+    position:relative;
+    background:transparent url(test.png) no-repeat top left;
+	left:315px;
+}
+.back{
+    background:transparent url(bgtest2.png) no-repeat top left;
+    position:relative;
+    width:100%;
+    height:730px;
+    left:315px;
+}
+.panneauFormulaire{
+	background:transparent url(bgtest2bis.png);
+	height:950px;
+	width: 300px;
+	position:absolute;
+	top:1%;
+}
+.INSU-CNRS{
+	position:absolute;
+	top:160px;
+	left:120px;
+}
+.OMP{
+	position:absolute;
+	top:322px;
+	left:120px;
+}
+.CFH{
+	position:absolute;
+	top:310px;
+	left:230px;
+}
+.TBL{
+	position:absolute;
+	top:322px;
+	left:340px;
+}
+.UPS{
+	position:absolute;
+	top:420px;
+	left:120px;
+}
+.formular2{
+	position:relative;
+	top:-2%;
+	left:-2%;
+}
+.dialog{
+	position:relative;
+	top:50%;
+	left:50%;
+}
+.options{
+	position:relative;
+	top:15%;
+}
+.resultsGrid{
+	position:absolute;
+	left:153px;
+	top:-30%;
+}
+.plotting{
+	position:absolute;
+	left:10%;
+	top:13%;
+}
+.download{
+	position:absolute;
+	left:2%;
+	top:13%;
+}
+.xml_download{
+	position:absolute;
+	left:20%;
+	top:13%;
+}
+.normalizedGrid{
+	position:relative;
+	top:-8%;
+}
+.notNormalizedGrid{
+	position:relative;
+	left:48%;
+	top:-8%;
+}
+.lsdGrid{
+	position:relative;
+}
+.plotSpectra{
+	position:relative;
+	top:400px;
+	height:300px;
+	width:500px;
+	border: 1px solid #B5B8C8;
+}
+.plotPolar{
+	position:relative;
+	top:98px;
+	left:505px;
+	height:300px;
+	width:500px;
+	border: 1px solid #B5B8C8;
+}
+.plotLsdInt{
+	position:relative;
+	top:110px;
+	left:0px;
+	height:300px;
+	width:500px;
+	border: 1px solid #B5B8C8;
+}
+.plotLsdPol{
+	position:relative;
+	top:-192px;
+	left:505px;
+	height:300px;
+	width:500px;
+	border: 1px solid #B5B8C8;
+}
+.frmParam{
+	background:black;
+}

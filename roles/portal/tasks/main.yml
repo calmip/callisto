@@ -20,7 +20,8 @@
      backup: yes
   loop:
      - assets
-     - work.html
+     - css
+     - js
   when: send_all_files == true 
 
 - name: installing web site
@@ -35,7 +36,20 @@
      - index.php
      - index-dataverse.php
      - menu.php
-     - contact.html
      - tools.html
+     - work.html
+     - collaborate.html
+     - contact.php
+     - license.txt
+
+- name: creating TempFiles directory
+  file:
+    path: /var/www/html/callisto/TempFiles
+    state: directory
+    owner: root
+    group: root
+    mode: '0777'
+  when: ansible_host == "CallistoPortal"
+
 
 

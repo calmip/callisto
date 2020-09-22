@@ -32,7 +32,7 @@
   </head>
   <body> 
 
-<!-- Used with Shib 	    
+<!-- Used with Shib
   <?php 
     $headers = getallheaders();
     if ($headers['AJP_eppn']=='')
@@ -45,11 +45,16 @@
        $user   = $headers['AJP_givenName']." ".$headers['AJP_sn']; 
     }
   ?>
-
 -->
 
-<?php include_once "menu.php" ?>
+< php $logged=true ?>
 
+  <!--START SCROLL TOP BUTTON -->
+    <a class="scrollToTop" href="#">
+      <i class="fa fa-angle-up"></i>      
+    </a>
+  <!-- End header  -->
+<?php include_once "menu.php" ?>
   <!-- Start search box -->
   <div id="mu-search">
     <div class="mu-search-area">      
@@ -111,7 +116,7 @@
               <h3>Work</h3>
               <p>Use the embedded tools to ease the discovery of data and software. Tell CALLISTO what you need and let us guide you!</p>
 	       <a href="work.html" class="mu-read-more-btn">Web interface</a>
-	       <a href="http://callisto-local.mylaptop/hub/" class="mu-read-more-btn">Interactive scripting</a>
+	       <!-- <a href="{{callisto_protocol}}://{{ callisto_url }}/hub/" class="mu-read-more-btn">Interactive scripting</a> -->
             </div>
             <!-- Start single service -->
 	    <div class="mu-service-single">
@@ -135,14 +140,8 @@
         <h2>About Callisto</h2>              
       </div>
       <!-- End Title -->
-      <p>CALmip Launches an Interface for a Semantic Toolbox Online (CALLISTO) is a Web interface allowing researchers to share, discover and use data, data services and analysis services. It is intended to help collaborators achieve a FAIR (Findable, Accessible, Interoperable and Reliable) data management. <br/> <br/>Callisto is a work in progress. Its intent is to test methods for ensuring FAIR access to scientific data for the CALMIP community of users. Currently, the functionalities on the testbench are:</p>
-      <ul>
-        <li>Automatic generation of schema.org for sharing datasets.</li>
-        <li>Hosting a dedicated DataServe instance for sharing data among projects with fine-grained authorizations</li>
-        <li>An OAI-PMH repository for open datasets (part of the DataVerse instance)</li>
-        <li>Ontology-based reasoning on datasets and services (looking towards ta future Virtual Research Environment)</li>
-      </ul>
-    </div>    
+      <p>CALmip Launches an Interface for a Semantic Toolbox Online (CALLISTO) is a Web interface allowing researchers to share, discover and use data, data services and analysis services. It is intended to help collaborators achieve a FAIR (Findable, Accessible, Interoperable and Reliable) data management. <br/> <br/>Callisto is a work in progress. Its intent is to provide tools and methods for ensuring FAIR access to scientific data for the CALMIP community of users.</p>
+         
   </section>
   <!-- End about us -->
   

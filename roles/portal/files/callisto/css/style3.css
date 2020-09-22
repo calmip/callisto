@@ -1,0 +1,201 @@
+.title{
+    width:90%;
+    height:112px;
+    position:relative;
+    background:transparent url(test.png) no-repeat top left;
+	left:10%;
+}
+.back3{
+    background:transparent url(bgtest.png) no-repeat top left;
+    position:relative;
+    width:100%;
+    height:100%;
+    left:10%;
+}
+.contenu{
+	position:relative;
+}
+.formular{
+	position:relative;
+	left:-20%;
+	top:-10%;
+}
+.object{
+	position:absolute;
+	top:-20%;
+	left:130%;
+}
+.test{
+	position:absolute;
+	left:45%;
+	top:-20%;
+}
+.other{
+	position:absolute;
+	top:-10%;
+}
+.bouton{
+	position:absolute;
+	top:580%;
+	left:80%;
+}
+.boutonPlot{
+	position:absolute;
+	top:65%;
+	left:30%;
+}
+.observation{
+	position:absolute;
+	top:800%;
+}
+.observation2{
+	position:absolute;
+	top:850%;
+	left:130%;
+}
+.formtab{
+	position:relative;
+	top:10px;
+	left:25%;
+}
+.formtab2{
+	position:relative;
+	left:37%;
+}
+.formular2{
+	position:absolute;
+	left:30%;
+	top:20px;
+}
+.tab1{
+	position:absolute;
+	top:18%;
+	left:1%;
+}
+.tab2{
+	position:absolute;
+	top:48%;
+	left:1%;
+}
+.tab3{
+	position:absolute;
+	top:64%;
+	left:1%;
+}
+.tab4{
+	position:absolute;
+	top:80%;
+	left:1%;
+}
+.navigation{
+	position:relative;
+    font-family: "Trebuchet MS", sans-serif;
+    font-size: 30px;
+    font-style: normal;
+    font-weight: bold;
+    letter-spacing: 1.4px;
+	left:9.9%;
+}
+.navigation .item{
+    position:absolute;
+}
+.name{
+	margin-left: 20%;
+	margin-top: 20%
+}
+.ra{
+	margin-left: 20%;
+}
+.query{
+    top:11.9%;
+    left:10%;
+}
+.results{
+   top:11.9%;
+   left:21%;
+}
+.plotting{
+   top:11.9%;
+   left:31.2%;
+}
+.user{
+   top:11.9%;
+   left:42%;
+}
+a.icon{
+    width:225px;
+    height:54px;
+    position:absolute;
+    top:0px;
+    left:10%;
+    cursor:pointer;
+}
+.query a.icon{
+    background:transparent url(../images/query2.png) no-repeat 0px 0px;
+}
+.results a.icon{
+    background:transparent url(../images/results.png) no-repeat 0px 0px;
+}
+.plotting a.icon{
+    background:transparent url(../images/plot.png) no-repeat 0px 0px;
+}
+.user a.icon{
+    background:transparent url(../images/guide2.png) no-repeat 0px 0px;
+}
+.navigation .item a.active{
+    background-position:0px -52px;
+}
+.item img.circle{
+    position:absolute;
+    top:0px;
+    left:0px;
+    width:52px;
+    height:52px;
+    opacity:0.1;
+}
+.item h2{
+    position:absolute;
+    width:147px;
+    height:52px;
+    color:#222;
+    font-size:18px;
+    top:0px;
+    left:52px;
+    text-indent:10px;
+    line-height:52px;
+    text-shadow:1px 1px 1px #fff;
+    text-transform:uppercase;
+}
+.item h2.active{
+    color:#fff;
+    text-shadow:1px 0px 1px #555;
+}
+.item ul{
+    list-style:none;
+    position:absolute;
+    top:60px;
+    left:25px;
+    display:none;
+}
+.item ul li a{
+    font-size:15px;
+    text-decoration:none;
+    letter-spacing:1.5px;
+    text-transform:uppercase;
+    color:#222;
+    padding:3px;
+    float:left;
+    clear:both;
+    width:100px;
+    text-shadow:1px 1px 1px #fff;
+}
+.item ul li a:hover{
+    background-color:#fff;
+    color:#444;
+    -moz-border-radius:5px;
+    -webkit-border-radius:5px;
+    border-radius:5px;
+    -moz-box-shadow:1px 1px 4px #666;
+    -webkit-box-shadow:1px 1px 4px #666;
+    box-shadow:1px 1px 4px #666;
+}
