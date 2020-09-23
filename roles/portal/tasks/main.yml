@@ -1,5 +1,11 @@
 ---
 # tasks file for portal
+
+- name: Add the user 'callisto'
+  user:
+    name: callisto
+    comment: 
+
 - name: installing configuration file
   copy:
      src:  00-callisto.conf
@@ -23,6 +29,21 @@
      - css
      - js
   when: send_all_files == true 
+
+- name: installing UTILS 
+  template:
+     src:  UTILS/{{ item }}
+     dest: /home/callisto
+     owner: root
+     group: root
+     mode: '0644'
+     backup: yes
+  loop:
+     - DataSetsToAllegro.py
+     - GenerateDataverseMetadata.py
+     - RegisterPublication.py
+     - RegisterService.py
+     - Update_Allegro_Repositories.py
 
 - name: installing web site
   template:
@@ -49,7 +70,41 @@
     owner: root
     group: root
     mode: '0777'
-  when: ansible_host == "CallistoPortal"
+    #  when: ansible_host == "CallistoPortal"
 
+- name: installing cgi-bin
+  template:
+     src:  cgi-bin/{{ item }}
+     dest: /var/www/cgi-bin
+     owner: root
+     group: root
+     mode: '0644'
+     backup: yes
+  loop:
+     - Allegro_Fcts.py
+     - Allegro_Workflows.py
+     - Constants.py
+     - Display_ontology_element.py
+     - display.py
+     - get_dataset.py
+     - mean_Cp.py
+     - mean_Cp_source.py
+     - psd_display.py
+     - psd_fft_display.py
+     - psd_fft.py
+     - psd_fft_source.py
+     - psd_periodogram.py
+     - psd_periodogram_source.py
+     - psd_welch.py
+     - psd_welch_source.py
+     - StringDist.py
 
+- name: creating cgi-bin TempFiles directory
+  file:
+    path: /var/www/cgi-bin/TempFiles
+    state: directory
+    owner: root
+    group: root
+    mode: '0777'
+    #  when: ansible_host == "CallistoPortal"
 
