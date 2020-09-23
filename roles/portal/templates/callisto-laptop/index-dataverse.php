@@ -47,7 +47,9 @@
   ?>
 -->
 
-<?php $logged = true ?>
+<?php $logged = true ;
+      $user   = 'bob';
+?>
 
   <!-- End header  -->
   <!-- Start menu -->

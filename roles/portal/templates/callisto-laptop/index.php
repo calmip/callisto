@@ -47,7 +47,7 @@
   ?>
 -->
 
-< php $logged=true ?>
+<? php $logged=true ?>
 
   <!--START SCROLL TOP BUTTON -->
     <a class="scrollToTop" href="#">
