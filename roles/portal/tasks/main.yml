@@ -56,7 +56,7 @@
   loop:
      - index.php
      - index-dataverse.php
-     - menu.php
+     - menu.inc
      - tools.html
      - work.html
      - collaborate.html
@@ -82,9 +82,7 @@
      backup: yes
   loop:
      - Allegro_Fcts.py
-     - Allegro_Workflows.py
      - Constants.py
-     - Display_ontology_element.py
      - display.py
      - get_dataset.py
      - mean_Cp.py
