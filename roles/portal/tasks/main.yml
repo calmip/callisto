@@ -7,8 +7,8 @@
     comment: 
 
 - name: installing configuration file
-  copy:
-     src:  00-callisto.conf
+  template:
+     src:  00-portal.conf
      dest: /etc/httpd/conf.d
      owner: root
      group: root
@@ -47,7 +47,7 @@
 
 - name: installing web site
   template:
-     src:  callisto-{{ callisto_living_on }}/{{ item }}
+     src:  callisto/{{ item }}
      dest: /var/www/html/callisto
      owner: root
      group: root
