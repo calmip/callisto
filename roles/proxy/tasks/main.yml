@@ -16,6 +16,15 @@
      backup: yes
   notify: restart apache
 
+- name: laptop, creating mockShib directory
+  file:
+    path: /etc/http.d/conf.d/mockShib
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+  when: ansible_host == "CallistoProxy" and callisto_living_on == "laptop"
+
 - name: installing configuration file for portal
   template:
      src:  portal.conf

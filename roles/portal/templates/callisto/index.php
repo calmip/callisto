@@ -3,6 +3,23 @@
 -->
 
 <?php include_once "headers.inc" ?>
+
+
+<?php
+// Printing headers in debug mode
+$DEBUG_PHP = false;
+if ($DEBUG_PHP==true)
+{
+	echo "<pre>";
+	$headers = getallheaders();
+	foreach($headers as $h=>$v)
+	{
+	    echo "$h $v <br />";
+	}
+	echo "</pre>";
+}
+?>
+
 <?php include_once "menu.inc" ?>
   <!-- Start search box -->
   <div id="mu-search">

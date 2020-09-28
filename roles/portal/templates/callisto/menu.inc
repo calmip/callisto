@@ -2,10 +2,10 @@
 
 <body style="height:100%;margin:0;padding:0;" > 
 
-<!--	    
   <?php 
     $headers = getallheaders();
-    if ($headers['AJP_eppn']=='')
+
+    if (!isset($headers['AJP_eppn']) || $headers['AJP_eppn']=='')
     {
        $logged = false;
     } 
@@ -15,11 +15,6 @@
        $user   = $headers['AJP_givenName']." ".$headers['AJP_sn']; 
     }
   ?>
--->
-
-<?php $logged = true ;
-      $user   = 'bob';
-?>
 
   <!-- End header  -->
   
