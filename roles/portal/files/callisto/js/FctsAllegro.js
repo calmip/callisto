@@ -45,13 +45,13 @@ function handleOperationsWorkflow (request) {
             nom = x[i].getElementsByTagName("nom")[0].childNodes[0].nodeValue;
 	    ontology_id = x[i].getElementsByTagName("ontology_id")[0].childNodes[0].nodeValue;
             
-	    $("#available_wflows").append("<br/><a href=\"https://allegro.callisto.calmip.univ-toulouse.fr/#/repositories/sms/node/<http://www.callisto.calmip.univ-toulouse.fr/SMS.rdf%23"+ontology_id.split("#")[1]+">\" target=\"_blank\"><b><u>"+nom+"</u></b></a> for <b>OUTPUT</b>: ");
+	    $("#available_wflows").append("<br/><a href=\"https://{{allegro_subdomain}}.{{callisto_name}}.{{callisto_topdomainname}}/#/repositories/"+aff_repo.repository+"/node/<http://www.{{callisto_name}}.{{callisto_topdomainname}}/"+aff_repo.repository.toUpperCase()+".rdf%23"+ontology_id.split("#")[1]+">\" target=\"_blank\"><b><u>"+nom+"</u></b></a> for <b>OUTPUT</b>: ");
             output = x[i].getElementsByTagName("output_definition");
 	    
             if (output.length > 0) {
                 for (j=0;j<output.length;j++)
                 {
-		$("#available_wflows").append("<a href=\"https://allegro.callisto.calmip.univ-toulouse.fr/#/repositories/sms/node/<http://www.callisto.calmip.univ-toulouse.fr/SMS.rdf%23"+x[i].getElementsByTagName("output")[j].childNodes[0].nodeValue+">\" target=\"_blank\"><b><u>"+x[i].getElementsByTagName("output")[j].childNodes[0].nodeValue+"</u></b></a>");	
+		$("#available_wflows").append("<a href=\"https://{{allegro_subdomain}}.{{callisto_name}}.{{callisto_topdomainname}}/#/repositories/"+aff_repo.repository+"/node/<http://www.{{callisto_name}}.{{callisto_topdomainname}}/"+aff_repo.repository.toUpperCase()+".rdf%23"+x[i].getElementsByTagName("output")[j].childNodes[0].nodeValue+">\" target=\"_blank\"><b><u>"+x[i].getElementsByTagName("output")[j].childNodes[0].nodeValue+"</u></b></a>");	
                 }
             }
             $("#available_wflows").append(" with <b>INPUT</b>: ");
@@ -59,7 +59,7 @@ function handleOperationsWorkflow (request) {
             if (input.length > 0) {
                 for (j=0;j<input.length;j++)
                 {
-                    $("#available_wflows").append("<a href=\"https://allegro.callisto.calmip.univ-toulouse.fr/#/repositories/sms/node/<http://www.callisto.calmip.univ-toulouse.fr/SMS.rdf%23"+x[i].getElementsByTagName("input")[j].childNodes[0].nodeValue+">\" target=\"_blank\"><b><u>"+x[i].getElementsByTagName("input_definition")[j].childNodes[0].nodeValue+"</u></b></a>");
+                    $("#available_wflows").append("<a href=\"https://{{allegro_subdomain}}.{{callisto_name}}.{{callisto_topdomainname}}/#/repositories/"+aff_repo.repository+"/node/<http://www.{{callisto_name}}.{{callisto_topdomainname}}/"+aff_repo.repository.toUpperCase()+".rdf%23"+x[i].getElementsByTagName("input")[j].childNodes[0].nodeValue+">\" target=\"_blank\"><b><u>"+x[i].getElementsByTagName("input_definition")[j].childNodes[0].nodeValue+"</u></b></a>");
                 }
             }
 	    $("#available_wflows").append("<br/> <b>Description of the service:<b> ");
@@ -72,8 +72,7 @@ function handleOperationsWorkflow (request) {
     tableau_urls = []
     $("#available_wflows").append("<div id='genericflow'></div>");
     general_csv = xmlDoc.getElementsByTagName("csvschemafile")[0].childNodes[0].nodeValue;
-    displayGraph("https://callisto.calmip.univ-toulouse.fr/"+general_csv,"genericflow");
-    //displayGraph("http://192.168.0.7/"+general_csv,"genericflow");
+    displayGraph("https://{{allegro_subdomain}}.{{callisto_name}}.{{callisto_topdomainname}}"+general_csv,"genericflow");
     var isoneok = 0;
     if (x.length > 0) {
 	svcs_names = new Array(x.length);
@@ -116,7 +115,7 @@ function handleOperationsWorkflow (request) {
 		    isoneok = 1;
 		    //if (inp[j]!="No input required") {
 		    if (inp[j]=="ApiKeyValue") {
-			$("#available_wflows").append("<div id=div_"+inp[j]+">A value is required for <a href=\"https://allegro.callisto.calmip.univ-toulouse.fr/#/repositories/sms/node/<http://www.callisto.calmip.univ-toulouse.fr/SMS.rdf%23"+inp[j]+">\" target=\"_blank\">"+inp[j]+"</a> <input type = 'text' id='inp_"+inp[j]+"'/></div><br/>");
+			$("#available_wflows").append("<div id=div_"+inp[j]+">A value is required for <a href=\"https://{{allegro_subdomain}}.{{callisto_name}}.{{callisto_topdomainname}}/#/repositories/"+aff_repo.repository+"/node/<http://www.{{callisto_name}}.{{callisto_topdomainname}}/"+aff_repo.repository.toUpperCase()+".rdf%23"+inp[j]+">\" target=\"_blank\">"+inp[j]+"</a> <input type = 'text' id='inp_"+inp[j]+"'/></div><br/>");
 			}
 		    else if (inp[j]!="No input required")
 		    {
@@ -244,7 +243,7 @@ function handleSchema (request) {
     http_request = new XMLHttpRequest();
     http_request.onreadystatechange = handleCheckboxRequest;
     //alert("ouvre:https://callisto.calmip.univ-toulouse.fr/callisto/"+schemafile);
-    http_request.open('GET',"https://callisto.calmip.univ-toulouse.fr/callisto/"+schemafile,true);
+    http_request.open('GET',"https://{{allegro_subdomain}}.{{callisto_name}}.{{callisto_topdomainname}}/callisto/"+schemafile,true);
     http_request.send(null);   
 }
 function handleCheckboxRequest()
@@ -507,7 +506,7 @@ function handleQueryArcadie (request) {
 		for (qu=0;qu<quals.length;qu++)
 		    {
 			//$("#visuQuery").append("<br/><a href=\"../cgi-bin/Display_ontology_element.py?repo="+aff_repo.repository+"&element="+quals[qu].childNodes[0].nodeValue+"\" target=\"_blank\">"+quals[qu].childNodes[0].nodeValue+"</a>");
-			$("#visuQuery").append("<br/><a href=\"https://allegro.callisto.calmip.univ-toulouse.fr/#/repositories/sms/node/<http://www.callisto.calmip.univ-toulouse.fr/SMS.rdf%23"+quals[qu].childNodes[0].nodeValue+">\" target=\"_blank\">"+quals[qu].childNodes[0].nodeValue+"</a>");			
+			$("#visuQuery").append("<br/><a href=\"https://{{allegro_subdomain}}.{{callisto_name}}.{{callisto_topdomainname}}/#/repositories/"+aff_repo.repository+"/node/<http://www.callisto.calmip.univ-toulouse.fr/"+aff_repo.repository.toUpperCase()+".rdf%23"+quals[qu].childNodes[0].nodeValue+">\" target=\"_blank\">"+quals[qu].childNodes[0].nodeValue+"</a>");			
 		    }
 		$("#visuQuery").append("<br/><input type='button'  onclick='getDataClaim()'; id='repo_query' value='Get data relevant for this topic'/></div>");
 		
@@ -595,7 +594,7 @@ function handleQueryArcadie (request) {
 		svc = x[i].getElementsByTagName("svc")[0].childNodes[0].nodeValue;
                 $("#about").append("<b>The following functionality is available:</b><br/>"+label+"<br/>");
 		$("#about").append("Defined as: <br/>"+definition+"<br/>");
-		$("#about").append("<a href='https://allegro.callisto.calmip.univ-toulouse.fr/#/repositories/sms/node/<http://www.callisto.calmip.univ-toulouse.fr/SMS.rdf%23"+svc+">'>View it on ontology</a><br/>");
+		$("#about").append("<a href='https://{{allegro_subdomain}}.{{callisto_name}}.{{callisto_topdomainname}}/#/repositories/"+aff_repo.repository+"/node/<http://www.callisto.calmip.univ-toulouse.fr/"+aff_repo.repository.toUpperCase()+".rdf%23"+svc+">'>View it on ontology</a><br/>");
 		
                 
             }
@@ -608,7 +607,7 @@ function getDetails(service) {
     //alert("into getDetails");
     chaine_args = 'case=getDetails&';
     chaine_args = chaine_args + 'service='+ service + '&';
-    //var repo = $("input[type='radio'][name='repo1']:checked").val();
+    
     var repo = aff_repo.repository;
     chaine_args = chaine_args + 'repo='+ repo + '&';
     var remote=$.ajax({
@@ -622,7 +621,7 @@ function getDetails(service) {
 function getData(service) {
     chaine_args = 'case=getData&';
     chaine_args = chaine_args + 'service='+ service + '&';
-    //var repo = $("input[type='radio'][name='repo1']:checked").val();
+    
     var repo = aff_repo.repository;
     chaine_args = chaine_args + 'repo='+ repo + '&';
     var remote=$.ajax({
@@ -638,7 +637,7 @@ function aboutClaim(claim) {
     //
     chaine_args = 'case=about&';
     chaine_args = chaine_args + 'claim='+ claim + '&';
-    //var repo = $("input[type='radio'][name='repo1']:checked").val();
+    
     var repo = aff_repo.repository;
     chaine_args = chaine_args + 'repo='+ repo + '&';
     var remote=$.ajax({
@@ -653,8 +652,8 @@ function getDataClaim() {
     //                                                                                                                                                                                                     
     chaine_args = 'case=dataClaim&';
     chaine_args = chaine_args + 'claim='+ claim + '&';
-    //alert("get data claim: "+chaine_args)
-    //var repo = $("input[type='radio'][name='repo1']:checked").val();
+    
+    
     var repo = aff_repo.repository;
     chaine_args = chaine_args + 'repo='+ repo + '&';
     var remote=$.ajax({
@@ -788,7 +787,7 @@ function displayGraph(graphfile,element){
 
 function SeekInformation() {
     var query = $("#Information").val();
-    //var repo = $("input[type='radio'][name='repo1']:checked").val();
+    
     var repo = aff_repo.repository;
     var case1 = "data";
     chaine_args = '';
@@ -803,14 +802,6 @@ function SeekInformation() {
         dataType: "text",
         success: handleSeekInformation
     });
-
-    /*var remote=$.ajax({
-        url: "/cgi-bin/Allegro_Fcts.py",
-        method: 'POST',
-        data:chaine_args,
-        dataType: "text",
-        success: handleSeekOntology
-    });*/
     
 }
 
@@ -829,7 +820,7 @@ function handleSeekInformation(request)  {
     $("#available_data").html("");
     $("#available_wflows").html("");
     if (x.length > 0) {
-	//$("#available_data").append("<table id='data_semi_auto' cellpadding = '5' cellspacing = '5'><thead><tr><th>nom</th><th>soft</th><th>url</th><th>Select</th></tr></thead>")
+	
 	$("#available_data").append("<table id='data_semi_auto' cellpadding = '5' cellspacing = '5'><thead><tr><th>Service id</th><th>Description</th><th>Select</th></thead>")
         for (i=0;i<x.length;i++)
         {

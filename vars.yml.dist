@@ -28,6 +28,9 @@ callisto_protocol: http
 # The timezone of the callisto containers
 callisto_timezone: "Europe/Paris"
 
+# The subdomain of the callisto top domain name dedicated to allegro
+allegro_subdomain: allegro
+
 # The port on which your Allegro installation will run
 allegro_port: 10035
 
