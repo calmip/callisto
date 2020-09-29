@@ -30,8 +30,8 @@ if sys.argv[1] == 'login':
 
     print ("Now creating the headers.conf file")
     with open("headers.conf","w") as f:
-        f.write ("RequestHeader set AJP_sn: {0}\n".format(sn))
-        f.write ("RequestHeader set AJP_givenName: {0}\n".format(givenName))
+        f.write ("RequestHeader set AJP_sn: \"{0}\"\n".format(sn))
+        f.write ("RequestHeader set AJP_givenName: \"{0}\"\n".format(givenName))
         f.write ("RequestHeader set AJP_mail: {0}\n".format(mail))
         f.write ("RequestHeader set AJP_eppn: {0}\n".format(mail))
         f.write ("RequestHeader set AJP_Shib-Identity-Provider: mockShib\n")
