@@ -30,6 +30,20 @@
      - js
   when: send_all_files == true 
 
+- name: installing login/logout for laptop installation only
+  copy:
+     src:  callisto/{{ item }}
+     dest: /var/www/html/callisto
+     owner: root
+     group: root
+     mode: '0644'
+     backup: yes
+  loop:
+     - login
+     - logout
+  when: callisto_living_on == "laptop"
+
+
 - name: installing UTILS 
   template:
      src:  UTILS/{{ item }}
@@ -57,10 +71,14 @@
      - index.php
      - index-dataverse.php
      - menu.inc
-     - tools.html
-     - work.html
+     - headers.inc
+     - index-tools.php
+     - index-work.php
      - collaborate.html
-     - contact.php
+     - index-contact.php
+     - work.html
+     - tools.html
+     - contact.html
      - license.txt
 
 - name: creating TempFiles directory
