@@ -1,3 +1,5 @@
 *.bkp
 vars.yml
 *.rpm
+headers.conf
+
