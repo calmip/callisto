@@ -1,11 +1,5 @@
 ---
 # tasks file for proxy
-- name: launching rewrite module
-  apache2_module:
-     name: "rewrite"
-     state: present
-  notify: restart apache
-
 - name: installing configuration file for dataverse
   template:
      src:  dataverse.conf
@@ -16,14 +10,24 @@
      backup: yes
   notify: restart apache
 
-- name: laptop, creating mockShib directory
+- name: on laptop, creating mockShib directory
   file:
-    path: /etc/http.d/conf.d/mockShib
+    path: /etc/httpd/conf.d/mockShib
     state: directory
     owner: root
     group: root
     mode: '0755'
   when: ansible_host == "CallistoProxy" and callisto_living_on == "laptop"
+
+- name: on laptop, creating dummy file h.conf
+  file:
+    path: /etc/httpd/conf.d/mockShib/h.conf
+    state: touch
+    owner: root
+    group: root
+    mode: '0755'
+  when: ansible_host == "CallistoProxy" and callisto_living_on == "laptop"
+  notify: restart apache
 
 - name: installing configuration file for portal
   template:
@@ -34,4 +38,11 @@
      mode: '0644'
      backup: yes
   notify: restart apache
+
+- name: launching rewrite module
+  apache2_module:
+     name: "rewrite"
+     state: present
+  notify: restart apache
+
 
