@@ -8,27 +8,91 @@ Pre-requisites
  - Callisto should be installed on a gnu/linux based server (tested on Ubuntu) for production
  - Callisto lives in different lxd containers, SO you should first install lxd:
 
- - If not already done install the package manager snap
+### Installing lxd: ###
 
- - Install lxd: snap install lxd
- - Configure lxd: lxd init
+First install snap on your system (using adpt-get, yum etc)
 
- - Callisto uses ansible to deploy the application on several lxd containers (centOs7 based). So Ansible should be installed on the host:
- - apt install ansible
+Then install lxd:
 
-Installing Callisto
+    snap install lxd
+
+Configure lxd:
+
+    lxd init
+
+Callisto uses ansible to deploy the application on several lxd containers (centOs7 based). So Ansible should be installed on the host:
+
+    apt install ansible
+
+Installing Callisto (base containers)
+-------------------------------------
+
+Copy the file vars.yml.dist:
+
+    cp vars.yml.dist vars.yml
+
+ - Edit the file vars.yml: at least choose laptop or server for the variable "callisto_living_on"
+ - If installing on server, there are other variables to set (domain name, mail addresses etc)
+
+Then run the follwing command to create the containers and deploy Callisto on them:
+
+    ansible-playbook -i inventory callisto.yml 
+
+If this does not work with a password related message, add the -K switch to the above command:
+
+    ansible-playbook -i inventory callisto.yml -K
+
+Partial installs can be done with the --tags switch (have a look to callisto.yml to know the tags):
+
+    ansible-playbook -i inventory --tags proxy callisto.yml -K
+
+
+Installing dataverse:
+---------------------
+
+Dataverse can be easily installed with the ansible role provided by Dataverse:
+
+    git clone https://github.com/GlobalDataverseCommunityConsortium/dataverse-ansible
+
+Retrieve the CallistoDataverse container IP:
+
+    lxc list
+
+Change the file called inventory as follows (change xxx with the CallistoDataverse IP):
+
+    [dataverse]
+    CallistoDataverse container_addr=xxx.xxx.xxx.xxx ansible_connection=lxd
+
+Installing Allegro:
 -------------------
 
-- Copy the file vars.yml.dist:
-       cp vars.yml.dist vars.yml
-- Edit the file vars.yml: at least choose laptop or server for the variable "callisto_living_on"
-- If installing on server, there are other variables to set (domain name, mail addresses etc)
-- Then run the command:
-           ansible-playbook -i inventory callisto.yml 
-  to create the containers and deploy Callisto on them
+Retrieve the CallistoAllegro container IP:
 
-- If this does not work with a password related message, add the -K switch to the above command
-- Partial installs can be done with the --tags switch (have a look to callisto.yml to know the tags)
+    lxc list
+
+Go to the Allegro container:
+
+    ssh root@YYY.YYY.YYY.YYY
+
+Get the Allegro rpm:
+
+    wget https://franz.com/ftp/pri/acl/ag/ag7.0.3/linuxamd64.64/agraph-7.0.3-linuxamd64.64.rpm
+
+Install the rpm:
+
+    rpm -i agraph-7.0.3-1.x86_64.rpm
+
+Configure Allegro:
+
+    install-agraph
+
+Enable Allegro for automatic start:
+
+    chkconfig agraph on
+
+Start Allegro:
+
+    systemctl start agraph 
 
 Running Callisto
 ----------------
