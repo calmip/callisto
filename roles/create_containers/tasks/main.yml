@@ -29,39 +29,9 @@
     - attach port80
     - attach port443
 
-     #- name: Declaring CallistoProxy as an http proxy (port 443)
-     #delegate_to: localhost
-     # connection: local
-     # shell: lxc config device get CallistoProxy callport443 name 2>/dev/null || lxc config device add CallistoProxy callport443 proxy listen=tcp:0.0.0.0:443 connect=tcp:127.0.0.1:443 proxy_protocol=true
-
-  #- 
-  #debug:
-  #  var: ansible_host
-
-      #- name: Declaring CallistoProxy as an http proxy (port 80)
-      #delegate_to: localhost
-      #connection: local
-      #shell: lxc config device get CallistoProxy callport80 name 2>/dev/null || lxc config device add CallistoProxy callport80 proxy listen=tcp:0.0.0.0:80 connect=tcp:127.0.0.1:80 proxy_protocol=true
-      #when: ansible_host == "CallistoProxy"
-
-      #- name: network configuration
-      #delegate_to: localhost
-      #shell: 
-      #cmd: bash network-configuration.bash
-      #creates: NETWORK-OK
-
 - name: Set the timezone to {{ callisto_timezone }}
   timezone:
      name: "{{ callisto_timezone }}"
-
-     #- name: from the inventory, edit the /etc/hosts file
-     #  lineinfile:
-     #path: "/etc/hosts"
-     #regexp: ".+{{ item }}"
-     #line: "{{ hostvars[item]['container_addr'] }} {{ item }}"
-     #state: present
-     #backup: true
-     #loop: "{{ groups['all'] }}"
 
 - name: creating callisto directory on portal
   file:
@@ -75,14 +45,25 @@
 - name: Installing required software
   yum:
     name:
-       - httpd
        - vim
        - epel-release
+       - sudo
+       - tar
+       - wget
     update_cache: true
     state: latest
 
+- name: Installing apache
+  yum:
+    name:
+       - httpd
+    update_cache: true
+    state: latest
+  when: ansible_host != "CallistoAllegro"
+
 - name: Ensure apache is running
   service: name=httpd state=started enabled=yes
+  when: ansible_host != "CallistoAllegro"
 
 - name: Installing mod_ssl
   yum:
@@ -90,6 +71,7 @@
        - mod_ssl
     state: latest
   notify: restart apache
+  when: ansible_host != "CallistoAllegro"
 
 - name: Installing php on the portal only
   yum:
@@ -115,7 +97,34 @@
       - firefox
     state: latest
   when: ssh_wanted == true
-  
+ 
+- name: modify the config of sshd_config (1)
+  lineinfile:
+     path: "/etc/ssh/sshd_config"
+     regexp: "^PasswordAuthentication"
+     line: "###PasswordAuthentication"
+     state: present
+  when: ssh_wanted == true
+  notify: restart sshd
+
+- name: modify the config of sshd_config (2)
+  lineinfile:
+     path: "/etc/ssh/sshd_config"
+     regexp: "^GSSAPIAuthentication"
+     line: "###GSSAPIAuthentication"
+     state: present
+  when: ssh_wanted == true
+  notify: restart sshd
+
+- name: modify the config of sshd_config (3)
+  lineinfile:
+     path: "/etc/ssh/sshd_config"
+     regexp: "^GSSAPICleanupCredentials"
+     line: "###GSSAPICleanupCredentials"
+     state: present
+  when: ssh_wanted == true
+  notify: restart sshd
+
 - name: Ensure sshd is running
   service: name=sshd state=started enabled=yes
 
@@ -192,4 +201,19 @@
      creates: /etc/cron.weekly/0logwatch
      cmd: mv /etc/cron.daily/0logwatch /etc/cron.weekly
   when: callisto_living_on == "server"
+
+- name: Creating a group Callisto (only in CallistoAllegro)
+  group:
+    name: callisto
+    state: present
+  when: ansible_host == "CallistoAllegro"
+
+- name: Creating a user Callisto (only in CallistoAllegro)
+  user:
+    name: callisto
+    create_home: yes
+    groups: callisto
+    password: '!'
+  when: ansible_host == "CallistoAllegro"
+
 
