@@ -28,6 +28,16 @@ callisto_protocol: http
 # The timezone of the callisto containers
 callisto_timezone: "Europe/Paris"
 
+# The port on which your Allegro installation will run
+allegro_port: 10035
+
+# The user under which your Allegro installation will run
+allegro_user: "user"
+
+# The password for the user running Allegro
+allegro_password: "password"
+
+
 # USEFUL ONLY WHEN CALLISTO IS LIVING ON A SERVER
 # ===============================================
 # The email addresses used by several system automatic procedures

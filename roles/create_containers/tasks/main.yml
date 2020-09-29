@@ -20,7 +20,8 @@
          type: image
          mode: pull
          server: https://images.linuxcontainers.org
-         protocol: lxd # if you get a 404, try setting protocol: simplestreams
+         #protocol: lxd # if you get a 404, try setting protocol: simplestreams
+         protocol: simplestreams
          alias: centos/7/amd64
      name: "{{ inventory_hostname }}"
      architecture: x86_64
