@@ -34,6 +34,18 @@ Copy the file vars.yml.dist:
  - Edit the file vars.yml: at least choose laptop or server for the variable "callisto_living_on"
  - If installing on server, there are other variables to set (domain name, mail addresses etc)
 
+Managing the certificates:
+
+If installing on your laptop, you can use the self-signed certificates:
+
+    cp roles/proxy/files/cert.pem.dist roles/proxy/files/ssl
+    cp roles/proxy/files/key.pem.dist  roles/proxy/files/ssl
+
+If installing on a server, you should get secure certificates for the domains:
+ - {{ callisto_url }}
+ - dataverse.{{ callisto_url }}
+ - allegro.{{ callisto_url }}
+
 Then run the follwing command to create the containers and deploy Callisto on them:
 
     ansible-playbook -i inventory callisto.yml 

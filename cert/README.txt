@@ -5,7 +5,7 @@ if necessary (but it should not):
 
 Generating autosigned certificate for laptop installations:
 
-    openssl req -new -x509 -newkey rsa:2048 -sha256 -nodes -keyout cert.key -days 3560 -out cert.pem -config local.cnf 
+    openssl req -new -x509 -newkey rsa:2048 -sha256 -nodes -keyout key.pem -days 3560 -out cert.pem -config local.cnf 
 
 Checking that everything is OK:
 
@@ -13,7 +13,7 @@ Checking that everything is OK:
 
 Copying the certificate and the key: 
     
-    cp cert.key cert.pem ../roles/proxy/files
+    cp key.pem cert.pem ../roles/proxy/files/ssl
 
 2/ Server installations
 -----------------------
@@ -25,7 +25,7 @@ You should have your own certificate (see with your institutions), valid for the
 
 OR a star certificate ({{callisto_url}} and *.{{callisto_url}}
 
-Copy the certificate, the key AND the chain to the directory  ../roles/proxy/files
+Copy the certificate, the key AND the chain to the directory  ../roles/proxy/files/ssl The files should be renamed to key.pem and cert.pem
 
 Emmanuel (emmanuel.courcelle@toulouse-inp.fr)
 
