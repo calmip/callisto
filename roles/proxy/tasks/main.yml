@@ -10,23 +10,33 @@
      backup: yes
   notify: restart apache
 
-- name: on laptop, creating mockShib directory
-  file:
-    path: /etc/httpd/conf.d/mockShib
-    state: directory
-    owner: root
-    group: root
-    mode: '0755'
-  when: ansible_host == "CallistoProxy" and callisto_living_on == "laptop"
+  #- name: on laptop, creating mockShib directory
+  #file:
+  #  path: /etc/httpd/conf.d/mockShib
+  #  state: directory
+  #  owner: root
+  #  group: root
+  #  mode: '0755'
+  #when: ansible_host == "CallistoProxy" and callisto_living_on == "laptop"
 
-- name: on laptop, creating dummy file h.conf
-  file:
-    path: /etc/httpd/conf.d/mockShib/h.conf
-    state: touch
-    owner: root
-    group: root
-    mode: '0755'
-  when: ansible_host == "CallistoProxy" and callisto_living_on == "laptop"
+- #name: on laptop, creating dummy file h.conf
+  #file:
+  #  path: /etc/httpd/conf.d/mockShib/h.conf
+  #  state: touch
+  #  owner: root
+  #  group: root
+  #  mode: '0755'
+  #when: ansible_host == "CallistoProxy" and callisto_living_on == "laptop"
+  #notify: restart apache
+
+- name: on laptop, mocking shibboleth
+  copy:
+     src: mockShib
+     dest: /etc/httpd
+     owner: root
+     group: root
+     mode: '0644'
+     backup: no
   notify: restart apache
 
 - name: Installing certificates
@@ -37,6 +47,7 @@
      group: root
      mode: '0644'
      backup: no 
+  notify: restart apache
 
 - name: protecting key
   file:
@@ -45,21 +56,25 @@
     owner: root
     group: root
     mode: '0400'
-    
-- name: installing configuration file for portal
-  template:
-     src:  portal.conf
-     dest: /etc/httpd/conf.d/portal.conf
-     owner: root
-     group: root
-     mode: '0644'
-     backup: yes
   notify: restart apache
-
+    
 - name: launching rewrite module
   apache2_module:
      name: "rewrite"
      state: present
   notify: restart apache
 
+- name: installing configuration files
+  template:
+     src:  "{{item}}"
+     dest: /etc/httpd/conf.d/{{item}}
+     owner: root
+     group: root
+     mode: '0644'
+     backup: yes
+  loop:
+     - portal.conf
+     - dataverse.conf
+     - allegro.conf 
+  notify: restart apache
 

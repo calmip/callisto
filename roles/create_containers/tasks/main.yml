@@ -6,7 +6,7 @@
   connection: local
   lineinfile:
      path: "/etc/hosts"
-     line: "127.0.0.1 www.{{callisto_url}} {{callisto_url}} dataverse.{{callisto_url}}"
+     line: "127.0.0.1 {{callisto_url}} {{callisto_url}} dataverse.{{callisto_url}} allegro.{{callisto_url}}"
      state: present
   when: callisto_living_on == "laptop"
 
