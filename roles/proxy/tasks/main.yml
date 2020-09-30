@@ -29,6 +29,23 @@
   when: ansible_host == "CallistoProxy" and callisto_living_on == "laptop"
   notify: restart apache
 
+- name: Installing certificates
+  copy:
+     src:  ssl
+     dest: /etc/httpd
+     owner: root
+     group: root
+     mode: '0644'
+     backup: no 
+
+- name: protecting key
+  file:
+    path: /etc/httpd/ssl/cert.key
+    state: file
+    owner: root
+    group: root
+    mode: '0400'
+    
 - name: installing configuration file for portal
   template:
      src:  portal.conf

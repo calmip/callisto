@@ -96,7 +96,16 @@ Start Allegro:
 
 Running Callisto
 ----------------
-- Point your browser to the callisto url defined in vars.yml 
+- Point your browser to the callisto url defined in vars.yml, in https
+
+### Running on your laptop: ###
+When visiting https://callisto-local.mylaptop the FIRST TIME your browser will send a warning because
+there is an autosigned certificate: Please accept the risk
+
+Then click the menu link "valid dataverse certif" to validate the autosigned certificate of the dataverse url. This is required to be able to use
+dataverse from an iframe, as it is the normal use of dataverse in Callisto
+
+Your browser will not warn you anymore
 
 License
 -------

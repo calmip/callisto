@@ -70,8 +70,11 @@
                <li><a href="/login">Login</a></li>
             <?php else: ?>
                <li><a href="/logout">Logout</a></li>
-               <li><a href="#"><?php echo $user ?></a></li>
-            <?php endif ?>
+	       <li><a href="#"><?php echo $user ?></a></li>
+	    <?php endif ?>
+	    {% if callisto_living_on=="laptop" %}
+	    <li><a href="https://{{dataverse_url}}">valid dataverse certif</a></li>
+	    {% endif %}
 
           </ul>
         </div><!--/.nav-collapse -->
