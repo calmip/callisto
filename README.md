@@ -51,8 +51,10 @@ Installing dataverse:
 ---------------------
 
 Dataverse can be easily installed with the ansible role provided by Dataverse:
-
+    
+    cd ../
     git clone https://github.com/GlobalDataverseCommunityConsortium/dataverse-ansible
+    cd dataverse-ansible
 
 Retrieve the CallistoDataverse container IP:
 
@@ -74,9 +76,13 @@ Go to the Allegro container:
 
     ssh root@YYY.YYY.YYY.YYY
 
+Allegro will need openssl :
+
+    yum install openssl
+
 Get the Allegro rpm:
 
-    wget https://franz.com/ftp/pri/acl/ag/ag7.0.3/linuxamd64.64/agraph-7.0.3-linuxamd64.64.rpm
+    wget https://franz.com/ftp/pri/acl/ag/ag7.0.3/linuxamd64.64/agraph-7.0.3-1.x86_64.rpm
 
 Install the rpm:
 
@@ -84,7 +90,8 @@ Install the rpm:
 
 Configure Allegro:
 
-    install-agraph
+    /usr/bin/configure-agraph
+    (Doing so, make sure to use the password and user for agraph that you specified in callisto vars.yml configuration file)    
 
 Enable Allegro for automatic start:
 
