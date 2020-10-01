@@ -64,16 +64,16 @@ Installing dataverse:
 
 Dataverse can be easily installed with the ansible role provided by Dataverse:
 
-    git clone https://github.com/GlobalDataverseCommunityConsortium/dataverse-ansible
+    git clone https://github.com/GlobalDataverseCommunityConsortium/dataverse-ansible dataverse
 
-Retrieve the CallistoDataverse container IP:
-
-    lxc list
-
-Change the file called inventory as follows (change xxx with the CallistoDataverse IP):
+Change the file called dataverse/inventory as follows (change xxx with the CallistoDataverse IP):
 
     [dataverse]
-    CallistoDataverse container_addr=xxx.xxx.xxx.xxx ansible_connection=lxd
+    CallistoDataverse ansible_connection=lxd
+
+cd to the directory ABOVE dataverse and:
+
+    ansible-playbook -i dataverse/inventory dataverse/dataverse.pb -e dataverse/defaults/main.yml
 
 Installing Allegro:
 -------------------
