@@ -77,6 +77,10 @@ Change the file called inventory as follows (change xxx with the CallistoDataver
     [dataverse]
     CallistoDataverse container_addr=xxx.xxx.xxx.xxx ansible_connection=lxd
 
+Return to base directory and run the installation:
+    cd ../
+    ansible-playbook -v -i dataverse-ansible/inventory dataverse-ansible/dataverse.pb -e dataverse-ansible/defaults/main.yml
+
 Installing Allegro:
 -------------------
 
