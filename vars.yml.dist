@@ -53,5 +53,7 @@ allegro_password: "password"
 # ====================================
 
 callisto_url: "{{ callisto_name }}.{{ callisto_topdomainname }}"
+dataverse_url: "dataverse.{{ callisto_name }}.{{ callisto_topdomainname }}"
+allegro_url: "allegro.{{ callisto_name }}.{{ callisto_topdomainname }}"
 
 
