@@ -1,0 +1,22 @@
+[req]
+default_bits = 2048
+prompt = no
+default_md = sha256
+x509_extensions = v3_req
+distinguished_name = dn
+
+[dn]
+C = ES
+ST = MyState
+L = MyCity
+O = MyOrg
+emailAddress = email@callisto-local.mylaptop
+CN = callisto-local.mylaptop
+
+[v3_req]
+subjectAltName = @alt_names
+
+[alt_names]
+DNS.1 = dataverse.callisto-local.mylaptop
+DNS.2 = allegro.callisto-local.mylaptop
+

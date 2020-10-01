@@ -34,6 +34,18 @@ Copy the file vars.yml.dist:
  - Edit the file vars.yml: at least choose laptop or server for the variable "callisto_living_on"
  - If installing on server, there are other variables to set (domain name, mail addresses etc)
 
+Managing the certificates:
+
+If installing on your laptop, you can use the self-signed certificates:
+
+    cp roles/proxy/files/cert.pem.dist roles/proxy/files/ssl
+    cp roles/proxy/files/key.pem.dist  roles/proxy/files/ssl
+
+If installing on a server, you should get secure certificates for the domains:
+ - {{ callisto_url }}
+ - dataverse.{{ callisto_url }}
+ - allegro.{{ callisto_url }}
+
 Then run the follwing command to create the containers and deploy Callisto on them:
 
     ansible-playbook -i inventory callisto.yml 
@@ -103,7 +115,16 @@ Start Allegro:
 
 Running Callisto
 ----------------
-- Point your browser to the callisto url defined in vars.yml 
+- Point your browser to the callisto url defined in vars.yml, in https
+
+### Running on your laptop: ###
+When visiting https://callisto-local.mylaptop the FIRST TIME your browser will send a warning because
+there is an autosigned certificate: Please accept the risk
+
+Then click the menu link "valid dataverse certif" to validate the autosigned certificate of the dataverse url. This is required to be able to use
+dataverse from an iframe, as it is the normal use of dataverse in Callisto
+
+Your browser will not warn you anymore
 
 License
 -------
