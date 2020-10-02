@@ -66,12 +66,14 @@ Dataverse can be easily installed with the ansible role provided by Dataverse:
 
     git clone https://github.com/GlobalDataverseCommunityConsortium/dataverse-ansible dataverse
 
-Change the file called dataverse/inventory as follows (change xxx with the CallistoDataverse IP):
+cd to the directory ABOVE dataverse and:
+
+Change the file called dataverse/inventory as follows:
 
     [dataverse]
     CallistoDataverse ansible_connection=lxd
 
-cd to the directory ABOVE dataverse and:
+Run ansible-playbook:
 
     ansible-playbook -i dataverse/inventory dataverse/dataverse.pb -e dataverse/defaults/main.yml
 
