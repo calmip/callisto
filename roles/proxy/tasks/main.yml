@@ -10,25 +10,6 @@
      backup: yes
   notify: restart apache
 
-  #- name: on laptop, creating mockShib directory
-  #file:
-  #  path: /etc/httpd/conf.d/mockShib
-  #  state: directory
-  #  owner: root
-  #  group: root
-  #  mode: '0755'
-  #when: ansible_host == "CallistoProxy" and callisto_living_on == "laptop"
-
-- #name: on laptop, creating dummy file h.conf
-  #file:
-  #  path: /etc/httpd/conf.d/mockShib/h.conf
-  #  state: touch
-  #  owner: root
-  #  group: root
-  #  mode: '0755'
-  #when: ansible_host == "CallistoProxy" and callisto_living_on == "laptop"
-  #notify: restart apache
-
 - name: on laptop, mocking shibboleth
   copy:
      src: mockShib
@@ -38,6 +19,63 @@
      mode: '0644'
      backup: no
   notify: restart apache
+  when: callisto_living_on == "laptop"
+
+- name: on server, adding shibboleth repository
+  yum_repository:
+    name:        shibboleth
+    description: Shibboleth YUM repo
+    state:       present
+    mirrorlist:  https://shibboleth.net/cgi-bin/mirrorlist.cgi/CentOS_7
+    gpgcheck:    yes
+    gpgkey:      https://shibboleth.net/downloads/service-provider/RPMS/repomd.xml.key
+  when: callisto_living_on == "server"
+
+- name: on server, installing shibboleth
+  yum:
+    name:
+       - shibboleth
+    update_cache: true
+    state: latest
+  when: callisto_living_on == "server"
+  notify:
+    - restart shibd
+    - restart apache
+
+# See http://guides.dataverse.org/en/latest/installation/shibboleth.html
+- name: on server, configuring shibboleth (1/3)
+  copy:
+     src: attribute-map.xml 
+     dest: /etc/shibboleth
+     owner: root
+     group: root
+     mode: '0644'
+     backup: no
+  notify: restart shibd
+  when: callisto_living_on == "server"
+
+# See https://services.renater.fr/federation/documentation/guides-installation/sp3/chap05
+- name: on server, configuring shibboleth (2/3)
+  template:
+     src: shibboleth2.xml
+     dest: /etc/shibboleth/shibboleth2.xml
+     owner: root
+     group: root
+     mode: '0644'
+     backup: no
+  notify: restart shibd
+  when: callisto_living_on == "server"
+
+- name: on server, configuring shibboleth (3/3)
+  copy:
+     src: "{{ shibd_metadata_cert }}"
+     dest: /etc/shibboleth/{{ shibd_metadata_cert }}
+     owner: root
+     group: root
+     mode: '0644'
+     backup: no
+  notify: restart shibd
+  when: callisto_living_on == "server"
 
 - name: Installing certificates
   copy:

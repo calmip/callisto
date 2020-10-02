@@ -1,9 +1,11 @@
+# ======== Callisto configuration =============
 # Are we living on a server, or on your laptop ?
 # Values allowed: laptop/server
 callisto_living_on: laptop
+# callisto_living_on: server
 
 # It takes a long time to send all files to the containers !
-send_all_files: true
+send_all_files: false
 
 # Do we want ssh server on the containers ?
 # This is useful for testing prupose, as ssh is the easiest way of running graphical applications
@@ -11,23 +13,27 @@ send_all_files: true
 ssh_wanted: true
 #ssh_wanted: false
 
-# The following is useful ONLY if running on a server
+# ======== platform and domain names configuration =============
 # The platform name - Avoid "_" in the name, prefer "-": callisto-local is OK, callisto_local is BAD
+
+# For laptop installations
 callisto_name: "callisto-local"
+
+# For server installations
 #callisto_name: "callisto-dev"
 #callisto_name: "callisto"
 
 # The callisto top domain name - Even on your laptop, please specify a domain name
-#callisto_topdomainname: calmip.univ-toulouse.fr
+# For laptop installations
 callisto_topdomainname: mylaptop
 
-# The callisto protocol: http for laptop, https for server
-callisto_protocol: http
-#callisto_protocol: https
+# For server installations
+#callisto_topdomainname: calmip.univ-toulouse.fr
 
 # The timezone of the callisto containers
 callisto_timezone: "Europe/Paris"
 
+# ======== Allegro configuration =============
 # The subdomain of the callisto top domain name dedicated to allegro
 allegro_subdomain: allegro
 
@@ -35,25 +41,49 @@ allegro_subdomain: allegro
 allegro_port: 10035
 
 # The user under which your Allegro installation will run
-allegro_user: "user"
+allegro_user: "manu"
 
 # The password for the user running Allegro
-allegro_password: "password"
+allegro_password: "manu123"
 
-
+# ===============================================
 # USEFUL ONLY WHEN CALLISTO IS LIVING ON A SERVER
 # ===============================================
+#
+# ======== Generic parameters ===================
 # The email addresses used by several system automatic procedures
-#system_email_from: "noreply@calmip.univ-toulouse.fr"
-#system_email_to:   "systeme.calmip@univ-toulouse.fr"
-#root:              "{{ system_email_to }}"
-#mailhub:           "comue-smtp-relay.univ-toulouse.fr"
+system_email_from: "noreply@example.fr"
+system_email_to:   "someone@example.fr"
+root:              "{{ system_email_to }}"
+mailhub:           "smtp-relay.example.fr"
 
+# ======== Shibboleth configuration =============
+# Renater, test federation
+shibd_discovery_url:     "discovery.renater.fr/test"
+# Renater, production federation
+# shibd_discoveryURL="https://discovery.renater.fr/"
+
+# Contact for authentication questions
+shibd_support_contact:   "someonelse@example.fr"
+
+# Metadata provider certificate, url and backing file path
+shibd_metadata_url:      "metadata.federation.renater.fr/test/preview/preview-all-renater-test-metadata.xml"
+shibd_metadata_file:     "preview-all-renater-test-metadata.xml"
+shibd_metadata_cert:     "renater-metadata-signing-cert-2016.pem"
+
+# To enable the COMPTES CRU
+shibd_metadata_cru_url:  "cru.renater.fr/idp/shibboleth"
+shibd_metadata_cru_file: "sac-metadata.xml"
+
+# To disable the COMPTES CRU
+#shibd_metadata_cru_url:  ""
+#shibd_metadata_cru_file: ""
+
+# ====================================
 # NOTHING TO CHANGE BELOW THIS POINT !
 # ====================================
 
 callisto_url: "{{ callisto_name }}.{{ callisto_topdomainname }}"
 dataverse_url: "dataverse.{{ callisto_name }}.{{ callisto_topdomainname }}"
 allegro_url: "allegro.{{ callisto_name }}.{{ callisto_topdomainname }}"
-
 
