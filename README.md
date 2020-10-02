@@ -20,9 +20,9 @@ Configure lxd:
 
     lxd init
 
-Callisto uses ansible to deploy the application on several lxd containers (centOs7 based). So Ansible should be installed on the host:
+Callisto uses ansible to deploy the application on several lxd containers (centOs7 based). So Ansible should be installed on the host (release 2.9.11 required):
 
-    apt install ansible
+    sudo -H pip3 install ansible==2.9.11
 
 Installing Callisto (base containers)
 -------------------------------------
