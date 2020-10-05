@@ -51,6 +51,7 @@
        - sudo
        - tar
        - wget
+       - python3
     update_cache: true
     state: latest
 
