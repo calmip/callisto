@@ -74,6 +74,14 @@
   service: name=httpd state=started enabled=yes
   when: ansible_host != "CallistoAllegro"
 
+- name: Allegro - installing openssl
+  yum:
+    name:
+       - httpd
+    update_cache: true
+    state: latest
+  when: ansible_host == "CallistoAllegro"
+
 - name: Installing php on the portal only
   yum:
     name:

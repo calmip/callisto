@@ -88,9 +88,7 @@ Go to the Allegro container:
 
     ssh root@YYY.YYY.YYY.YYY
 
-Get the Allegro rpm:
-
-    wget https://franz.com/ftp/pri/acl/ag/ag7.0.3/linuxamd64.64/agraph-7.0.3-linuxamd64.64.rpm
+Get the Allegro rpm from https://franz.com
 
 Install the rpm:
 
@@ -98,7 +96,7 @@ Install the rpm:
 
 Configure Allegro:
 
-    install-agraph
+    configure-agraph
 
 Enable Allegro for automatic start:
 

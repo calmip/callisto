@@ -91,6 +91,10 @@
     - restart shibd
     - restart apache
 
+- name: On server, ensure shibd is running and enabled
+  service: name=shibd state=started enabled=yes
+  when: callisto_living_on == "server"
+
 # See http://guides.dataverse.org/en/latest/installation/shibboleth.html
 - name: on server, configuring shibboleth (1/3)
   copy:
