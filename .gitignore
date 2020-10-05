@@ -2,4 +2,5 @@
 vars.yml
 *.rpm
 headers.conf
+*.pem
 

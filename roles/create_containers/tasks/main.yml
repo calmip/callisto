@@ -51,6 +51,7 @@
        - sudo
        - tar
        - wget
+       - python3
     update_cache: true
     state: latest
 
@@ -62,10 +63,6 @@
     state: latest
   when: ansible_host != "CallistoAllegro"
 
-- name: Ensure apache is running
-  service: name=httpd state=started enabled=yes
-  when: ansible_host != "CallistoAllegro"
-
 - name: Installing mod_ssl
   yum:
     name:
@@ -73,6 +70,18 @@
     state: latest
   notify: restart apache
   when: ansible_host != "CallistoAllegro"
+
+- name: Ensure apache is running
+  service: name=httpd state=started enabled=yes
+  when: ansible_host != "CallistoAllegro"
+
+- name: Allegro - installing openssl
+  yum:
+    name:
+       - httpd
+    update_cache: true
+    state: latest
+  when: ansible_host == "CallistoAllegro"
 
 - name: Installing php on the portal only
   yum:

@@ -20,9 +20,9 @@ Configure lxd:
 
     lxd init
 
-Callisto uses ansible to deploy the application on several lxd containers (centOs7 based). So Ansible should be installed on the host:
+Callisto uses ansible to deploy the application on several lxd containers (centOs7 based). So Ansible should be installed on the host (release 2.9.11 required):
 
-    apt install ansible
+    sudo -H pip3 install ansible==2.9.11
 
 Installing Callisto (base containers)
 -------------------------------------
@@ -63,19 +63,20 @@ Installing dataverse:
 ---------------------
 
 Dataverse can be easily installed with the ansible role provided by Dataverse:
+
     
     cd ../
     git clone https://github.com/GlobalDataverseCommunityConsortium/dataverse-ansible.git dataverse
     cd dataverse
 
-Retrieve the CallistoDataverse container IP:
-
-    lxc list
-
-Change the file called inventory as follows (change xxx with the CallistoDataverse IP):
+Change the file called inventory as follows:
 
     [dataverse]
-    CallistoDataverse container_addr=xxx.xxx.xxx.xxx ansible_connection=lxd
+    CallistoDataverse ansible_connection=lxd
+
+Run ansible-playbook:
+
+    ansible-playbook -i dataverse/inventory dataverse/dataverse.pb -e dataverse/defaults/main.yml
 
 Return to base directory and run the installation:
     cd ../

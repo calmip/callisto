@@ -15,6 +15,8 @@ Copying the certificate and the key:
     
     cp key.pem cert.pem ../roles/proxy/files/ssl
 
+You must learn Firefox that you don't care working in secure mode. For the portal this is easy (just answer the question). For datavers, please click (one time) the link "Validating dataverse certificate")
+
 2/ Server installations
 -----------------------
 
@@ -25,7 +27,8 @@ You should have your own certificate (see with your institutions), valid for the
 
 OR a star certificate ({{callisto_url}} and *.{{callisto_url}}
 
-Copy the certificate, the key AND the chain to the directory  ../roles/proxy/files/ssl The files should be renamed to key.pem and cert.pem
+Copy the certificate, the key AND the chain to the directory  ../roles/proxy/files/ssl 
+The files should be renamed key.pem, cert.pem and chain.pem
 
 Emmanuel (emmanuel.courcelle@toulouse-inp.fr)
 
