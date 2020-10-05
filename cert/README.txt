@@ -25,7 +25,8 @@ You should have your own certificate (see with your institutions), valid for the
 
 OR a star certificate ({{callisto_url}} and *.{{callisto_url}}
 
-Copy the certificate, the key AND the chain to the directory  ../roles/proxy/files/ssl The files should be renamed to key.pem and cert.pem
+Copy the certificate, the key AND the chain to the directory  ../roles/proxy/files/ssl 
+The files should be renamed key.pem, cert.pem and chain.pem
 
 Emmanuel (emmanuel.courcelle@toulouse-inp.fr)
 

@@ -1,5 +1,54 @@
 ---
 # tasks file for proxy
+- name: launching rewrite module
+  apache2_module:
+     name: "rewrite"
+     state: present
+  notify: restart apache
+
+- name: Uploading certificates
+  copy:
+     src:  ssl
+     dest: /etc/httpd
+     owner: root
+     group: root
+     mode: '0644'
+     backup: no 
+  notify: restart apache
+
+- name: protecting key
+  file:
+    path: /etc/httpd/ssl/key.pem
+    state: file
+    owner: root
+    group: root
+    mode: '0400'
+  notify: restart apache
+
+- name: installing the certificate for the generic ssl.conf file (1/3)
+  lineinfile:
+     path: "/etc/httpd/conf.d/ssl.conf"
+     regexp: "^SSLCertificateFile "
+     line: "SSLCertificateFile /etc/httpd/ssl/cert.pem"
+     state: present
+  when: callisto_living_on == "server"
+
+- name: installing the certificate for the generic ssl.conf file (2/3)
+  lineinfile:
+     path: "/etc/httpd/conf.d/ssl.conf"
+     regexp: "^SSLCertificateKeyFile "
+     line: "SSLCertificateKeyFile /etc/httpd/ssl/key.pem"
+     state: present
+  when: callisto_living_on == "server"
+
+- name: installing the certificate for the generic ssl.conf file (3/3)
+  lineinfile:
+     path: "/etc/httpd/conf.d/ssl.conf"
+     regexp: "^SSLCACertificateFile "
+     line: "SSLCACertificateFile /etc/httpd/ssl/chain.pem"
+     state: present
+  when: callisto_living_on == "server"
+
 - name: installing configuration file for dataverse
   template:
      src:  dataverse.conf
@@ -76,31 +125,6 @@
      backup: no
   notify: restart shibd
   when: callisto_living_on == "server"
-
-- name: Installing certificates
-  copy:
-     src:  ssl
-     dest: /etc/httpd
-     owner: root
-     group: root
-     mode: '0644'
-     backup: no 
-  notify: restart apache
-
-- name: protecting key
-  file:
-    path: /etc/httpd/ssl/key.pem
-    state: file
-    owner: root
-    group: root
-    mode: '0400'
-  notify: restart apache
-    
-- name: launching rewrite module
-  apache2_module:
-     name: "rewrite"
-     state: present
-  notify: restart apache
 
 - name: installing configuration files
   template:
