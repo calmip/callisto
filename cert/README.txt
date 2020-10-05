@@ -15,6 +15,8 @@ Copying the certificate and the key:
     
     cp key.pem cert.pem ../roles/proxy/files/ssl
 
+You must learn Firefox that you don't care working in secure mode. For the portal this is easy (just answer the question). For datavers, please click (one time) the link "Validating dataverse certificate")
+
 2/ Server installations
 -----------------------
 
