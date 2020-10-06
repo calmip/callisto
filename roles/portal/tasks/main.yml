@@ -58,6 +58,8 @@
      - RegisterPublication.py
      - RegisterService.py
      - Update_Allegro_Repositories.py
+     - demonstration.nt
+     - initialize_demonstration_repository.py
 
 - name: installing web site
   template:
@@ -114,6 +116,7 @@
      - psd_welch.py
      - psd_welch_source.py
      - StringDist.py
+     - cgi_conf.cfg
 
 - name: creating cgi-bin TempFiles directory
   file:
