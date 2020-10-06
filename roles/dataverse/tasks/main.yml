@@ -9,3 +9,15 @@
     mode: '0644'
     backup: yes
   notify: restart apache
+
+- name: copying data for demonstration purpose
+  copy:
+     src:  "{{ item }}"
+     dest: /
+     owner: root
+     group: root
+     mode: '0644'
+  loop:
+     - 10.5072.sql
+     - 10.5072.tgz
+
