@@ -83,6 +83,18 @@
      - contact.html
      - license.txt
 
+- name: installing javascript
+  template:
+     src:  callisto/js/{{ item }}
+     dest: /var/www/html/callisto/js
+     owner: root
+     group: root
+     mode: '0644'
+     backup: yes
+  loop:
+     - FctsAllegro.js
+
+
 - name: creating TempFiles directory
   file:
     path: /var/www/html/callisto/TempFiles
