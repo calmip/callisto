@@ -39,10 +39,10 @@ class DatasetsToOntology(object):
                 # print(type(data))
                 # print(data['id'])
                 keywords = []
-                print(SERVER_URL + "/api/datasets/" + str(data['id']) + "?key=" + API_TOKEN)
+                #print(SERVER_URL + "/api/datasets/" + str(data['id']) + "?key=" + API_TOKEN)
                 os.system("wget " + SERVER_URL + "/api/datasets/" + str(
                     data['id']) + "?key=" + API_TOKEN + " --no-check-certificate -O data.json")
-                print(SERVER_URL + "/api/datasets/" + str(data['id']) + "?key=" + API_TOKEN + " --no-check-certificate -O data.json")
+                #print(SERVER_URL + "/api/datasets/" + str(data['id']) + "?key=" + API_TOKEN + " --no-check-certificate -O data.json")
                 with open('data.json', 'r') as datasets:
                     liste_datasets = json.load(datasets)
                     # print(type(liste_datasets['data']))
@@ -54,16 +54,16 @@ class DatasetsToOntology(object):
                         # On récupère l'id des datasets du dataverse interrogé
                         if isinstance(elt, dict):
                             id_elt = elt['dataFile']['id']
-                            print("id datafile:" + str(id_elt))
+                            #print("id datafile:" + str(id_elt))
                             type_elt = elt['dataFile']['contentType']
-                            print("type datafile:" + str(type_elt))
+                            #print("type datafile:" + str(type_elt))
                             url = SERVER_URL + "/api/access/datafile/" + str(id_elt) + "?key=" + API_TOKEN
                     for elt in liste_datasets['data']['latestVersion']['metadataBlocks']['citation']['fields']:
                         # print(str(type(elt)) + "-->" + str(elt))
                         if elt["typeName"] == "title":
                             # Recupere le titre du dataset
                             resume = elt["value"]
-                            print("resume:" + str(resume))
+                            #print("resume:" + str(resume))
                         if elt["typeName"] == "dsDescription":
                             # Recupere la description du dataset
                             for description_index in elt['value']:
@@ -72,13 +72,13 @@ class DatasetsToOntology(object):
                         if elt["typeName"] == "subject":
                             # Recupere les mots-clés des vocabulaires controlés liés au dataset
                             subjects = elt["value"]
-                            print(type(subjects))
-                            print("subject:" + str(subjects))
+                            #print(type(subjects))
+                            #print("subject:" + str(subjects))
                             keywords.append(subjects)
                         if elt["typeName"] == "keyword":
                             # Recupere les mots-clés des vocabulaires controlés liés au dataset
                             for path in elt["value"]:
-                                print("keyword:" + str(path["keywordValue"]["value"]))
+                                #print("keyword:" + str(path["keywordValue"]["value"]))
                                 keywords.append(path["keywordValue"]["value"])
                     #for elt in liste_datasets['data']['latestVersion']['files']:
                         #print(str(elt))
@@ -89,14 +89,44 @@ class DatasetsToOntology(object):
                     liste_results.append([id_elt, resume, description, subjects, url, keywords, type_elt])
         return liste_results
 
-
+    def get_registered_datasets(self):
+        """
+        Get registered datasets on the repository so that 
+        datasets won't be registered multiple times
+        """
+        self.registered_descriptions = []
+        queryString = """PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+        PREFIX oboInOwl: <http://www.geneontology.org/formats/oboInOwl#>
+        PREFIX edamontology: <http://edamontology.org/>
+        PREFIX obo: <http://purl.obolibrary.org/obo/>
+        PREFIX arcas: <http://www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf#>
+        PREFIX service: <http://www.daml.org/services/owl-s/1.2/Service.owl#>
+        PREFIX profile: <http://www.daml.org/services/owl-s/1.2/Profile.owl#>
+        PREFIX mp:<http://purl.org/mp#>
+        SELECT DISTINCT ?description
+        WHERE {
+        ?service service:presents ?profile.
+        ?profile arcas:hasQuerySoftware "http://www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf#get_dataset".
+        ?profile profile:textDescription ?description.
+        }"""
+        tupleQuery = self.conn.prepareTupleQuery(QueryLanguage.SPARQL, queryString)
+        log.info(queryString)
+        result = tupleQuery.evaluate()
+        with result:
+            for binding_set in result:
+                #print("Allegro description:")
+                #print(str(binding_set.getValue("description")).encode('utf8'))
+                self.registered_descriptions.append(str(binding_set.getValue("description")).replace("\"","").replace("\\n","").replace("\\r"," ").replace("\\","").encode('utf8'))
+        #for elt in self.registered_descriptions:
+            #print(elt)
+                	
     def update_ontology(self, details):
         """
-        Met à jour l'ontologie avec les éléments recueillis dans get_details
+        Met a jour l'ontologie avec les éléments recueillis dans get_details
         :return:
-        Ontologie mise à jour
+        Ontologie mise a jour
         """
-        print ("details: " + str(details))
+        #print ("details: " + str(details))
         service = Namespace("http://www.daml.org/services/owl-s/1.2/Service.owl#")
         profile = Namespace("http://www.daml.org/services/owl-s/1.2/Profile.owl#")
         mp = Namespace("http://purl.org/mp/")
@@ -104,8 +134,9 @@ class DatasetsToOntology(object):
         provo = Namespace("http://www.w3.org/ns/prov#")
         dc = Namespace("http://purl.org/dc/terms#")
         arcas = Namespace("http://www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf#")
-        myont = Namespace("http://{{callisto_name}}.{{callisto_topdomainname}}/DEMONSTRATION.rdf#")
+        myont = Namespace("http://callisto-local.mydomain.callisto.th/DEMONSTRATION.rdf#")
         print('Repository contains %d statement(s).' % self.conn.size())
+        self.get_registered_datasets()
         # Add the OWL data to the graph
         for elt in details:
             timer = str(time.time())
@@ -123,10 +154,19 @@ class DatasetsToOntology(object):
             url = str(elt[4])
             unit = "UNITLESS"
 
-            print("svc: "+svc)
-            print("URL is: --> "+url)
-            print("keywords:" + str(keywords))
-            print("description:" + description)
+            #print("svc: "+svc)
+            #print("URL is: --> "+url)
+            #print("keywords:" + str(keywords))
+            same = 0
+            for reg_desc in self.registered_descriptions:
+                print("description:" + description)
+                print("comparing with:")
+                print(reg_desc)
+                if description in str(reg_desc):
+                    same = 1
+                    break
+            if same == 1:
+                continue
             #print("measurement:" + measurement)
             #print("resume:" + resume)
             #print("subjects:" + subjects)
@@ -169,7 +209,7 @@ class DatasetsToOntology(object):
             
             self.conn.add(servi,"<http://www.w3.org/2000/01/rdf-schema#isDefinedBy>", Literal(measurement))
             for word in range(len(keywords)):
-                print (keywords[word])
+                #print (keywords[word])
                 if isinstance(keywords[word],str):
                     clean_word = keywords[word].rstrip("']").lstrip("['").replace("'","").replace(",","")
                     #ref = "<http://callisto.calmip.univ-toulouse.fr/callisto/ARCAS.rdf#" + clean_word.replace(" ", "") +">"
@@ -260,11 +300,9 @@ class DatasetsToOntology(object):
         log.basicConfig(filename='Datasets_to_allegro.log', level=log.DEBUG, format='%(levelname)s:%(asctime)s %(message)s ')
         self.host = "CallistoAllegro"
         self.port = {{allegro_port}}
-        self.user = {{allegro_user}}
-        self.password = {{allegro_password}}
+        self.user = "{{allegro_user}}"
+        self.password = "{{allegro_password}}"
         repo = "demonstration"
         self.repo = self.open_connection(repo)[0]
         self.conn = self.open_connection(repo)[1]
 
-#update = DatasetsToOntology()
-#update.get_details()
