@@ -83,7 +83,15 @@ Return to base directory and run the installation:
     ansible-playbook -v -i dataverse/inventory dataverse/dataverse.pb -e dataverse/defaults/main.yml
 
 Installing the demonstration repository:
-/usr/local/dvn/data/
+    cd /
+    tar xvfz 10.5072.tgz
+    systemctl stop payara 
+    dropdb -U postgres dvndb 
+    createdb -U postgres dvndb 
+    psql -U postgres dvndb -f 10.5072.sql
+    systemctl start payara 
+    curl http://localhost:8080/api/admin/index/clear 
+    curl http://localhost:8080/api/admin/index
 
 Installing Allegro:
 -------------------

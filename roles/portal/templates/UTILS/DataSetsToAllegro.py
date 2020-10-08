@@ -22,11 +22,9 @@ class DatasetsToOntology(object):
         liste de listes de 4 éléments comprenant: id, titre, description, et liste de sujets liés au dataset
         prototype de chaque liste: [string, string, string, [string,...,string]]
         """
-        API_TOKEN = "78dbff65-75a0-4d8d-9dd2-f9758e42cfce"
-        API_TOKEN = "88361f51-845a-4a10-88f4-dda314b58bed"
-        SERVER_URL = "https://callisto.calmip.univ-toulouse.fr"
-        SERVER_URL = "192.168.0.6:8080"
-        stores = ["sms"]
+        API_TOKEN = "e0967c6e-4679-4c4b-b74f-4e165bd6866c"
+        SERVER_URL = "Callistodataverse:8080"
+        stores = ["demonstration"]
         liste_results = []
 
         for store in stores:
@@ -106,7 +104,7 @@ class DatasetsToOntology(object):
         provo = Namespace("http://www.w3.org/ns/prov#")
         dc = Namespace("http://purl.org/dc/terms#")
         arcas = Namespace("http://www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf#")
-        myont = Namespace("http://www.callisto.calmip.univ-toulouse.fr/SMS.rdf#")
+        myont = Namespace("http://{{callisto_name}}.{{callisto_topdomainname}}/DEMONSTRATION.rdf#")
         print('Repository contains %d statement(s).' % self.conn.size())
         # Add the OWL data to the graph
         for elt in details:
@@ -260,12 +258,11 @@ class DatasetsToOntology(object):
     def __init__(self):
         os.system("rm allegro_fcts.log")
         log.basicConfig(filename='Datasets_to_allegro.log', level=log.DEBUG, format='%(levelname)s:%(asctime)s %(message)s ')
-        self.host = "192.168.0.80"
-        self.port = 10035
-        self.user = "callisto"
-        self.password = "ouiouioui123"
-        #repo = "demonstration"
-        repo = "sms"
+        self.host = "CallistoAllegro"
+        self.port = {{allegro_port}}
+        self.user = {{allegro_user}}
+        self.password = {{allegro_password}}
+        repo = "demonstration"
         self.repo = self.open_connection(repo)[0]
         self.conn = self.open_connection(repo)[1]
 
