@@ -1,6 +1,33 @@
 ---
 # tasks file for portal
 
+- name: Installing php on the portal only
+  yum:
+    name:
+       - php
+    state: latest
+  notify: restart apache
+
+- name: Configuring php (display_errors On on laptop)
+  lineinfile:
+     path: "/etc/php.ini"
+     regexp: "^display_errors *="
+     line: "display_errors = On"
+     state: present
+  notify: restart apache
+  when: callisto_living_on == "laptop" 
+
+- name: Installing several python packages using pip
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+  pip:
+    name:
+      - agraph-python
+      - six 
+      - rdflib
+      - jellyfish
+    executable: pip3
+
 - name: Add the user 'callisto'
   user:
     name: callisto
@@ -103,7 +130,6 @@
   loop:
      - FctsAllegro.js
 
-
 - name: creating TempFiles directory
   file:
     path: /var/www/html/callisto/TempFiles
@@ -118,7 +144,7 @@
      dest: /var/www/cgi-bin
      owner: root
      group: root
-     mode: '0655'
+     mode: '0755'
      backup: yes
   loop:
      - Allegro_Fcts.py

@@ -58,21 +58,6 @@ Partial installs can be done with the --tags switch (have a look to callisto.yml
 
     ansible-playbook -i inventory --tags proxy callisto.yml -K
 
-
-Configuring the portal:
------------------------
-
-    lxc exec CallistoPortal bash
-    pip-3 install agraph-python
-    pip-3 install six 
-    pip-3 install rdflib
-    pip-3 install jellyfish
-
-    chown -R apache /var/www/html
-    chmod 755 /var/www/cgi-bin/Allegro_Fcts.py
-    touch /var/www/cgi-bin/allegro_fcts.log
-    chown apache /var/www/cgi-bin/allegro_fcts.log
-
 Installing dataverse:
 ---------------------
 
@@ -97,6 +82,17 @@ Return to base directory and run the installation:
     ansible-playbook -v -i dataverse/inventory dataverse/dataverse.pb -e dataverse/defaults/main.yml
 
 Installing the demonstration repository:
+
+Retrieve the CallistoDataverse container IP:
+
+    lxc list
+
+Go to the Dataverse container:
+
+    ssh root@ZZZ.ZZZ.ZZZ.ZZZ
+
+Execute the following commands:
+
     cd /
     tar xvfz 10.5072.tgz
     systemctl stop payara 

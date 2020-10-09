@@ -1,5 +1,5 @@
-CallistoProxy     ansible_connection=lxd
-CallistoPortal    ansible_connection=lxd
+CallistoProxy     ansible_connection=lxd 
+CallistoPortal    ansible_connection=lxd 
 CallistoDataverse ansible_connection=lxd
-CallistoAllegro   ansible_connection=lxd
+CallistoAllegro   ansible_connection=lxd 
 

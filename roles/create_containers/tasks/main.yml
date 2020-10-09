@@ -78,26 +78,10 @@
 - name: Allegro - installing openssl
   yum:
     name:
-       - httpd
+       - openssl
     update_cache: true
     state: latest
   when: ansible_host == "CallistoAllegro"
-
-- name: Installing php on the portal only
-  yum:
-    name:
-       - php
-    state: latest
-  notify: restart apache
-  when: inventory_hostname == "CallistoPortal"
-
-- name: Configuring php (display_errors On on laptop) 
-  lineinfile:
-     path: "/etc/php.ini"
-     regexp: "^display_errors *="
-     line: "display_errors = On"
-     state: present
-  when: callisto_living_on == "laptop" and inventory_hostname == "CallistoPortal"
 
 - name: Install ssh and firefox in containers
   yum:
