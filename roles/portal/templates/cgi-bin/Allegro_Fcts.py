@@ -814,7 +814,7 @@ class Allegro(object):
         self.description = ""
         self.data_desc = "Not provided"
         self.csv_file = "general_file.csv"
-        self.general_file = open("../html/callisto/TempFiles" + self.csv_file, 'w')
+        self.general_file = open("../html/callisto/TempFiles/" + self.csv_file, 'w')
         self.concepts_dict = {}
         self.data_dict = {}
 
@@ -835,7 +835,7 @@ class Allegro(object):
             # log.info("Available repositories in catalog:" % str(catalog.listRepositories()))
             for repo_name in catalog.listRepositories():
                 self.repository = repo_name.upper()
-                self.myont = "http://www.callisto.calmip.univ-toulouse.fr/" + self.repository + ".rdf"
+                self.myont = self.rootiri + self.repository + ".rdf"
                 log.debug("querying repo: " + str(repo_name))
                 self.repo = self.open_connection(repo_name)[0]
                 self.conn = self.open_connection(repo_name)[1]

@@ -17,9 +17,9 @@ os.system("rm mean_cp_source.log")
 log.basicConfig(filename='mean_cp_source.log', level=log.DEBUG, format='%(levelname)s:%(asctime)s %(message)s ')
 #Getting the input file
 input_url = sys.argv[1] # e.g. MODELXXXXXXXXX__NAMEY_alfaZ.csv
-os.system ("wget "+input_url+" --no-check-certificate -O "+input_url.replace("https://callisto.calmip.univ-toulouse.fr/TempFiles/",""))
+os.system ("wget "+input_url+" --no-check-certificate -O "+input_url.replace("{{callisto_name}}.{{callisto_topdomainname}}/TempFiles/",""))
 # Renaming files
-input_file = input_url.replace("https://callisto.calmip.univ-toulouse.fr/TempFiles/","")# e.g. MODELXXXXXXXXX__NAMEY_alfaZ.csv
+input_file = input_url.replace("{{callisto_name}}.{{callisto_topdomainname}}/TempFiles/","")# e.g. MODELXXXXXXXXX__NAMEY_alfaZ.csv
 log.info("input_file: "+input_file)
 file_extension = input_file[input_file.rfind("."):] # whatever is after dot is the extension
 base_name = input_file[input_file.find("__") + 2:-len(file_extension)]
@@ -106,5 +106,5 @@ os.remove(output_file7)
 os.system ("cp "+output_file8+" ../html/callisto/TempFiles")
 print ("Content-Type: text/xml\n")
 print ("<options>\n")
-print("<mean_Cp>https://callisto.calmip.univ-toulouse.fr/TempFiles/"+str(output_file8)+"</mean_Cp>\n")
+print("<mean_Cp>{{callisto_name}}.{{callisto_topdomainname}}/TempFiles/"+str(output_file8)+"</mean_Cp>\n")
 print ("</options>\n")

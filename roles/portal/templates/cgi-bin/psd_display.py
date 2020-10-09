@@ -16,8 +16,7 @@ timer = str(time.time())
 form = cgi.FieldStorage()
 #C_p is the end of URI identifying the concept in the ontology that is the INPUT of our service.
 # We need to know this URI.
-#cp = str(form.getvalue("C_p").replace('https://callisto.calmip.univ-toulouse.fr/TempFiles/1598251892.130424','../callisto/TempFiles'))
-inp = str(form.getvalue("PSD").replace('https://callisto.calmip.univ-toulouse.fr/TempFiles/','../html//callisto/TempFiles/'))
+inp = str(form.getvalue("PSD").replace('{{callisto_name}}.{{callisto_topdomainname}}/TempFiles/','../html//callisto/TempFiles/'))
 outputs = str(form.getvalue("outputs"))
 
 fields = ['Frequence', 'Puissance']
@@ -31,5 +30,5 @@ plt.savefig('../html/callisto/TempFiles/'+str(timer)+'.png')
 
 print ("Content-Type: text/xml\n")
 print ("<options>\n")
-print("<"+outputs+">https://callisto.calmip.univ-toulouse.fr/TempFiles/"+str(timer)+".png</"+outputs+">\n")
+print("<"+outputs+">{{callisto_name}}.{{callisto_topdomainname}}/TempFiles/"+str(timer)+".png</"+outputs+">\n")
 print ("</options>\n")
