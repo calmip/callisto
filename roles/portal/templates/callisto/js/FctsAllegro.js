@@ -243,7 +243,7 @@ function handleSchema (request) {
     http_request = new XMLHttpRequest();
     http_request.onreadystatechange = handleCheckboxRequest;
     //alert("ouvre:https://callisto.calmip.univ-toulouse.fr/callisto/"+schemafile);
-    http_request.open('GET',"https://{{allegro_subdomain}}.{{callisto_name}}.{{callisto_topdomainname}}/callisto/"+schemafile,true);
+    http_request.open('GET',"https://{{allegro_subdomain}}.{{callisto_name}}.{{callisto_topdomainname}}/callisto/TempFiles"+schemafile,true);
     http_request.send(null);   
 }
 function handleCheckboxRequest()

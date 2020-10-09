@@ -791,8 +791,12 @@ class Allegro(object):
                 self.dataurl = str(line.split("host_url = ")[1].replace("\n",""))
             
     def __init__(self):
-        os.system("rm allegro_fcts.log")
-        log.basicConfig(filename='allegro_fcts.log', level=log.DEBUG, format='%(levelname)s:%(asctime)s %(message)s ')
+	
+        try:
+            os.system("rm /var/log/callisto/allegro_fcts.log")
+        except:
+            pass
+        log.basicConfig(filename='/var/log/callisto/allegro_fcts.log', level=log.DEBUG, format='%(levelname)s:%(asctime)s %(message)s ')
         self.read_config()
         self.form = cgi.FieldStorage()
         self.usecase = str(self.form.getvalue("case"))
@@ -810,7 +814,7 @@ class Allegro(object):
         self.description = ""
         self.data_desc = "Not provided"
         self.csv_file = "general_file.csv"
-        self.general_file = open("../html/callisto/" + self.csv_file, 'w')
+        self.general_file = open("../html/callisto/TempFiles" + self.csv_file, 'w')
         self.concepts_dict = {}
         self.data_dict = {}
 
