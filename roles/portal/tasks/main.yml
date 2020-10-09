@@ -108,10 +108,9 @@
   file:
     path: /var/www/html/callisto/TempFiles
     state: directory
-    owner: root
+    owner: apache
     group: root
-    mode: '0777'
-    #  when: ansible_host == "CallistoPortal"
+    mode: '0740'
 
 - name: installing cgi-bin
   template:
@@ -119,7 +118,7 @@
      dest: /var/www/cgi-bin
      owner: root
      group: root
-     mode: '0644'
+     mode: '0655'
      backup: yes
   loop:
      - Allegro_Fcts.py
@@ -143,8 +142,22 @@
   file:
     path: /var/www/cgi-bin/TempFiles
     state: directory
-    owner: root
+    owner: apache
     group: root
-    mode: '0777'
-    #  when: ansible_host == "CallistoPortal"
+    mode: '0740'
+
+- name: creating /var/log/callisto directory
+  file:
+    path: /var/log/callisto
+    state: directory
+    owner: apache
+    group: root
+    mode: '0740'
+
+- name: synchronize dataverse and allegro every 15mn
+  cron:
+    name: "sync dataverse<->allegro"
+    minute: "4,19,39,49"
+    hour: "7-23"
+    job: "python Update_Allegro_Repositories.py > /dev/null"
 
