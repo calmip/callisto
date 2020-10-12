@@ -196,6 +196,23 @@
      cmd: mv /etc/cron.daily/0logwatch /etc/cron.weekly
   when: callisto_living_on == "server"
 
+- name: Configuring logrotate (default values)
+  copy:
+    src: logrotate.conf
+    dest: /etc/logrotate.conf
+    group: root
+    owner: root
+    mode: '0644'
+  when: callisto_living_on == "server"
+
+- name: Configuring logrotate (forcing default values)
+  shell: 
+    cmd:     sed -i "s/\(^\s\+rotate\|nocompress\|weekly\|monthly\)/#\1/" /etc/logrotate.d/* && touch /etc/logrotate.d/.callisto
+    creates: /etc/logrotate.d/.callisto
+    warn: false
+  when: callisto_living_on == "server"
+
+
 - name: Creating a group Callisto (only in CallistoAllegro)
   group:
     name: callisto
