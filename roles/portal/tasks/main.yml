@@ -197,3 +197,17 @@
     hour: "7-23"
     job: "python Update_Allegro_Repositories.py > /dev/null"
 
+- name: clean TempFiles (cgi-bin)
+  cron:
+    name: "Clean cgi-bin TempFiles"
+    minute: "23"
+    hour: "7-23"
+    job: find /var/www/cgi-bin/TempFiles -type f -ctime +1 | xargs rm -rf > /dev/null
+
+- name: clean TempFiles (var/www)
+  cron:
+    name: "Clean var/www TempFiles"
+    minute: "27"
+    hour: "7-23"
+    job: find /var/www/html/callisto/TempFiles -type f -ctime +1 | xargs rm -rf > /dev/null
+
