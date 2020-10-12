@@ -90,14 +90,8 @@
      mode: '0644'
      backup: yes
   loop:
-     - DataSetsToAllegro.py
-     - GenerateDataverseMetadata.py
-     - RegisterPublication.py
-     - RegisterService.py
-     - Update_Allegro_Repositories.py
      - demonstration.nt
-     - initialize_demonstration_repository.py
-
+     
 - name: installing callisto management scripts
   template:
      src:  UTILS/{{ item }}
