@@ -81,7 +81,7 @@
   loop:
      - work.html
 
-- name: installing UTILS 
+- name: installing demonstration reposiroty file 
   template:
      src:  UTILS/{{ item }}
      dest: /home/callisto
@@ -96,6 +96,22 @@
      - RegisterService.py
      - Update_Allegro_Repositories.py
      - demonstration.nt
+     - initialize_demonstration_repository.py
+
+- name: installing callisto management scripts
+  template:
+     src:  UTILS/{{ item }}
+     dest: /usr/local/bin
+     owner: root
+     group: root
+     mode: '0644'
+     backup: yes
+  loop:
+     - DataSetsToAllegro.py
+     - GenerateDataverseMetadata.py
+     - RegisterPublication.py
+     - RegisterService.py
+     - Update_Allegro_Repositories.py
      - initialize_demonstration_repository.py
 
 - name: installing web site
