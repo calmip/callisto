@@ -114,10 +114,6 @@ Go to the Allegro container:
 
     ssh root@YYY.YYY.YYY.YYY
 
-Allegro will need openssl :
-
-    yum install openssl
-
 Get the Allegro rpm:
 
     wget https://franz.com/ftp/pri/acl/ag/ag7.0.3/linuxamd64.64/agraph-7.0.3-1.x86_64.rpm
