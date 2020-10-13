@@ -1,3 +1,5 @@
+#! /usr/bin/python3.6m
+# -*- coding: latin-1 -*-
 from franz.openrdf.sail.allegrographserver import AllegroGraphServer
 from franz.openrdf.repository.repository import Repository
 from rdflib import Namespace, URIRef, Literal
