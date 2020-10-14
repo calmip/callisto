@@ -26,7 +26,7 @@
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html style="height:100%;margin:0;padding:0;" lang="en">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">

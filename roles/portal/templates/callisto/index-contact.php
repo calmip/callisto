@@ -26,7 +26,7 @@
 ?>  
 
 <!DOCTYPE html>
-<html lang="en">
+<html style="height:100%;margin:0;padding:0;" lang="en">
 
   <?php include "headers.inc"; ?>
   <?php include "menu.inc"; ?>
