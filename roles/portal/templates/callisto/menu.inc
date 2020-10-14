@@ -1,4 +1,4 @@
-<?php global $CALLISTO_VERSION; $CALLISTO_VERSION="0.8.0" ?>
+<?php global $CALLISTO_VERSION; $CALLISTO_VERSION="1.0.0" ?>
 
 <body style="height:100%;margin:0;padding:0;" > 
 
