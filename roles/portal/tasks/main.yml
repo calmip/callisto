@@ -81,7 +81,7 @@
   loop:
      - work.html
 
-- name: installing demonstration reposiroty file 
+- name: installing demonstration repository file 
   template:
      src:  UTILS/{{ item }}
      dest: /home/callisto
@@ -98,7 +98,7 @@
      dest: /usr/local/bin
      owner: root
      group: root
-     mode: '0644'
+     mode: '0755'
      backup: yes
   loop:
      - DataSetsToAllegro.py
