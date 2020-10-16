@@ -193,9 +193,9 @@
 - name: synchronize dataverse and allegro every 15mn
   cron:
     name: "sync dataverse<->allegro"
-    minute: "4,19,39,49"
+    minute: "9,19,29,39,49,59"
     hour: "7-23"
-    job: "python Update_Allegro_Repositories.py > /dev/null"
+    job: "/usr/local/bin/Update_Allegro_Repositories.py > /dev/null"
 
 - name: clean TempFiles (cgi-bin)
   cron:
