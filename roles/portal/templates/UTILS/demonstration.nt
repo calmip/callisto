@@ -18761,3 +18761,5 @@ _:b36D90083x7670 <http://www.w3.org/2003/11/swrl#head> _:b36D90083x7675 .
 <http://{{callisto_name}}.{{callisto_topdomainname}}/DEMONSTRATION.rdf#PSD_P> <http://www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf#isCombinedToUnit> <http://www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf#unitless> .
 <http://{{callisto_name}}.{{callisto_topdomainname}}/DEMONSTRATION.rdf#PSD_P> <http://www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf#isCombinedToParam> <http://{{callisto_name}}.{{callisto_topdomainname}}/DEMONSTRATION.rdf#PSD> .
 <http://{{callisto_name}}.{{callisto_topdomainname}}/DEMONSTRATION.rdf#PSD_P> <http://www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf#isCombinedToFormat> <http://{{callisto_name}}.{{callisto_topdomainname}}/DEMONSTRATION.rdf#CSV> .
+<http://{{callisto_name}}.{{callisto_topdomainname}}/DEMONSTRATION.rdf#PSD_welch.py> <http://www.w3.org/2000/01/rdf-schema#label> "psd_welch.py" .
+<http://{{callisto_name}}.{{callisto_topdomainname}}/DEMONSTRATION.rdf#PSD_periodogram.py> <http://www.w3.org/2000/01/rdf-schema#label> "psd_periodogram.py" .

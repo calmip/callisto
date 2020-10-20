@@ -38,8 +38,8 @@ Managing the certificates:
 
 If installing on your laptop, you can use the self-signed certificates:
 
-    cp roles/proxy/files/cert.pem.dist roles/proxy/files/ssl
-    cp roles/proxy/files/key.pem.dist  roles/proxy/files/ssl
+    cp roles/proxy/files/cert.pem.dist roles/proxy/files/ssl/cert.pem
+    cp roles/proxy/files/key.pem.dist  roles/proxy/files/ssl/key.pem
 
 If installing on a server, you should get secure certificates for the domains:
  - {{ callisto_url }}
@@ -72,10 +72,6 @@ Change the file called inventory as follows:
 
     [dataverse]
     CallistoDataverse ansible_connection=lxd
-
-Run ansible-playbook:
-
-    ansible-playbook -i dataverse/inventory dataverse/dataverse.pb -e dataverse/defaults/main.yml
 
 Return to base directory and run the installation:
     cd ../
