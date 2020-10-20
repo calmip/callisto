@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-#! /usr/bin/python3.6m
-# -*- coding: utf-8 -*-
-=======
 #! /usr/bin/python3
   
 #
@@ -27,13 +23,7 @@
 #        Emmanuel Courcelle - C.N.R.S. - UMS 3667 - CALMIP
 #
 
->>>>>>> 64e825357351fa9fa663e196514929b787f3605c
 import DataSetsToAllegro
 update = DataSetsToAllegro.DatasetsToOntology()
 results = update.get_details()
 update.update_ontology(results)
-<<<<<<< HEAD
-=======
-update.close_connection()
->>>>>>> 64e825357351fa9fa663e196514929b787f3605c
-
