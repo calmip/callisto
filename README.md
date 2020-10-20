@@ -114,9 +114,6 @@ Go to the Allegro container:
 
     ssh root@YYY.YYY.YYY.YYY
 
-Allegro will need openssl :
-
-    yum install openssl
 
 Get the Allegro rpm:
 
@@ -138,6 +135,15 @@ Enable Allegro for automatic start:
 Start Allegro:
 
     systemctl start agraph 
+
+Loading demonstration repository
+---------------------------------
+Log into portal container:
+    lxc exec CallistoPortal bash
+
+Load the demonstration repository:
+    python3.6 /usr/local/bin/initialize_demonstration_repository.py
+
 
 Running Callisto
 ----------------

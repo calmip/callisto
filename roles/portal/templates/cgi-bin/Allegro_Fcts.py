@@ -517,7 +517,7 @@ class Allegro(object):
         SELECT DISTINCT ?service ?description ?label ?output_definition
         WHERE {
         ?service service:presents ?profile.
-        ?profile arcas:hasQuerySoftware "http://www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf#get_dataset".
+        ?profile arcas:hasQuerySoftware <http://www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf#get_dataset>.
         ?service arcas:hasOutput ?output.
         ?output arcas:isCombinedToParam ?param.
         OPTIONAL {?param rdfs:isDefinedBy ?output_definition.}

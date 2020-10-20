@@ -24,7 +24,7 @@ class RegisterService(object):
         service = Namespace("http://www.daml.org/services/owl-s/1.2/Service.owl#")
         profile = Namespace("http://www.daml.org/services/owl-s/1.2/Profile.owl#")
         arcas = Namespace("http://www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf#")
-        myont = Namespace("http://www.callisto.calmip.univ-toulouse.fr/SMS.rdf#")
+        myont = Namespace("http://{{callisto_name}}.{{callisto_topdomainname}}/SMS.rdf#")
         edam = Namespace("http://edamontology.org/")
         print('Repository contains %d statement(s).' % self.conn.size())
 
@@ -46,23 +46,23 @@ class RegisterService(object):
         
         labels = self.conn.createURI("<http://www.w3.org/2000/01/rdf-schema#label>")
         isDefined = self.conn.createURI("<http://www.w3.org/2000/01/rdf-schema#isDefinedBy>")
-        servi = self.conn.createURI("<http://www.callisto.calmip.univ-toulouse.fr/SMS.rdf#"+ svc+">")
-        profile = self.conn.createURI("<http://www.callisto.calmip.univ-toulouse.fr/SMS.rdf#" + profile_id+">")
-        data_tim = self.conn.createURI("<http://www.callisto.calmip.univ-toulouse.fr/SMS.rdf#" + timer+">")
-        data_url = self.conn.createURI("<http://www.callisto.calmip.univ-toulouse.fr/SMS.rdf#" + short_url+">")
+        servi = self.conn.createURI("<http://{{callisto_name}}.{{callisto_topdomainname}}/SMS.rdf#"+ svc+">")
+        profile = self.conn.createURI("<http://{{callisto_name}}.{{callisto_topdomainname}}/SMS.rdf#" + profile_id+">")
+        data_tim = self.conn.createURI("<http://{{callisto_name}}.{{callisto_topdomainname}}/SMS.rdf#" + timer+">")
+        data_url = self.conn.createURI("<http://{{callisto_name}}.{{callisto_topdomainname}}/SMS.rdf#" + short_url+">")
         
         self.conn.add(servi, RDF.TYPE, URIRef(service.Service))
         self.conn.add(profile, RDF.TYPE, URIRef(service.ServiceProfile))
         self.conn.add(data_tim,RDF.TYPE, URIRef(arcas.MeasuredQuantity))
         
         self.conn.add(servi, presents, profile)
-        print("service name:"+"<http://www.callisto.calmip.univ-toulouse.fr/SMS.rdf#" + timer+">")
+        print("service name:"+"<http://{{callisto_name}}.{{callisto_topdomainname}}/SMS.rdf#" + timer+">")
         general =  sys.argv[3].split(",")
         print("general: "+str(general))
         description = general[0]
         timer = str(time.time())
-        data_url = self.conn.createURI("<http://www.callisto.calmip.univ-toulouse.fr/SMS.rdf#" +timer +">")
-        soft = self.conn.createURI("<http://www.callisto.calmip.univ-toulouse.fr/SMS.rdf#" + general[2]+">")
+        data_url = self.conn.createURI("<http://{{callisto_name}}.{{callisto_topdomainname}}/SMS.rdf#" +timer +">")
+        soft = self.conn.createURI("<http://{{callisto_name}}.{{callisto_topdomainname}}/SMS.rdf#" + general[2]+">")
         operations = general[3].split("&")
         labelsoft = general[4]
         labeldef = general[4]
@@ -76,14 +76,6 @@ class RegisterService(object):
         self.conn.add(soft,"<http://www.w3.org/2000/01/rdf-schema#label>",Literal(general[2]))
         self.conn.add(servi,"<http://www.w3.org/2000/01/rdf-schema#isDefinedBy>", Literal(description))
         
-        #for op in operations:
-        #    print("operation: "+ op)
-        #    if "operation_" not in op:
-        #        self.conn.add(servi, hasoperation,("<http://www.callisto.calmip.univ-toulouse.fr/SMS.rdf#"+ op +">"))
-        #    else:
-        #        ope = self.conn.createURI(op)
-        #        self.conn.add(servi, hasoperation, ope)
-        
         general_input =  sys.argv[1].split("|")
         for genin in general_input:
             print("genin: "+genin)
@@ -93,18 +85,18 @@ class RegisterService(object):
                 continue
             timer = str(time.time())
             aggregate = timer + "_agg"
-            agg = self.conn.createURI("<http://www.callisto.calmip.univ-toulouse.fr/SMS.rdf#" + aggregate+">")
+            agg = self.conn.createURI("<http://{{callisto_name}}.{{callisto_topdomainname}}/SMS.rdf#" + aggregate+">")
             self.conn.add(agg, RDF.TYPE, URIRef(arcas.Aggregate))
             self.conn.add(servi, hasInput, agg)
             try:
                 quantity = details[0]
-                q = self.conn.createURI("<http://www.callisto.calmip.univ-toulouse.fr/SMS.rdf#" + quantity +">")
+                q = self.conn.createURI("<http://{{callisto_name}}.{{callisto_topdomainname}}/SMS.rdf#" + quantity +">")
                 self.conn.add(agg,isCombinedToParam, q)
                 form = details[1]
-                f = self.conn.createURI("<http://www.callisto.calmip.univ-toulouse.fr/SMS.rdf#" + form +">")
+                f = self.conn.createURI("<http://{{callisto_name}}.{{callisto_topdomainname}}/SMS.rdf#" + form +">")
                 self.conn.add(agg, isCombinedToFormat, f)
                 unit = details[2]
-                u = self.conn.createURI("<http://www.callisto.calmip.univ-toulouse.fr/SMS.rdf#"+unit+">")
+                u = self.conn.createURI("<http://{{callisto_name}}.{{callisto_topdomainname}}/SMS.rdf#"+unit+">")
                 self.conn.add(agg, isCombinedToUnit, u)
             except:
                 pass
@@ -116,21 +108,20 @@ class RegisterService(object):
                 continue
             timer = str(time.time())
             aggregate = timer + "_agg"
-            agg = self.conn.createURI("<http://www.callisto.calmip.univ-toulouse.fr/SMS.rdf#" + aggregate+">")
+            agg = self.conn.createURI("<http://{{callisto_name}}.{{callisto_topdomainname}}/SMS.rdf#" + aggregate+">")
             self.conn.add(agg, RDF.TYPE, URIRef(arcas.Aggregate))
             self.conn.add(servi, hasOutput, agg)
             try:
                 quantity = details[0]
-                q = self.conn.createURI("<http://www.callisto.calmip.univ-toulouse.fr/SMS.rdf#" + quantity +">")
+                q = self.conn.createURI("<http://{{callisto_name}}.{{callisto_topdomainname}}/SMS.rdf#" + quantity +">")
                 self.conn.add(agg,isCombinedToParam, q)
                 self.conn.add(q,isDefined,Literal(labeldef))
                 form = details[1]
-                f = self.conn.createURI("<http://www.callisto.calmip.univ-toulouse.fr/SMS.rdf#" + form +">")
+                f = self.conn.createURI("<http://{{callisto_name}}.{{callisto_topdomainname}}/SMS.rdf#" + form +">")
                 self.conn.add(agg, isCombinedToFormat, f)
                 unit = details[2]
-                u = self.conn.createURI("<http://www.callisto.calmip.univ-toulouse.fr/SMS.rdf#"+unit+">")
+                u = self.conn.createURI("<http://{{callisto_name}}.{{callisto_topdomainname}}/SMS.rdf#"+unit+">")
                 self.conn.add(agg, isCombinedToUnit, u)
-                
             except:
                 pass
         print('Repository contains %d statement(s).' % self.conn.size())
@@ -153,12 +144,11 @@ class RegisterService(object):
         """
         os.system("rm register_service.log")
         log.basicConfig(filename='register_service.log', level=log.DEBUG, format='%(levelname)s:%(asctime)s %(message)s ')
-        self.host = "192.168.0.80"
+        self.host = "CallistoAllegro"
         self.port = 10035
-        self.user = "callisto"
-        self.password = "ouiouioui123"
-        #repo = "demonstration"
-        repo = "sms"
+        self.user = {{allegro_user}}
+        self.password = {{allegro_password}}
+        repo =  sys.argv[4]
         connected = self.open_connection(repo)
         self.repo = connected[0]
         self.conn = connected[1]
@@ -169,4 +159,4 @@ update.update_ontology()
 
 
 #Operation plotting: <http://edamontology.org/operation_3441>
-#python3.6 /home/callisto/UTILS/RegisterService2.py Signal,CSV,UNITLESS\| PSD,CSV,UNITLESS\| "This service calculates the Power Spectral Density (PSD) using the Periodogram  method","http://callisto.calmip.univ-toulouse.fr/cgi-bin/","psd_periodogram.py","PSD_PERIO","PSD Periodogram calculation"
+#python3.6 /home/callisto/UTILS/RegisterService2.py Signal,CSV,UNITLESS\| PSD,CSV,UNITLESS\| "This service calculates the Power Spectral Density (PSD) using the Periodogram  method","http://callisto.calmip.univ-toulouse.fr/cgi-bin/","psd_periodogram.py","PSD_PERIO","PSD Periodogram calculation" DEMONSTRATION
