@@ -72,7 +72,7 @@ function handleOperationsWorkflow (request) {
     tableau_urls = []
     $("#available_wflows").append("<div id='genericflow'></div>");
     general_csv = xmlDoc.getElementsByTagName("csvschemafile")[0].childNodes[0].nodeValue;
-    displayGraph("https://{{callisto_name}}.{{callisto_topdomainname}}/"+general_csv,"genericflow");
+    displayGraph("https://{{callisto_name}}.{{callisto_topdomainname}}/TempFiles/"+general_csv,"genericflow");
     var isoneok = 0;
     if (x.length > 0) {
 	svcs_names = new Array(x.length);
