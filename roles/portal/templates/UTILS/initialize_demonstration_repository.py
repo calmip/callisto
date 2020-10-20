@@ -28,7 +28,7 @@ from franz.openrdf.repository.repository import Repository
 from rdflib import Namespace, URIRef, Literal
 from franz.openrdf.vocabulary import RDFS
 arcas = Namespace("http://www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf#")
-server=AllegroGraphServer(host="CallistoAllegro",port="10035",user="user",password="password")
+server=AllegroGraphServer(host="CallistoAllegro",port="{{allegro_port}}",user="{{allegro_user}}",password="{{allegro_password}}")
 catalog = server.openCatalog('')
 mode = Repository.ACCESS
 repository = catalog.getRepository("demonstration",mode)
