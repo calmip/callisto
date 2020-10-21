@@ -25,12 +25,15 @@
 # tasks file for dataverse
 - name: installing configuration file
   template:
-    src:  dataverse.conf
-    dest: /etc/httpd/conf.d/dataverse.conf
+    src:  "{{ item }}"
+    dest: "/etc/httpd/conf.d/{{ item }}"
     owner: root
     group: root
     mode: '0644'
     backup: yes
+  loop:
+     - dataverse.conf
+     - ssl.conf
   notify: restart apache
 
 - name: copying data for demonstration purpose
