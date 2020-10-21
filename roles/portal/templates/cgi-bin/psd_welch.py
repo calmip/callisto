@@ -27,8 +27,7 @@ import cgi
 import os
 import time
 import logging as log
-os.system("rm fft.log")
-log.basicConfig(filename='welch.log', level=log.DEBUG, format='%(levelname)s:%(asctime)s %(message)s ')
+log.basicConfig(filename='/var/log/callisto/welch.log', level=log.DEBUG, format='%(levelname)s:%(asctime)s %(message)s ')
 timer = str(time.time())
 
 form = cgi.FieldStorage()
