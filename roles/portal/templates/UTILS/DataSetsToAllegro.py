@@ -272,8 +272,8 @@ class DatasetsToOntology(object):
             pass
         log.basicConfig(filename='Datasets_to_allegro.log', level=log.DEBUG, format='%(levelname)s:%(asctime)s %(message)s ')
         self.host = "CallistoAllegro"
-        self.port = 10035
-        self.user = "user"
-        self.password = "password"
+        self.port = {{allegro_port}}
+        self.user = "{{allegro_user}}"
+        self.password = "{{allegro_password}}"
         self.repos = self.open_connection()
 
