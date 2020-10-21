@@ -74,7 +74,7 @@ class DatasetsToOntology(object):
                             #print("id datafile:" + str(id_elt))
                             type_elt = elt['dataFile']['contentType']
                             #print("type datafile:" + str(type_elt))
-                            url = SERVER_URL + "/api/access/datafile/" + str(id_elt) + "?key=" + API_TOKEN
+                            url = SERVER_URL + "/api/access/datafile/" + str(id_elt) + "?key="
                     for elt in liste_datasets['data']['latestVersion']['metadataBlocks']['citation']['fields']:
                         # print(str(type(elt)) + "-->" + str(elt))
                         if elt["typeName"] == "title":
