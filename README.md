@@ -79,13 +79,9 @@ Return to base directory and run the installation:
 
 Installing the demonstration repository:
 
-Retrieve the CallistoDataverse container IP:
-
-    lxc list
-
 Go to the Dataverse container:
 
-    ssh root@ZZZ.ZZZ.ZZZ.ZZZ
+    lxc exec CallistoDataverse bash
 
 Execute the following commands:
 
@@ -102,13 +98,9 @@ Execute the following commands:
 Installing Allegro:
 -------------------
 
-Retrieve the CallistoAllegro container IP:
-
-    lxc list
-
 Go to the Allegro container:
 
-    ssh root@YYY.YYY.YYY.YYY
+    lxc exec CallistoAllegro bash 
 
 Get the Allegro rpm:
 
@@ -133,16 +125,16 @@ Start Allegro:
 
 Loading demonstration repository
 ---------------------------------
-Log into portal container:
+Go to the Portal container:
     lxc exec CallistoPortal bash
 
 Load the demonstration repository:
-    python3.6 /usr/local/bin/initialize_demonstration_repository.py
+    /usr/local/bin/initialize_demonstration_repository.py
 
 
 Running Callisto
 ----------------
-- Point your browser to the callisto url defined in vars.yml, in https
+- Point your browser to the callisto url defined in vars.yml
 
 ### Running on your laptop: ###
 When visiting https://callisto-local.mylaptop the FIRST TIME your browser will send a warning because
@@ -155,11 +147,11 @@ Your browser will not warn you anymore
 
 License
 -------
-To be defined
+Callisto is covered by the GNU AFFERO GENERAL PUBLIC LICENSE version 3
+Please read the LICENSE.txt file
 
 Author Information
 ------------------
-
 Thierry Louge thierry.louge@toulouse-inp.fr
 Emmanuel Courcelle emmanuel.courcelle@toulouse-in.fr
 
