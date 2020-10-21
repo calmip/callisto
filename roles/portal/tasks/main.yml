@@ -49,6 +49,9 @@
       - six 
       - rdflib
       - jellyfish
+      - scipy
+      - pandas
+      - matplotlib
     executable: pip3
 
 - name: Add the user 'callisto'
