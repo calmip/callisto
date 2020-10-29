@@ -38,8 +38,8 @@ Managing the certificates:
 
 If installing on your laptop, you can use the self-signed certificates:
 
-    cp roles/proxy/files/cert.pem.dist roles/proxy/files/ssl
-    cp roles/proxy/files/key.pem.dist  roles/proxy/files/ssl
+    cp roles/proxy/files/cert.pem.dist roles/proxy/files/ssl/cert.pem
+    cp roles/proxy/files/key.pem.dist  roles/proxy/files/ssl/key.pem
 
 If installing on a server, you should get secure certificates for the domains:
  - {{ callisto_url }}
@@ -73,23 +73,15 @@ Change the file called inventory as follows:
     [dataverse]
     CallistoDataverse ansible_connection=lxd
 
-Run ansible-playbook:
-
-    ansible-playbook -i dataverse/inventory dataverse/dataverse.pb -e dataverse/defaults/main.yml
-
 Return to base directory and run the installation:
     cd ../
     ansible-playbook -v -i dataverse/inventory dataverse/dataverse.pb -e dataverse/defaults/main.yml
 
 Installing the demonstration repository:
 
-Retrieve the CallistoDataverse container IP:
-
-    lxc list
-
 Go to the Dataverse container:
 
-    ssh root@ZZZ.ZZZ.ZZZ.ZZZ
+    lxc exec CallistoDataverse bash
 
 Execute the following commands:
 
@@ -106,17 +98,9 @@ Execute the following commands:
 Installing Allegro:
 -------------------
 
-Retrieve the CallistoAllegro container IP:
-
-    lxc list
-
 Go to the Allegro container:
 
-    ssh root@YYY.YYY.YYY.YYY
-
-Allegro will need openssl :
-
-    yum install openssl
+    lxc exec CallistoAllegro bash 
 
 Get the Allegro rpm:
 
@@ -139,9 +123,18 @@ Start Allegro:
 
     systemctl start agraph 
 
+Loading demonstration repository
+---------------------------------
+Go to the Portal container:
+    lxc exec CallistoPortal bash
+
+Load the demonstration repository:
+    /usr/local/bin/initialize_demonstration_repository.py
+
+
 Running Callisto
 ----------------
-- Point your browser to the callisto url defined in vars.yml, in https
+- Point your browser to the callisto url defined in vars.yml
 
 ### Running on your laptop: ###
 When visiting https://callisto-local.mylaptop the FIRST TIME your browser will send a warning because
@@ -154,11 +147,11 @@ Your browser will not warn you anymore
 
 License
 -------
-To be defined
+Callisto is covered by the GNU AFFERO GENERAL PUBLIC LICENSE version 3
+Please read the LICENSE.txt file
 
 Author Information
 ------------------
-
 Thierry Louge thierry.louge@toulouse-inp.fr
 Emmanuel Courcelle emmanuel.courcelle@toulouse-in.fr
 
