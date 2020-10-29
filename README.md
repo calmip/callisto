@@ -10,11 +10,11 @@ Pre-requisites
 
 ### Installing lxd: ###
 
-First install snap on your system (using adpt-get, yum etc)
+First install snap on your system (using apt-get, yum etc)
 
 Then install lxd:
 
-    snap install lxd
+    sudo snap install lxd
 
 Configure lxd:
 
@@ -27,26 +27,28 @@ Callisto uses ansible to deploy the application on several lxd containers (centO
 Installing Callisto (base containers)
 -------------------------------------
 
-Copy the file vars.yml.dist:
+**Copy** the file vars.yml.dist:
 
     cp vars.yml.dist vars.yml
 
- - Edit the file vars.yml: at least choose laptop or server for the variable "callisto_living_on"
- - If installing on server, there are other variables to set (domain name, mail addresses etc)
+ - **Edit** the file vars.yml: 
+   - at least choose **laptop** or **server** for the variable `callisto_living_on`
+   - If installing on **server**, there are other variables to set (`callisto_url`, mail addresses and some other stuff)
 
-Managing the certificates:
+**Managing** the certificates:
 
-If installing on your laptop, you can use the self-signed certificates:
+*If installing on your laptop*, you can use the self-signed certificates:
 
     cp roles/proxy/files/cert.pem.dist roles/proxy/files/ssl/cert.pem
     cp roles/proxy/files/key.pem.dist  roles/proxy/files/ssl/key.pem
 
-If installing on a server, you should get secure certificates for the domains:
+*If installing on a server*, you should get secure certificates for the domains (a `*.{{ callisto_url }}` certificate is OK):
  - {{ callisto_url }}
  - dataverse.{{ callisto_url }}
  - allegro.{{ callisto_url }}
+Copy the certificate and the 
 
-Then run the follwing command to create the containers and deploy Callisto on them:
+**Run the following command** to create the containers and deploy Callisto on them:
 
     ansible-playbook -i inventory callisto.yml 
 
@@ -54,36 +56,36 @@ If this does not work with a password related message, add the -K switch to the 
 
     ansible-playbook -i inventory callisto.yml -K
 
-Partial installs can be done with the --tags switch (have a look to callisto.yml to know the tags):
+Partial installs can be done with the `--tags` switch (have a look to `callisto.yml` to know the tags):
 
     ansible-playbook -i inventory --tags proxy callisto.yml -K
 
 Installing dataverse:
 ---------------------
 
-Dataverse can be easily installed with the ansible role provided by Dataverse:
+Dataverse can be easily installed thanks to the ansible role provided by Dataverse:
 
-    
     cd ../
     git clone https://github.com/GlobalDataverseCommunityConsortium/dataverse-ansible.git dataverse
     cd dataverse
 
-Change the file called inventory as follows:
+**Change** the file called inventory as follows:
 
     [dataverse]
     CallistoDataverse ansible_connection=lxd
 
-Return to base directory and run the installation:
+**Return** to base directory and **run** the command:
     cd ../
     ansible-playbook -v -i dataverse/inventory dataverse/dataverse.pb -e dataverse/defaults/main.yml
 
-Installing the demonstration repository:
+Installing the demonstration repository in dataverse:
+-----------------------------------------------------
 
-Go to the Dataverse container:
+**Enter** the Dataverse container:
 
     lxc exec CallistoDataverse bash
 
-Execute the following commands:
+**Execute** the following commands inside the container:
 
     cd /
     tar xvfz 10.5072.tgz
@@ -98,46 +100,49 @@ Execute the following commands:
 Installing Allegro:
 -------------------
 
-Go to the Allegro container:
+**Enter** the Allegro container:
 
     lxc exec CallistoAllegro bash 
 
-Get the Allegro rpm:
+**Get** the Allegro rpm:
 
     wget https://franz.com/ftp/pri/acl/ag/ag7.0.3/linuxamd64.64/agraph-7.0.3-1.x86_64.rpm
 
-Install the rpm:
+**Install** the rpm:
 
     rpm -i agraph-7.0.3-1.x86_64.rpm
 
-Configure Allegro:
+**Configure** Allegro:
 
     /usr/bin/configure-agraph
     (Doing so, make sure to use the password and user for agraph that you specified in callisto vars.yml configuration file)    
 
-Enable Allegro for automatic start:
+**Enable** Allegro for automatic start:
 
     chkconfig agraph on
 
-Start Allegro:
+**Start** Allegro:
 
     systemctl start agraph 
 
 Loading demonstration repository
 ---------------------------------
-Go to the Portal container:
+
+**Enter** the Portal container:
+
     lxc exec CallistoPortal bash
 
-Load the demonstration repository:
-    /usr/local/bin/initialize_demonstration_repository.py
+**Load** the demonstration repository:
 
+    /usr/local/bin/initialize_demonstration_repository.py
 
 Running Callisto
 ----------------
-- Point your browser to the callisto url defined in vars.yml
+- Point your browser to the callisto url defined in vars.yml (variable `callisto_url`)
 
 ### Running on your laptop: ###
-When visiting https://callisto-local.mylaptop the FIRST TIME your browser will send a warning because
+
+When visiting https://callisto-local.mylaptop the *FIRST TIME* your browser will send a warning because
 there is an autosigned certificate: Please accept the risk
 
 Then click the menu link "valid dataverse certif" to validate the autosigned certificate of the dataverse url. This is required to be able to use
@@ -154,4 +159,3 @@ Author Information
 ------------------
 Thierry Louge thierry.louge@toulouse-inp.fr
 Emmanuel Courcelle emmanuel.courcelle@toulouse-in.fr
-
