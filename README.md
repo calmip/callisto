@@ -32,7 +32,9 @@ Installing Callisto (base containers)
     cp vars.yml.dist vars.yml
 
  - **Edit** the file vars.yml: 
-   - at least choose **laptop** or **server** for the variable `callisto_living_on`
+   - choose **laptop** or **server** for the variable `callisto_living_on`
+   - Choose and write credentials for the use of Allegro software (`allegro_user` and `allegro_password`)
+   - `ssh_wanted`: if true, your ssh public key shall be copied to the containers, to easily enter the containers. This is only convenient if you are a developer. Default is false
    - If installing on **server**, there are other variables to set (`callisto_url`, mail addresses and some other stuff)
 
 **Managing** the certificates:
