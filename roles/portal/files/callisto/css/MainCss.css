@@ -1,0 +1,104 @@
+/*/////////////////////////////////////////////////////////////////////////*/
+/*///////////////////////////////   General   /////////////////////////////*/
+/*/////////////////////////////////////////////////////////////////////////*/
+
+*{
+    margin:0;
+    padding:0;
+    overflow-x: none;
+}
+
+body{
+    _background:url("../image/fondbody.png") no-repeat fixed;
+    _background-size:100% 100%;
+    font-family: 'CaviarDreams';
+    _width: 80%;
+    _margin: 0 auto;
+}
+
+section{
+    background: #1762d2;
+}
+
+a{
+    text-decoration:none;
+}
+
+.clear{
+    clear:both;
+}
+
+.hide {
+    display:none;
+}
+
+
+/* Ajout de le police CaviarDreams */
+@font-face {
+    font-family: 'CaviarDreams';
+    src: url('../font/CaviarDreams/CaviarDreams-webfont.eot');
+    src: url('../font/CaviarDreams/CaviarDreams-webfont.eot?#iefix') format('embedded-opentype'),
+    url('../font/CaviarDreams/CaviarDreams-webfont.woff2') format('woff2'),
+    url('../font/CaviarDreams/CaviarDreams-webfont.woff') format('woff'),
+    url('../font/CaviarDreams/CaviarDreams-webfont.ttf') format('truetype'),
+    url('../font/CaviarDreams/CaviarDreams-webfont.svg#caviar_dreamsregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+div#Wait{
+    z-index: 5002;
+    display: none;
+    color: white;
+    font-variant: small-caps;
+    position: fixed;
+    width: 30%;
+    margin-left: 35%;
+    background: #1762d2;
+    top:40%;
+    border-radius: 10px;
+    text-align: center;
+    padding: 13px 0;
+    border: 2px solid white;
+}
+
+/*/////////////////////////////////////////////////////////////////////////*/
+/*////////////////////////////////   Menu 2   /////////////////////////////*/
+/*/////////////////////////////////////////////////////////////////////////*/
+
+ul.Menu2{
+    font-size: 1.2em;
+    list-style:none;
+    text-align:center;
+    font-weight: bold;
+    width: 100%;
+    margin : 0;
+
+}
+
+ul.Menu2 li{
+    width: 25%;
+    padding: 20px 0;
+    display : inline-table;
+
+}
+
+ul.Menu2 a{
+    color: #1762d2;
+    padding: 10px 30px;
+    font-variant:small-caps;
+    display : block;
+
+}
+
+ul.Menu2 a:hover{
+    background: #453aa6;
+    color: white;
+    cursor: pointer;
+
+}
+
+ul.Menu2 a.selected{
+    border: 2px solid #1762d2;
+}

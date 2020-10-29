@@ -1,2 +1,2 @@
-root:{{ansible_host}}.noreply@{{ callisto_url }}:{{ mailhub }}
+root:{{system_email_from}}:{{ mailhub }}
 

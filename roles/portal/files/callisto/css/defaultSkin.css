@@ -1,0 +1,1759 @@
+/*This style represents the background of splitter,simpleWindow,popup,frame, and Calendar
+
+ _____________________________________________________
+|_|____line 1_______________________________________|_|
+|_|_iconG  Title____________________________iconD___|_| 
+|_|__line 3_________________________________________|_|
+| |                                                 | | 
+| | line 4                                          | | 
+| |                                                 | | 
+|_|_________________________________________________|_| 
+|_|__line 5_________________________________________|_|
+
+5 lines with 3 cells each
+classname of a line: .lineN_type
+classname of a cell: ..lineNcellM_type
+ 
+ where n is the number of the line
+       m is the number of the cell
+       type is object ('' for splitter)
+*************************/
+
+
+.decoration_table,decoration_table_simplewindow,.decoration_table_popup,.decoration_frame{
+		top:0;
+		left:0;
+        position:absolute;       
+        border:0px;
+        border-collapse:collapse;
+        table-layout:fixed;	
+}
+
+/** DEFAULT DECORATION (SPLITTER) **/
+
+.line1,.line5 {height:15px;}
+.line3{height:9px;}
+.line2{height:20px;}
+.line1Cell1,.line1Cell3,.line2Cell1,.line2Cell3,.line3Cell1,.line3Cell3,.line4Cell1,.line4Cell3,.line5Cell1,.line5Cell3 {width:15px;}
+.line1Cell1{background:url(../images/imgDiv3D/coinsupg.gif);}
+.line1Cell2{background:url(../images/imgDiv3D/sup.gif);}
+.line1Cell3{background:url(../images/imgDiv3D/coinsupd.gif);}
+.line2Cell1{background:url(../images/imgDiv3D/g.gif);}
+.line2Cell2{background:url(../images/imgDiv3D/fond.gif);}
+.line2Cell3{background:url(../images/imgDiv3D/d.gif);}
+.line3Cell1{background:url(../images/imgDiv3D/g.gif);}
+.line3Cell2{background:url(../images/imgDiv3D/fond.gif);}
+.line3Cell3{background:url(../images/imgDiv3D/d.gif);}
+.line4Cell1{background:url(../images/imgDiv3D/g.gif);}
+.line4Cell2{background:url(../images/imgDiv3D/fond.gif);}
+.line4Cell3{background:url(../images/imgDiv3D/d.gif);}
+.line5Cell1{background:url(../images/imgDiv3D/coininfg.gif);}
+.line5Cell2{background:url(../images/imgDiv3D/inf.gif) ;}
+.line5Cell3{background:url(../images/imgDiv3D/coininfd.gif);}
+
+.line1_splitter,.line5_splitter {height:15px;}
+.line3_splitter{height:9px;}
+.line2_splitter{height:20px;}
+.line1Cell1_splitter,.line1Cell3_splitter,.line2Cell1_splitter,.line2Cell3_splitter,.line3Cell1_splitter,.line3Cell3_splitter,.line4Cell1_splitter,.line4Cell3_splitter,.line5Cell1_splitter,.line5Cell3_splitter {width:15px;}
+.line1Cell1_splitter{background:url(../images/imgDiv3D/coinsupg.gif);}
+.line1Cell2_splitter{background:url(../images/imgDiv3D/sup.gif);}
+.line1Cell3_splitter{background:url(../images/imgDiv3D/coinsupd.gif);}
+.line2Cell1_splitter{background:url(../images/imgDiv3D/g.gif);}
+.line2Cell2_splitter{background:url(../images/imgDiv3D/fond.gif);}
+.line2Cell3_splitter{background:url(../images/imgDiv3D/d.gif);}
+.line3Cell1_splitter{background:url(../images/imgDiv3D/g.gif);}
+.line3Cell2_splitter{background:url(../images/imgDiv3D/fond.gif);}
+.line3Cell3_splitter{background:url(../images/imgDiv3D/d.gif);}
+.line4Cell1_splitter{background:url(../images/imgDiv3D/g.gif);}
+.line4Cell2_splitter{background:url(../images/imgDiv3D/fond.gif);}
+.line4Cell3_splitter{background:url(../images/imgDiv3D/d.gif);}
+.line5Cell1_splitter{background:url(../images/imgDiv3D/coininfg.gif);}
+.line5Cell2_splitter{background:url(../images/imgDiv3D/inf.gif) ;}
+.line5Cell3_splitter{background:url(../images/imgDiv3D/coininfd.gif);}
+
+/*** SIMPLEWINDOW DECORATION****/
+
+
+.line1_simplewindow,.line5_simplewindow {height:15px;}
+.line3_simplewindow{height:9px;}
+.line2_simplewindow{height:23px;}
+.line1Cell1_simplewindow,.line1Cell3_simplewindow,.line2Cell1_simplewindow,.line2Cell3_simplewindow,
+.line3Cell1_simplewindow,.line3Cell3_simplewindow,.line4Cell1_simplewindow,.line4Cell3_simplewindow,
+.line5Cell1_simplewindow,.line5Cell3_simplewindow {width:15px;}
+.line1Cell1_simplewindow{background:url(../images/imgDiv3D/coinsupg.gif);}
+.line1Cell2_simplewindow{background:url(../images/imgDiv3D/sup.gif);}
+.line1Cell3_simplewindow{background:url(../images/imgDiv3D/coinsupd.gif);}
+.line2Cell1_simplewindow{background:url(../images/imgDiv3D/g.gif);}
+.line2Cell2_simplewindow{background:url(../images/imgDiv3D/fond.gif);}
+.line2Cell3_simplewindow{background:url(../images/imgDiv3D/d.gif);}
+.line3Cell1_simplewindow{background:url(../images/imgDiv3D/g.gif);}
+.line3Cell2_simplewindow{background:url(../images/imgDiv3D/fillet-separateur.gif);}
+.line3Cell3_simplewindow{background:url(../images/imgDiv3D/d.gif);}
+.line4Cell1_simplewindow{background:url(../images/imgDiv3D/g.gif);}
+.line4Cell2_simplewindow{background:url(../images/imgDiv3D/fond.gif);}
+.line4Cell3_simplewindow{background:url(../images/imgDiv3D/d.gif);}
+.line5Cell1_simplewindow{background:url(../images/imgDiv3D/coininfg.gif);}
+.line5Cell2_simplewindow{background:url(../images/imgDiv3D/inf.gif) ;}
+.line5Cell3_simplewindow{background:url(../images/imgDiv3D/coininfd.gif);}
+
+
+/*** POPUP DECORATION****/
+
+
+.line1_popup{height:8px;}
+.line5_popup {height:12px;}
+.line3_popup{height:9px;}
+.line2_popup{height:24px;}
+.line1Cell1_popup,.line1Cell3_popup,.line2Cell1_popup,.line2Cell3_popup,
+.line3Cell1_popup,.line3Cell3_popup,.line4Cell1_popup,.line4Cell3_popup,
+.line5Cell1_popup,.line5Cell3_popup {width:11px;}
+.line1Cell1_popup{background:url(../images/imgDiv3D/haut-g1.gif);}
+.line1Cell2_popup{background:url(../images/imgDiv3D/haut-centre.gif);}
+.line1Cell3_popup{background:url(../images/imgDiv3D/haut-d1.gif);}
+.line2Cell1_popup{background:url(../images/imgDiv3D/haut-g2.gif);}
+.line2Cell2_popup{background:url(../images/imgDiv3D/fond-blanc.gif);}
+.line2Cell3_popup{background:url(../images/imgDiv3D/haut-d2.gif);}
+.line3Cell1_popup{background:url(../images/imgDiv3D/gauche.gif);}
+.line3Cell2_popup{background:url(../images/imgDiv3D/fond.gif);}
+.line3Cell3_popup{background:url(../images/imgDiv3D/droit.gif);}
+.line4Cell1_popup{background:url(../images/imgDiv3D/gauche.gif);}
+.line4Cell2_popup{background:url(../images/imgDiv3D/fond.gif);}
+.line4Cell3_popup{background:url(../images/imgDiv3D/droit.gif);}
+.line5Cell1_popup{background:url(../images/imgDiv3D/bas-gauche.gif);}
+.line5Cell2_popup{background:url(../images/imgDiv3D/bas_centre.gif) ;}
+.line5Cell3_popup{background:url(../images/imgDiv3D/bas-droit.gif);}
+
+
+
+
+/*** Frame DECORATION****/
+.line1_frame{height:9px;}
+.line5_frame {height:9px;}
+.line3_frame{height:2px;background-color:#3366CC;}
+.line2_frame{height:10px;font-size:0pt;}
+.line1Cell1_frame,.line1Cell3_frame,.line2Cell1_frame,.line2Cell3_frame,
+.line3Cell1_frame,.line3Cell3_frame,.line4Cell1_frame,.line4Cell3_frame,
+.line5Cell1_frame,.line5Cell3_frame {width:9px;}
+.line1Cell1_frame{background:url(../images/imgCadre/coin_haut_g.gif);}
+.line1Cell2_frame{background-color: white;}
+.line1Cell3_frame{background:url(../images/imgCadre/coin_haut_d.gif);}
+.line2Cell1_frame{background-color: white;}
+.line2Cell2_frame{background-color: white;}
+.line2Cell3_frame{background-color: white;}
+.line3Cell1_frame{background-color: white;}
+/*** to revise .line3Cell2_frame{background-color: border-bottom: 1px solid #3366CC;} ***/
+.line3Cell2_frame{background-color: white;}
+.line3Cell3_frame{background-color: white;}
+.line4Cell1_frame{background-color: white;}
+.line4Cell2_frame{background-color: white;}
+.line4Cell3_frame{background-color: white;}
+.line5Cell1_frame{background:url(../images/imgCadre/coin_bas_g.gif);}
+.line5Cell2_frame{background-color: white;}
+.line5Cell3_frame{background:url(../images/imgCadre/coin_bas_d.gif);}
+
+
+/*************************  SIMPLEWINDOW STYLE  *************************************/
+.simplewindow_divCont{
+	top:47;
+	left:15;
+	position: absolute;
+}
+
+.simplewindow_title {
+ font-family:arial;
+ font-size:13pt;
+ font-weight:bold;
+ color:#0265CD;
+ overflow: hidden;
+ white-space:nowrap;
+}
+
+.iconG_simpleWindow {
+ width: 35px;
+}
+
+.iconD_simpleWindow {
+ width: 28px; // 48px;
+}
+
+
+
+
+/*************************  SPLITTER STYLE  *************************************
+			
+ _________________________________________
+|					|  |				  |
+|					|1 |				  |		(1)Divcurs
+|		div1		|--|	div2		  |		(2)Boutcurs
+|					|2 |				  |
+|					|  |				  |
+|					|--|				  |
+|					|  |				  |
+|___________________|__|__________________|
+
+ 
+*************************/
+
+
+.spliter_div1 {        
+	background-color:#CCCCCC;    
+	overflow:auto;       
+}
+
+.spliter_div2 {       
+    background-color:#CCCCCC;
+    overflow:auto;        
+}
+
+/*style of the divCurs,cursor  when the splitter is set with an image*/
+.spliter_divcursor_img {}
+.spliter_cursor_img {}
+
+/*style of the divCurs,cursor  when the splitter is set in 3D style*/
+.spliter_divcursor_3D {}
+.spliter_cursor_3D {}
+
+
+/*style of the divCurs when the splitter is set in normal style*/
+.spliter_divcursor_normal {                
+    position:absolute;
+    font-size:0;
+    border-top:1px solid white;
+	border-bottom:1px solid black;
+	border-left:1px solid white;
+	border-right:1px solid black; 
+	background:#BBBBBB;
+}
+
+/*style of the Boutcurs when the splitter is set in normal style*/
+.spliter_cursor_normal {            
+    position:absolute;        
+    font-size:0;
+    background:#0099CC; 
+}
+
+/*style of the Boutcurs when mouse over*/
+.spliter_cursor_over {                
+    background:#00CCFF; 
+}
+
+/*horizontal*/
+.spliter_img_h {
+	background: url(../images/tirette_h.gif) no-repeat;
+	width:10px;
+	height:137px;
+}
+/*horizontal when mouse over*/
+.spliter_img_h_on {
+	background: url(../images/tirette_h_on.gif) no-repeat;
+	width:10px;
+	height:137px;
+}
+/*vertical*/
+.spliter_img_v {
+	background: url(../images/tirette_v.gif) no-repeat;
+	width:83px;
+	height:10px;
+}
+/*vertical when mouse over*/
+.spliter_img_v_on {
+	background: url(../images/tirette_v_on.gif) no-repeat;
+	width:83px;
+	height:10px;
+}
+
+
+
+
+
+/*************************  POPUP STYLE *************************************
+
+*************************/
+.popup_title{
+ white-space:nowrap;
+ overflow:hidden;
+ font-family:arial;
+ font-size:10pt;
+ font-weight:bold;
+}
+
+
+.popup_divCont{
+	top:32;
+	left:10;
+	position: absolute;
+	overflow:auto;
+}
+
+/*image use to hold the popup for drag and drop */
+.popup_dropimg {
+	position:absolute;
+	background: url(../images/imgDiv3D/tirette_popup.gif) no-repeat;
+	width:83px;
+	height:197px;
+}
+
+
+/*************************  CALENDAR STYLE *************************************
+
+*************************/
+
+/*style for day of the week*/
+.calendar_day_of_week {
+	position:absolute;
+	text-align:center;
+	font-size:8pt;
+	font-weight:bold;
+	font-family:Arial;
+	top:35px;
+	width:25px;
+	height:15px;
+	color:#0069B3;
+	border-bottom:1px solid #4AA5C9;
+	border-right:1px solid #4AA5C9;
+}
+
+/*style for the text of the current mont*/
+.calendar_current_month{
+	position:absolute;
+	left:45px;
+	width:100px;
+	height:15px;
+	top:7px;
+	text-align:center;
+	font-weight:bold;
+	font-size:8pt;
+	display:inline;
+	font-family:Arial,Helvetica,sans-serif;
+	color:#0069B3;
+}
+
+/*style for day*/
+.calendar_default_day{	
+	position:absolute;
+	color:#0069B3;
+	border-bottom:1px solid #4AA5C9;
+	border-right:1px solid #4AA5C9;
+	cursor:pointer;        
+    text-align:center;
+    font-size:8pt;
+    font-family:Arial;
+    font-weight:normal;	
+    height:15px;
+    width:25px;	
+}
+
+/*style for the diable day*/
+.calendar_disable_day{	
+	color:#AAAAAA;
+   	font-style:italic;
+   	cursor:default;
+}
+
+/*style for the week end day*/
+.calendar_weekend_day{	
+	color:green; 
+}
+            
+/*style for the holiday day*/
+.calendar_holidays_day{	
+	color:red; 
+}
+
+/*style for the today day*/
+.calendar_today_day{	
+	background-color:#00CCFF;
+}
+
+/*style for the selected day*/
+.calendar_select_day{	
+	font-weight:bold;
+	background-color:#4682B4;
+	color: white;
+}
+
+/*************************  TOOLBAR STYLE *************************************
+
+Use in the dynamic frame
+	
+ _________________________________________
+|1 |2								   |3 |
+|__|___________________________________|__|
+
+1. leftEdgeToolbar
+2. toolBarDiv
+3. rightEdgeToolbar
+
+*************************/
+
+.leftEdgeToolbar {    
+    background-image: url(../images/imgCadre/bord_g.gif);
+    float:left;
+    font-size: 0.5em;    
+    top:0;
+    left:0;
+    width:4px;
+    height:25px;
+}
+
+.toolBarDiv{
+    background-image: url(../images/imgCadre/centre.gif);
+    height:25px;
+ }
+
+.rightEdgeToolbar {    
+    background-image: url(../images/imgCadre/bord_d.gif);
+    float:right;
+    font-size: 0.5em;    
+    top:0;
+    left:0;
+    width:4px;
+    height:25px;
+}
+/*************************  FRAME STYLE *************************************
+
+*************************/
+
+
+/*title if dynamic*/
+.frame_titlecbig {
+        top:3px;
+        position:absolute;
+        font-size:8pt;
+        font-family:Arial;        
+        color:#26AB04;
+        text-align:left;
+        display: inline;
+        overflow: hidden;
+        white-space:nowrap;                 
+        width:90%;
+ }
+
+/*title if not dynamic*/
+.frame_titlecsmall {
+        top:-8;
+        left:5;
+        font-size:8pt;
+        font-family:Arial;        
+        color:#01278C;
+        text-align:left;
+        z-index:2;
+        background-color:#F3F3F3;
+        position:absolute;
+}
+/*content if dynamic*/
+.frame_content_dynamic{
+	background-color:#F3F3F3;
+	width:100%;
+	top:0;
+	left:0;	
+	border: 1px solid #F3F3F3;
+}
+
+/*content if not dynamic*/
+.frame_content_simple{
+	background-color:#F3F3F3;
+	border:1px outset white;
+	width:100%;
+	/*top:0;
+	left:0;*/
+}
+/*button  + (to open when dynamic)*/
+.moreButtonOff {
+	background: url(../images/boutons/bouton_plus_off.gif) no-repeat;
+	width:17px;
+	height:17px;
+}
+
+/*button + (to open when dynamic) when mouse over*/
+.moreButtonOn {
+	background: url(../images/boutons/bouton_plus_on.gif) no-repeat;
+	width:17px;
+	height:17px;
+}
+
+/*button - (to open when dynamic)*/
+.lessButtonOff {
+	background: url(../images/boutons/bouton_moins_off.gif) no-repeat;
+	width:17px;
+	height:17px;
+}
+
+/*button - (to open when dynamic) when mouse over*/
+.lessButtonOn {
+	background: url(../images/boutons/bouton_moins_on.gif) no-repeat;
+	width:17px;
+	height:17px;
+}
+ /* maximize buton */
+.maxButtonOff {
+	background: url(../images/boutons/icon-agrandir.gif) no-repeat;
+	width:20px;
+	height:19px;
+}
+ /* maximize buton when mouse over*/
+.maxButtonOn {
+	background: url(../images/boutons/icon-agrandir_on.gif) no-repeat;
+	width:20px;
+	height:19px;
+}
+
+ /* minimize buton */
+.minButtonOff {
+	background: url(../images/boutons/icon-multifenetre.gif) no-repeat;
+	width:20px;
+	height:19px;
+}
+ /* minimize buton when mouse over*/
+.minButtonOn {
+	background: url(../images/boutons/icon-multifenetre_on.gif) no-repeat;
+	width:20px;
+	height:19px;
+}
+
+ /* print buton */
+.printButtonOff {
+	background: url(../images/boutons/bouton_imprimer_off.gif) no-repeat;
+	width:81px;
+	height:17px;
+}
+
+ /* print buton when mouse over*/
+.printButtonOn {
+	background: url(../images/boutons/bouton_imprimer_on.gif) no-repeat;
+	width:81px;
+	height:17px;
+}
+
+/*************************  BUTON STYLE *************************************
+
+	
+ _________________________________________
+|1 |2		textButton				   |3 |
+|__|_________shadowTextButton__________|__|
+
+1. leftEdgeButton
+2. centerButton
+3. rightEdgeButton
+
+on--->when mouse over
+off-->default style
+disa->when disable
+
+shadowTextButton is the same text with a top and left shift to make a shadow
+*************************/
+
+.button_divExt{
+	height:18px;	
+}
+.button_centerOn,.button_centerOff,.button_centerDisa{
+position: relative;
+float:left;
+overflow:hidden;
+height:100%; 
+left:0;
+top:0;
+}
+.button_centerOn{
+background: url(../images/boutons/center_on.gif) repeat;
+}
+
+
+.button_centerOff{
+background: url(../images/boutons/center_off.gif) repeat;
+}
+
+.button_centerDisa{
+background: url(../images/boutons/center_disa.gif) repeat;
+}
+
+.button_leftEdgeOn,.button_leftEdgeDisa,.button_leftEdgeOff,.button_rightEdgeOn,.button_rightEdgeDisa,.button_rightEdgeOff{
+position: relative;
+float:left;
+top:0;
+left:0;
+font-size: 0.5em;    
+width:4px;
+height:100%;
+}
+
+.button_leftEdgeOn {    
+    background-image: url(../images/boutons/left_on.gif);
+}
+
+.button_leftEdgeDisa {    
+    background-image: url(../images/boutons/left_disa.gif);
+}
+
+.button_leftEdgeOff {    
+    background-image: url(../images/boutons/left_off.gif);
+}
+
+.button_rightEdgeOn {    
+    background-image: url(../images/boutons/right_on.gif);
+}
+
+.button_rightEdgeDisa {    
+    background-image: url(../images/boutons/right_disa.gif);
+}
+
+.button_rightEdgeOff {    
+    background-image: url(../images/boutons/right_off.gif);
+}
+
+.button_textOff,.button_textDisa,.button_shadowText,.button_textOn{
+position:absolute;
+width:100%;
+height:100%;
+text-align:center;
+font-weight:bold;
+font-size:8pt;
+font-family:Arial,Helvetica,sans-serif;
+left:0;
+top:2;
+}
+
+.button_textOn {color: #EEEEEE;}
+.button_textOff {color: #EEEEEE;}
+
+.button_shadowText{
+left:1;
+top:2;
+color:gray;
+}
+
+.button_textDisa {color: #AAAAAA;}
+
+
+
+/*************************  TAB STYLE *************************************
+
+*************************/
+
+/*global area*/
+.tab_cont{
+border : 1px solid #6D94AB;
+}
+
+/*title tab*/
+.tab_tabitem_t,.tab_tabitem_b{
+height:21Px;
+}
+.tab_tabitem_l,.tab_tabitem_r{
+width:21px;
+}
+
+
+
+/*area which contains the image (close button,navigation button)*/
+.tab_imgArea_t{
+    float:right;
+    height:21px;
+    border:1px solid #6D94AB;
+    border-bottom:0px solid #6D94AB;        
+    border-top:0px solid #6D94AB;        
+	background-image: url(../images/imgOnglet/centre_t.gif);
+    position: relative;
+    top:1px;
+}
+
+.tab_imgArea_b{
+    float:right;
+    height:21px;
+    border:1px solid #6D94AB;
+    border-bottom:1px solid #6D94AB;        
+    border-top:0px solid #6D94AB;        
+	background-image: url(../images/imgOnglet/centre_b.gif);
+    position: relative;
+    top:0px;
+}
+
+/*list style*/
+.tab_tirette {
+	background: url(../images/imgOnglet/tirette_onglet.gif);
+	width:13px;
+	height:30px;
+	position:absolute;
+}
+
+.tab_list{
+    padding-top:3px;    
+    background-color:#D3E7F7;
+    border:1px outset white;
+    position:absolute;
+    white-space:nowrap;    
+}
+
+.tab_list_item,.tab_list_item_hilite {
+    position:relative;    
+    padding-left:5px;
+    cursor:pointer;        
+    font-family:arial;
+    font-size:10pt;    
+    height:22px;
+    overflow:hidden;   
+    white-space:nowrap;    
+}
+.tab_list_item  {     
+    color:black;    
+}
+.tab_list_item_visible  {                    
+	font-weight:bold;
+}
+.tab_list_item_disable  {     
+    color:#AAAAAA;            
+	font-weight:normal;            
+    font-style:italic;    
+}
+
+.tab_list_item_enable  { 
+	font-weight:bold;    
+    color:#F7891E;     
+}
+
+.tab_list_item_hilite {
+    background-color:#B0C4DE ;
+    color:white;
+}
+
+.tab_list_visibleArea{  
+    left:0;
+    border:2px solid #425CBE;
+    position:absolute;
+}
+
+/*button in the image area
+
+with 
+off-->normal style
+on--->mouse over style
+GroundlessOff:disable
+*/
+
+/*close buton*/
+.tab_crossCloseOff {
+	background: url(../images/croix.gif) no-repeat;
+	width:12px;
+	height:11px;
+}
+.tab_crossCloseOn {
+	background: url(../images/croix_on.gif) no-repeat;
+	width:12px;
+	height:11px;
+}
+
+/*previous buton*/
+.tab_leftArrowOff {
+	background: url(../images/fleches/flech_g_off.gif) no-repeat;
+	width:13px;
+	height:13px;
+}
+
+.tab_leftArrowOn {
+	background: url(../images/fleches/flech_g_on.gif) no-repeat;
+	width:13px;
+	height:13px;
+}
+
+.tab_leftArrowGroundlessOff {
+	background: url(../images/fleches/flech_g_sob_off.gif) no-repeat;
+	width:13px;
+	height:13px;
+}	
+
+
+/*open list buton*/
+.tab_listOn {
+	background: url(../images/boutons/parcourir_on.gif) no-repeat;
+	width:13px;
+	height:13px;
+}
+.tab_listOff {
+	background: url(../images/boutons/parcourir_off.gif) no-repeat;
+	width:13px;
+	height:13px;
+}
+
+/*previous buton*/
+.tab_rightArrowGroundlessOff {
+	background: url(../images/fleches/flech_d_sob_off.gif) no-repeat;
+	width:13px;
+	height:13px;
+}	
+
+.tab_rightArrowOff {
+	background: url(../images/fleches/flech_d_off.gif) no-repeat;
+	width:13px;
+	height:13px;
+}	
+.tab_rightArrowOn {
+	background: url(../images/fleches/flech_d_on.gif) no-repeat;
+	width:13px;
+	height:13px;
+}	
+
+
+/*TABITEM 
+	
+2 areas
+the container area tab_item_divcont
+the title area:
+ _________________________________________
+|1 |2			tabTitleText		   |3 |
+|__|___________________________________|__|
+
+1. leftEdgeTab
+2. tabTitle
+3. rightEdgeTab
+
+with 
+off-->normal style
+on--->mouse over style
+disa->disable style
+_h for horizontal tab
+_v for vertical tab
+*************************/
+
+.tabitem_divcont {
+	top:0;
+	left:0;
+}
+
+
+.tabTitleDivOn_t,.tabTitleDivOff_t,.tabTitleDivDisa_t {
+ height:100%;
+ position: relative;
+ float:left;
+ overflow:hidden;
+ font-style: normal;
+}
+
+.tabTitleDivOn_t { 
+ left:0px;
+}
+
+
+.tabTitleDivOff_t { 
+ cursor: pointer;  
+}
+
+.tabTitleDivDisa_t { 
+ font-style: italic;
+}
+
+.leftEdgeTabOn_t {    
+    background-image: url(../images/imgOnglet/bord_g_t.gif);
+    float:left;
+    font-size: 0.5;    
+    left:0;
+    width:3px;
+    height:100%;
+}
+.leftEdgeTabOff_t,.leftEdgeTabDisa_t {    
+    background-image: url(../images/imgOnglet/bord_off_g_t.gif);
+    float:left;
+    font-size: 0.5;    
+    left:0;
+    width:3px;
+    height:100%;
+}
+.rightEdgeTabOn_t {
+    background-image: url(../images/imgOnglet/bord_d_t.gif);
+    float:left;
+    font-size: 0.5;    
+    width:3px;
+    height:100%;
+}
+.rightEdgeTabOff_t, .rightEdgeTabDisa_t {
+    background-image: url(../images/imgOnglet/bord_off_d_t.gif);
+    float:left;
+    font-size: 0.5em;    
+    width:3px;
+    height:100%;
+}
+
+.tabTitleTextOn_t {
+	height:100%;
+    font-weight: bold;    
+    float:left;
+    text-align: center;
+    font-size: 10pt;
+    font-family: Arial,Helvetica,sans-serif;
+    color: #000000;
+    overflow: hidden;
+    white-space:nowrap;    
+    background-image: url(../images/imgOnglet/centre_t.gif);
+ }
+
+.tabTitleTextOff_t,.tabTitleTextDisa_t {  
+	height:100%;
+    padding-top:5px;
+    float:left;
+    text-align: center;
+    font-size: 10pt;
+    font-family: Arial,Helvetica,sans-serif;
+    color: #999999;
+    overflow: hidden;  
+    white-space:nowrap;
+	background-image: url(../images/imgOnglet/centre_off_t.gif);
+}
+
+
+.tabTitleDivOn_b,.tabTitleDivOff_b,.tabTitleDivDisa_b {
+ height:100%;
+ position: relative;
+ float:left;
+ overflow:hidden;
+ font-style: normal;
+}
+
+.tabTitleDivOn_b { 
+ z-index: 2; 
+ left:0px;
+ top:-1px;
+}
+
+
+.tabTitleDivOff_b { 
+ top:0px;
+ z-index: 0;  
+ cursor: pointer;  
+}
+
+.tabTitleDivDisa_b { 
+ font-style: italic;
+}
+
+.leftEdgeTabOn_b {    
+    background-image: url(../images/imgOnglet/bord_g_b.gif);
+    float:left;
+    font-size: 0.5;    
+    top:0;
+    left:0;
+    width:3px;
+    height:100%;
+}
+.leftEdgeTabOff_b,.leftEdgeTabDisa_b {    
+    background-image: url(../images/imgOnglet/bord_off_g_b.gif);
+    float:left;
+    font-size: 0.5;    
+    top:0;
+    left:0;
+    width:3px;
+    height:100%;
+}
+.rightEdgeTabOn_b {
+    background-image: url(../images/imgOnglet/bord_d_b.gif);
+    float:left;
+    font-size: 0.5;    
+    top:0;
+    width:3px;
+    height:100%;
+}
+.rightEdgeTabOff_b,.rightEdgeTabDisa_b {
+    background-image: url(../images/imgOnglet/bord_off_d_b.gif);
+    float:left;
+    font-size: 0.5em;    
+    top:0;
+    width:3px;
+    height:100%;
+}
+
+.tabTitleTextOn_b {
+	height:100%;
+    font-weight: bold;    
+    float:left;
+    text-align: center;
+    font-size: 10pt;
+    font-family: Arial,Helvetica,sans-serif;
+    color: #000000;
+    overflow: hidden;
+    white-space:nowrap;    
+    background-image: url(../images/imgOnglet/centre_b.gif);
+ }
+
+.tabTitleTextOff_b,.tabTitleTextDisa_b{ 
+	height:100%;
+    padding-top:3px;
+    float:left;
+    text-align: center;
+    font-size: 10pt;
+    font-family: Arial,Helvetica,sans-serif;
+    color: #999999;
+    overflow: hidden;  
+    white-space:nowrap;
+	background-image: url(../images/imgOnglet/centre_off_b.gif);
+}
+
+
+
+
+.tabTitleDivOn_l,.tabTitleDivOff_l,.tabTitleDivDisa_l {
+ width:100%;
+ position: relative;
+ overflow:hidden;
+ font-style: normal;
+}
+
+.tabTitleDivOn_l { 
+ z-index: 2; 
+ left:1px;
+}
+
+
+.tabTitleDivOff_l { 
+  z-index: 0;  
+ cursor: pointer;  
+ }
+
+.tabTitleDivDisa_l { 
+ font-style: italic;
+}
+
+.leftEdgeTabOn_l {    
+    background-image: url(../images/imgOnglet/bord_h_l.gif);
+    font-size: 0.5;    
+    width:100%;
+    height:3px;
+}
+.leftEdgeTabOff_l,.leftEdgeTabDisa_l {    
+    background-image: url(../images/imgOnglet/bord_off_h_l.gif);
+    font-size: 0.5;    
+    width:100%;
+    height:3px;
+}
+.rightEdgeTabOn_l {
+    background-image: url(../images/imgOnglet/bord_b_l.gif);
+    font-size: 0.5;    
+    width:100%;
+    height:3px;
+}
+.rightEdgeTabOff_l,.rightEdgeTabDisa_l {
+    background-image: url(../images/imgOnglet/bord_off_b_l.gif);
+    font-size: 0.5;    
+    width:100%;
+    height:3px;
+}
+
+.tabTitleTextOn_l {
+    font-weight: bold;    
+    text-align: center;
+    font-size: 10pt;
+    font-family: Arial,Helvetica,sans-serif;
+    color: #000000;
+    overflow: hidden;
+    white-space:nowrap;    
+    background-image: url(../images/imgOnglet/centre_l.gif);
+ }
+
+.tabTitleTextOff_l, .tabTitleTextDisa_l{  
+    padding-left:3px;
+    text-align: center;
+    font-size: 10pt;
+    font-family: Arial,Helvetica,sans-serif;
+    color: #999999;
+    overflow: hidden;  
+    white-space:nowrap;
+	background-image: url(../images/imgOnglet/centre_off_l.gif);
+}
+
+
+
+.tabTitleDivOn_r,.tabTitleDivOff_r,.tabTitleDivDisa_r {
+ width:100%;
+ position: relative;
+ overflow:hidden;
+ font-style: normal;
+}
+
+.tabTitleDivOn_r { 
+ z-index: 2; 
+ left:-1px;
+}
+
+
+.tabTitleDivOff_r { 
+  z-index: 0;  
+ cursor: pointer;  
+ }
+
+.tabTitleDivDisa_r { 
+ font-style: italic;
+}
+
+.leftEdgeTabOn_r {    
+    background-image: url(../images/imgOnglet/bord_h_r.gif);
+    font-size: 0.5;    
+    width:100%;
+    height:3px;
+}
+.leftEdgeTabOff_r,.leftEdgeTabDisa_r {    
+    background-image: url(../images/imgOnglet/bord_off_h_r.gif);
+    font-size: 0.5;    
+    width:100%;
+    height:3px;
+}
+.rightEdgeTabOn_r {
+    background-image: url(../images/imgOnglet/bord_b_r.gif);
+    font-size: 0.5;    
+    width:100%;
+    height:3px;
+}
+.rightEdgeTabOff_r,.rightEdgeTabDisa_r{
+    background-image: url(../images/imgOnglet/bord_off_b_r.gif);
+    font-size: 0.5;    
+    width:100%;
+    height:3px;
+}
+
+.tabTitleTextOn_r {
+    font-weight: bold;    
+    text-align: center;
+    font-size: 10pt;
+    font-family: Arial,Helvetica,sans-serif;
+    color: #000000;
+    overflow: hidden;
+    white-space:nowrap;    
+    background-image: url(../images/imgOnglet/centre_r.gif);
+ }
+
+.tabTitleTextOff_r,.tabTitleTextDisa_r {  
+    padding-right:3px;
+    text-align: center;
+    font-size: 10pt;
+    font-family: Arial,Helvetica,sans-serif;
+    color: #999999;
+    overflow: hidden;  
+    white-space:nowrap;
+	background-image: url(../images/imgOnglet/centre_off_r.gif);
+}
+
+
+/*************************  TEXT FIELD,CODE/LABEL  STYLE *************************************
+style for the text
+*************************/
+
+.text_global {
+       border-width:0px;
+       border-style:solid;
+       border-color:black;
+       margin:0px;
+       height:0px;
+       top:0px;
+       font-size:8pt;
+       font-family:Arial;
+       font-weight:bold;
+       color:black;
+       text-align:left;
+}
+/*field_*
+where * is the type of text:F=File-A=Alpha-N=Num-D=Date-H=hour-P=password-Hi=hidden-T=textArea
+*/
+.text_T,.text_F,.text_A,.text_N,.text_D,.text_Hi,.text_H,.text_P,.text_T{
+	border:1px inset rgb(212,208,200); 	
+	font-family:Arial;
+	color:black;
+    font-size:8pt;
+}
+
+
+.text_A,.text_Hi,.text_H,.text_P{        
+        text-align:left;
+}
+
+.text_T{
+	border:1px solid rgb(120,172,255); 
+}
+
+
+.text_N {
+        text-align:right;
+}
+
+.text_D {      
+        text-align:center;
+        display: inline;
+}
+
+/*disable text*/
+.text_desable {
+	color:gray;    
+    background-color :#DDDDDD;	
+}
+
+
+/*required text*/
+.text_requiredDiv {
+	position:absolute;
+	left:-7;
+	font-size:8pt;
+    font-family:Arial;
+	font-weight:bold;
+	color:red;
+}
+
+
+/*required text*/
+.text_required {
+	border:1px solid red;
+}
+
+/*help buton*/
+.text_date_helpbuton{
+	background: url(../images/help1.gif) no-repeat;
+	width:25px;
+	height:24px;
+}
+.text_date_helpbutonover {
+	background: url(../images/help2.gif) no-repeat;
+	width:25px;
+	height:24px;
+}
+
+/*external DIV of the code label object*/
+.codeLabel_divExt {
+      overflow:auto;
+      position:absolute;
+      height:25;
+}
+
+/*code field of the code label object*/
+.codeLabel_code_text_A{
+	border:1px inset rgb(212,208,200);
+}
+/*code field of the code label object when show as required*/
+.codeLabel_code_text_required{
+	border:1px solid red;
+}
+
+/*label field of the code label object*/
+.codeLabel_label_text_A{
+	border:1px inset rgb(212,208,200);
+	background-color:#E2F4FF;
+	font-size:8pt;
+    font-family:Arial;
+    color:gray;
+    text-align:left;
+}
+
+/*help buton*/
+.codeLabel_helpbuton {
+	background: url(../images/help1.gif) no-repeat;
+	width:25px;
+	height:24px;
+}
+.codeLabel_helpbutonover {
+	background: url(../images/help2.gif) no-repeat;
+	width:25px;
+	height:24px;
+}
+
+
+/*************************  COMBO  STYLE *************************************
+style for the text
+*************************/
+/*input of the combo*/
+.combo_text_A{
+    border:1px solid rgb(120,172,255);
+    height:20px;
+    position:relative;
+    font-size:10pt;    
+    background-color:white;    
+    float:left;
+    color:black;
+}
+
+
+/*buton of the combo*/
+.combo_bouton {    
+    position:relative;
+    cursor:pointer;        
+    width:15px;
+    height:20px;     
+    float:right;
+}
+
+
+/*list of the combo*/
+.combo_list {
+    border:1px solid rgb(120,172,255);
+    background-color:white;
+    padding:1px;        
+    overflow:hidden;        
+    font-size:10pt;
+    font-family:arial;        
+}
+
+/*open list buton*/
+.combo_downArrow {
+	background: url(../images/fleches/fleche-bas2.gif) no-repeat;
+	width:15px;
+	height:20px;
+}
+/*close list buton*/
+.combo_upArrow {
+	background: url(../images/fleches/fleche-haut2.gif) no-repeat;
+	width:15px;
+	height:20px;
+}
+
+/*item in the list*/
+.combo_itemMenuOff {            
+    color:black;    
+}
+/*with mouse over*/
+.combo_itemMenuOn {            
+    background-color:#B0C4DE ;    
+    color:white;    
+}
+
+/*disable text*/
+.combo_text_desable {
+	color:gray;    
+    background-color :#DDDDDD;	
+}
+
+/*required text*/
+.combo_text_required {
+	border:1px solid red;
+}
+
+/*************************  NAVIGATION BUTON  STYLE *************************************
+
+with 
+off-->normal style
+on--->mouse over style
+sob->disable style
+
+*************************/
+
+
+.btonFirstDoctOn, .btonFirstDoctOff,.btonFirstDoctSobOn, .btonFirstDoctSobOff,
+.btonLastDoctOn, .btonLastDoctOff,.btonLastDoctSobOn, .btonLastDoctSobOff,
+.btonPrevDoctOn, .btonPrevDoctOff,.btonPrevDoctSobOff,.btonPrevDoctSobOn,
+.btonNextDoctOn, .btonNextDoctOff,.btonNextDoctSobOff,.btonNextDoctSobOn,
+.espaceSepNavigListeOn, .espaceSepNavigListeOff,
+.btonFinListeOn,.btonFinListeOff,.btonFinListeSobOn,.btonFinListeSobOff
+{
+    height: 13px;
+    width:13px;
+}
+/* fleches First doct */
+div.btonFirstDoctOn {
+    background: url(../images/fleches/flechplus_g_on.gif) no-repeat;
+}
+div.btonFirstDoctOff {
+    background: url(../images/fleches/flechplus_g_off.gif) no-repeat;
+}
+div.btonFirstDoctSobOn {
+    background: url(../images/fleches/flechplus_g_sob_on.gif) no-repeat;
+}
+div.btonFirstDoctSobOff {
+    background: url(../images/fleches/flechplus_g_sob_off.gif) no-repeat;
+}
+
+/* Arrow Previous element */
+div.btonPrevDoctOn {
+    background: url(../images/fleches/flech_g_on.gif) no-repeat;
+}
+div.btonPrevDoctOff {
+    background: url(../images/fleches/flech_g_off.gif) no-repeat;
+}
+div.btonPrevDoctSobOn {
+    background: url(../images/fleches/flech_g_sob_on.gif) no-repeat;
+}
+div.btonPrevDoctSobOff {
+        background: url(../images/fleches/flech_g_sob_off.gif) no-repeat;
+}
+/* Arrow next element  */
+div.btonNextDoctOn {
+    background: url(../images/fleches/flech_d_on.gif) no-repeat;
+}
+div.btonNextDoctOff {
+    background: url(../images/fleches/flech_d_off.gif) no-repeat;
+}
+div.btonNextDoctSobOn {
+    background: url(../images/fleches/flech_d_sob_on.gif) no-repeat;
+}
+div.btonNextDoctSobOff {
+    background: url(../images/fleches/flech_d_sob_off.gif) no-repeat;
+}
+/* Arrow last element  */
+div.btonLastDoctOn {
+    background: url(../images/fleches/flechplus_d_on.gif) no-repeat;
+}
+
+div.btonLastDoctOff {
+    background: url(../images/fleches/flechplus_d_off.gif) no-repeat;
+}
+/* fleches fin Liste */
+div.btonFinListeOn {
+    background: url(../images/fleches/flechplus_d_on.gif) no-repeat;
+}
+div.btonFinListeOff {
+    background: url(../images/fleches/flechplus_d_off.gif) no-repeat;
+}
+div.btonFinListeSobOff {
+    background: url(../images/fleches/flechplus_d_sob_off.gif) no-repeat;
+}
+div.btonFinListeSobOn {
+    background: url(../images/fleches/flechplus_d_sob_on.gif) no-repeat;
+}
+
+/*************************  TREEVIEW STYLE *************************************
+
+*************************/
+
+.tree_divDD{
+   z-index:1000;
+   font-size:0; 
+   position:absolute;  
+   height:2px;
+   width:40px;
+   background-color:#99CCFF;
+}
+
+.tree_divExt{    
+    white-space: nowrap; 
+}
+
+.treenode_divExt{                        
+    position:relative;
+    font-size:0;    
+}
+
+.treenode_divHeader{                        
+    height: 23px;
+    position: relative;
+    overflow: hidden;
+}
+
+.treenode_divContent{                        
+    position:relative;
+    font-size:0;    
+}
+
+.treenode_img{ 
+	overflow:hidden;   
+    position:absolute;        
+    width:19px;   
+    height:23px; 
+}
+
+.treenode_divText{        
+    position:absolute;        
+    top:3px;	
+    font-family: arial;
+    font-size: 9pt;    
+    overflow: hidden;
+    white-space: nowrap;                    
+    cursor: pointer; 
+    height:23px;
+   }
+   
+
+.treenode_textSel{    
+    color: #00CCFF;    
+    font-weight: bold;
+  
+}
+
+.treenode_nodeSel{    
+    font-weight: bold;
+}
+
+/*************************  GRID  STYLE *************************************
+
+
+*************************/
+
+
+/*--- image of the navigation area -------- */
+.grid_leftEdgeRoundDashBoard {
+	background: url(../images/imgTableau/moniteur_arrondi_g.gif) no-repeat;
+	width:22px;
+	height:24px;
+}
+.grid_rightEdgeRoundDashBoard {
+	background: url(../images/imgTableau/moniteur_arrondi_d.gif) no-repeat;
+	width:22px;
+	height:24px;
+}
+.grid_navigationArea{
+position:relative;
+width:280px;
+height:24px;
+}
+
+.grid_navigationTextArea{
+position:absolute;
+width:236px;
+left:22px;
+background-color:#DFECF3;
+height:100%;
+}
+
+
+/*fleche de tri*/
+.grid_arrowUp,.grid_arrowDown{
+ padding: 0;
+ overflow: hidden;
+ position:relative;
+ float:right; 
+ top:4px;
+ width:10px;
+height:10px;
+}
+
+.grid_arrowUp{
+	background: url(../images/imgTableau/upsimple.png) no-repeat;
+}
+
+.grid_arrowDown{
+	background: url(../images/imgTableau/downsimple.png) no-repeat;
+}
+
+/*image de coche*/
+.grid_imgSel{
+ position:relative;
+ float:left; 
+ top:3px;
+ left:0px;
+ background: url(../images/imgTableau/coche.gif) no-repeat;
+ width:12px;
+ height:9px;
+}
+
+
+.grid_cellSep{         
+   width:3px;
+   background-image:url(../images/imgTableau/fillet.gif);
+   float:left;   
+   font-size:0;   
+   height:100%;  
+}
+
+/*zone de texte de la zone de navigation*/
+.grid_divText
+{
+font-size:10pt;
+position:relative;
+top:4px;
+left:40px;
+width:145px;
+height:24px;
+text-align:center;
+float:left;
+font-family:Arial,Helvetica,sans-serif;
+color:#666666;
+overflow:hidden;   
+white-space:nowrap;   
+}
+
+.grid_header{
+height:24px;
+overflow:hidden;
+}
+
+/*Cellule de l'entete  */
+.grid_header_right_img,.grid_header_left_img,.grid_header_cell{
+   position:relative;   
+   float:left;   
+   height:100%;
+   /*  width:8px;  */
+}
+
+.grid_header_left_img{
+   width:8px;  
+   background-image:url(../images/imgTableau/bordbleu_g.gif);
+}
+
+.grid_header_right_img{
+   width:8px;  
+   background-image:url(../images/imgTableau/bordbleu_d.gif);
+}
+.grid_header_cell{
+   background-color: #dadada;
+}
+
+.grid_header_cell_text{
+   position:absolute;  
+   left:5;
+   color:#15428B;
+   font-weight:bold;   
+   overflow:hidden;
+   font-size:9pt;
+   height:100%;   
+   width:90%;  
+   white-space:nowrap;      
+   font-family:Arial,Helvetica,sans-serif; 
+}
+
+
+
+.grid_data{
+  position:relative;   
+  width:100%;  
+  font-size:0;
+}
+
+
+
+/*cellule de data */
+.grid_cellDecR1,.grid_cellDecR2,.grid_cellDecL1,.grid_cellDecL2{
+   	float:left;   
+   	height:100%;
+	overflow:hidden;   
+}
+
+.grid_cellData{
+	float:left;   
+   	height:100%;
+	overflow:hidden;  
+	position:relative;    
+	
+	font-size:9pt;  
+}
+
+.grid_cellDecR1,.grid_cellDecR2,.grid_cellDecL1,.grid_cellDecL2{        
+   width:8px;   
+}
+
+.grid_cellDecL1{
+	/*background:url(../images/imgTableau/bordblanc_g.gif) no-repeat;*/	
+}
+
+.grid_cellDecR1{
+	/*background:url(../images/imgTableau/bordblanc_d.gif) no-repeat;*/
+}
+
+
+/*ligne de data */
+.grid_line1,.grid_line2{ 
+ cursor:pointer;  
+ overflow:hidden;
+ color:#666666; 
+}
+
+.grid_line1{
+	background-color:#FBFBFB;
+}
+
+.grid_line_over{
+   color:#56739A;
+   font-weight:bold;
+   cursor:pointer;
+}
+
+.grid_line_sel{
+   background-color:#56739A;
+   color:white; 
+}
+
+
+
+/*Text cell */
+.grid_textData_number,.grid_textData_date,.grid_textData_string,.grid_textData_boolean,.grid_textData_hour{
+   left:5px;
+   position:relative;  
+//   height:95%;
+//   width:95%;   
+   overflow:hidden;
+   white-space:nowrap;      
+   font-family:Arial,Helvetica,sans-serif;   
+   font-size:inherit; /* cf in grid_cellData :9pt;       */
+}
+
+.grid_textData_number{
+   text-align:right;
+   left:0px;
+}
+
+/*************************  AJAX INDICATOR CLASSNAME *************************************
+
+*************************/
+
+.default_ajax_i{
+	background:url(../images/loader.gif) no-repeat;
+	width:16px;
+	height:16px;
+}
+
+.big_ajax_i{
+	background:url(../images/ajax-loader_big.gif) no-repeat;
+	width:48px;
+	height:48px;
+}
+
+
+/*************************  LABEL CLASSNAME *************************************
+DIFFERENTS LABEL USE
+
+*************************/
+
+.libNormal {        
+        font-size:10pt;
+        font-family:Arial;
+        color:black;
+        text-align:left;
+        font-weight:normal;       
+}
+
+.libelle1 {        
+        font-size:8pt;
+        font-family:Arial;
+        font-weight:bold;
+        color:black;
+        text-align:left;        
+}
+
+
+.libelleRVSel {
+        font-size:8pt;
+        font-family:Arial;
+        color:red;
+        text-align:left;
+}
+
+
+.libelle2 {
+        font-size:8pt;
+        font-family:Arial;
+        font-weight:bold;
+        color:#0066CC;
+        text-align:left;
+}
+
+.libelle3 {
+        font-size:10pt;
+        font-family:Arial;
+        font-weight:bold;
+        color:gray;        
+}
+
+.libelle4 {
+        font-size:10pt;
+        font-family:Arial;
+        font-weight:bold;
+        color:blue;
+        text-align:left;
+}
+
+.libelWhite {        
+        font-size:10pt;
+        font-family:Arial;
+        font-weight:bold;
+        color:white;
+        text-align:left;
+}
+
+.libelleCopy {        
+        font-size:7pt;
+        font-family:Arial;
+        font-weight:bold;
+        color:#0066CC;
+        text-align:left;
+}
+
+/*must be the last one */
+.label_disable {color:#BBBBBB;}

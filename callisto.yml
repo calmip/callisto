@@ -29,4 +29,21 @@
        tags: 
          - portal
 
+- name:  Working on dataverse
+  hosts: CallistoDataverse
+  vars_files:
+     - vars.yml
+  roles:
+     - name: dataverse
+       tags:
+         - dataverse
 
+
+           #- name:  Working on allegro
+           #  hosts: CallistoAllegro
+           #  vars_files:
+           #     - vars.yml
+           #  roles:
+           #     - name: allegro
+           #       tags:
+           #         - allegro
