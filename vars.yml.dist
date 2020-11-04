@@ -5,13 +5,14 @@ callisto_living_on: laptop
 # callisto_living_on: server
 
 # It takes a long time to send all files to the containers !
-send_all_files: false
+send_all_files: true
+#send_all_files: false
 
 # Do we want ssh server on the containers ?
 # This is useful for testing prupose, as ssh is the easiest way of running graphical applications
 # on the container (ie firefox)
-ssh_wanted: true
-#ssh_wanted: false
+ssh_wanted: false
+#ssh_wanted: true
 
 # ======== platform and domain names configuration =============
 # The platform name - Avoid "_" in the name, prefer "-": callisto-local is OK, callisto_local is BAD
@@ -41,10 +42,10 @@ allegro_subdomain: allegro
 allegro_port: 10035
 
 # The user under which your Allegro installation will run
-allegro_user: "manu"
+allegro_user: "*********"
 
 # The password for the user running Allegro
-allegro_password: "manu123"
+allegro_password: "**********"
 
 # ===============================================
 # USEFUL ONLY WHEN CALLISTO IS LIVING ON A SERVER
