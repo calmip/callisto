@@ -6,7 +6,9 @@ Pre-requisites
 
  - Callisto can be installed on your laptop (gnu/linux based) for tests and development
  - Callisto should be installed on a gnu/linux based server (tested on Ubuntu) for production
- - Callisto lives in different lxd containers, SO you should first install lxd:
+ - Callisto lives in different lxd containers, SO you should first install lxd
+ - Callisto used ansible to deploy the programs in the lxc containers: ansible should be installed on the host
+ - The Callisto software should be downloaded on the host
 
 ### Installing lxd: ###
 
@@ -20,9 +22,31 @@ Configure lxd:
 
     lxd init
 
+**Here is a mini-tutorial about lxc:**
+
+To enter the CallistoPortal container:
+
+    lxc exec CallistoPortal bash
+
+To exit from the CallistoPortal container:
+
+    exit
+
+or
+
+    CTRL-D
+
+A more complete documentation about lxd can be found here: https://ubuntu.com/tutorials/introduction-to-lxd-projects#1-overview
+
+### Installing Ansible: ###
+
 Callisto uses ansible to deploy the application on several lxd containers (centOs7 based). So Ansible should be installed on the host (release 2.9.11 required):
 
     sudo -H pip3 install ansible==2.9.11
+
+### Downloading Callisto: ###
+
+    git clone https://github.com/calmip/callisto
 
 Installing Callisto (base containers)
 -------------------------------------
