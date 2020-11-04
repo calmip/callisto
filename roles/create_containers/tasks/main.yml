@@ -144,6 +144,7 @@
 
 - name: Ensure sshd is running
   service: name=sshd state=started enabled=yes
+  when: ssh_wanted == true
 
 - name: Create the root .ssh directory
   file:

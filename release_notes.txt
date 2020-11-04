@@ -1,0 +1,8 @@
+v 1.0.1
+-------
+    Bug in the installation process
+
+v 1.0.0
+-------
+    Initial revision
+
