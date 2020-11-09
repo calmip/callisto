@@ -48,7 +48,8 @@ class DatasetsToOntology(object):
         liste de listes de 4 éléments comprenant: id, titre, description, et liste de sujets liés au dataset
         prototype de chaque liste: [string, string, string, [string,...,string]]
         """
-        API_TOKEN = "e0967c6e-4679-4c4b-b74f-4e165bd6866c"
+        #API_TOKEN = "e0967c6e-4679-4c4b-b74f-4e165bd6866c"
+        API_TOKEN = "a719c807-61ab-4fce-be89-1bed97f8962a"
         SERVER_URL = "Callistodataverse:8080"
         liste_results = []
 
@@ -65,39 +66,42 @@ class DatasetsToOntology(object):
                 output = subprocess.check_output("wget " + SERVER_URL + "/api/datasets/" + str(data['id']) + "?key=" + API_TOKEN + " --no-check-certificate -O data.json" , stderr=subprocess.STDOUT, shell=True)
               
                 with open('data.json', 'r') as datasets:
-                    liste_datasets = json.load(datasets)
-              
-                    for elt in liste_datasets['data']['latestVersion']['files']:                      
-                        # On récupère l'id des datasets du dataverse interrogé
-                        if isinstance(elt, dict):
-                            id_elt = elt['dataFile']['id']
-                            #print("id datafile:" + str(id_elt))
-                            type_elt = elt['dataFile']['contentType']
-                            #print("type datafile:" + str(type_elt))
-                            url = SERVER_URL + "/api/access/datafile/" + str(id_elt) + "?key="
-                    for elt in liste_datasets['data']['latestVersion']['metadataBlocks']['citation']['fields']:
-                        # print(str(type(elt)) + "-->" + str(elt))
-                        if elt["typeName"] == "title":
-                            # Recupere le titre du dataset
-                            resume = elt["value"]
-                            #print("resume:" + str(resume))
-                        if elt["typeName"] == "dsDescription":
-                            # Recupere la description du dataset
-                            for description_index in elt['value']:
-                                description = description_index['dsDescriptionValue']['value']
+                    try:
+                        liste_datasets = json.load(datasets)
+                        
+                        for elt in liste_datasets['data']['latestVersion']['files']:                      
+                            # On récupère l'id des datasets du dataverse interrogé
+                            if isinstance(elt, dict):
+                                id_elt = elt['dataFile']['id']
+                                #print("id datafile:" + str(id_elt))
+                                type_elt = elt['dataFile']['contentType']
+                                #print("type datafile:" + str(type_elt))
+                                url = SERVER_URL + "/api/access/datafile/" + str(id_elt) + "?key="
+                        for elt in liste_datasets['data']['latestVersion']['metadataBlocks']['citation']['fields']:
+                            # print(str(type(elt)) + "-->" + str(elt))
+                            if elt["typeName"] == "title":
+                                # Recupere le titre du dataset
+                                resume = elt["value"]
+                                #print("resume:" + str(resume))
+                            if elt["typeName"] == "dsDescription":
+                                    # Recupere la description du dataset
+                                for description_index in elt['value']:
+                                    description = description_index['dsDescriptionValue']['value']
                                 #print("description:" + str(description))
-                        if elt["typeName"] == "subject":
+                            if elt["typeName"] == "subject":
+                                # Recupere les mots-clés des vocabulaires controlés liés au dataset
+                                subjects = elt["value"]
+                                #print(type(subjects))
+                                #print("subject:" + str(subjects))
+                                keywords.append(subjects)
+                            if elt["typeName"] == "keyword":
                             # Recupere les mots-clés des vocabulaires controlés liés au dataset
-                            subjects = elt["value"]
-                            #print(type(subjects))
-                            #print("subject:" + str(subjects))
-                            keywords.append(subjects)
-                        if elt["typeName"] == "keyword":
-                            # Recupere les mots-clés des vocabulaires controlés liés au dataset
-                            for path in elt["value"]:
-                                #print("keyword:" + str(path["keywordValue"]["value"]))
-                                keywords.append(path["keywordValue"]["value"])
-                    liste_results.append([id_elt, resume, description, subjects, url, keywords, type_elt, store])
+                                for path in elt["value"]:
+                                    print("keyword:" + str(path["keywordValue"]["value"]))
+                                    keywords.append(path["keywordValue"]["value"])
+                        liste_results.append([id_elt, resume, description, subjects, url, keywords, type_elt, store])
+                    except:
+                        pass
         return liste_results
 
     def get_registered_datasets(self):
@@ -105,7 +109,7 @@ class DatasetsToOntology(object):
         Get registered datasets on the repository so that 
         datasets won't be registered multiple times
         """
-        self.registered_descriptions = []
+        self.registered_services = []
         queryString = """PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
         PREFIX oboInOwl: <http://www.geneontology.org/formats/oboInOwl#>
         PREFIX edamontology: <http://edamontology.org/>
@@ -114,7 +118,7 @@ class DatasetsToOntology(object):
         PREFIX service: <http://www.daml.org/services/owl-s/1.2/Service.owl#>
         PREFIX profile: <http://www.daml.org/services/owl-s/1.2/Profile.owl#>
         PREFIX mp:<http://purl.org/mp#>
-        SELECT DISTINCT ?description
+        SELECT DISTINCT ?service
         WHERE {
         ?service service:presents ?profile.
         ?profile arcas:hasQuerySoftware <http://www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf#get_dataset>.
@@ -125,7 +129,7 @@ class DatasetsToOntology(object):
         result = tupleQuery.evaluate()
         with result:
             for binding_set in result:
-                self.registered_descriptions.append(str(binding_set.getValue("description")).replace("\"","").replace("\\n","").replace("\\r"," ").replace("\\","").encode('utf8'))
+                self.registered_services.append(str(binding_set.getValue("service")).replace("\"","").replace("\\n","").replace("\\r"," ").replace("\\","").encode('utf8'))
                 	
     def update_ontology(self, details):
         """
@@ -146,7 +150,7 @@ class DatasetsToOntology(object):
         # Add the OWL data to the graph
         for elt in details:
             timer = str(time.time())
-            svc = timer + "_" + str(elt[0])
+            svc = "FDV_" + str(elt[0])
             profile_id = svc + "_Profile"
             short_url = timer + "_url"
             aggregate = timer + "_agg"
@@ -168,11 +172,11 @@ class DatasetsToOntology(object):
             #print("URL is: --> "+url)
             #print("keywords:" + str(keywords))
             same = 0
-            for reg_desc in self.registered_descriptions:
-                #print("description:" + description)
+            for reg_desc in self.registered_services:
+                #print("service:" + svc)
                 #print("comparing with:")
                 #print(reg_desc)
-                if description in str(reg_desc):
+                if svc in str(reg_desc):
                     same = 1
                     break
             if same == 1:
@@ -219,14 +223,14 @@ class DatasetsToOntology(object):
             
             self.conn.add(servi,"<http://www.w3.org/2000/01/rdf-schema#isDefinedBy>", Literal(measurement))
             for word in range(len(keywords)):
-                #print (keywords[word])
+                print ("Registering:"+str(keywords[word]))
                 if isinstance(keywords[word],str):
                     clean_word = keywords[word].rstrip("']").lstrip("['").replace("'","").replace(",","")
                     quantity = self.conn.createURI("<http://{{callisto_name}}.{{callisto_topdomainname}}/"+repo.upper()+".rdf#" + clean_word.replace(" ", "")+">")
                     label = self.conn.createURI("<http://{{callisto_name}}.{{callisto_topdomainname}}/"+repo.upper()+".rdf#" + clean_word+">")
                     self.conn.add(agg,isCombinedToParam,quantity)
                     self.conn.add(quantity,isDefined,label)
-                    #self.conn.add(quantity,labels,label)
+                    self.conn.add(quantity,labels,label)
                 else:
                     for stage2 in range(len(keywords[word])):
                         clean_word = keywords[word][stage2].rstrip("']").lstrip("['").replace("'","").replace(",","")
@@ -240,9 +244,9 @@ class DatasetsToOntology(object):
             self.conn.add(data_tim, RDF.TYPE, URIRef(mp.Data))
             self.conn.add(data_tim,"<http://www.w3.org/2000/01/rdf-schema#isDefinedBy>",Literal(description))
 
-            # Format
+            # Format<http://{{callisto_name}}.{{callisto_topdomainname}}/
             # Reify this with formats from swo is needed. http://edamontology.org/format_1915
-            uri_format = self.conn.createURI("http://{{callisto_name}}.{{callisto_topdomainname}}/"+repo.upper()+".rdf#" + elt_type)
+            uri_format = self.conn.createURI("<http://{{callisto_name}}.{{callisto_topdomainname}}/"+repo.upper()+".rdf#" + elt_type)
             #uri_unit = self.conn.createURI("http://callisto.calmip.univ-toulouse.fr/callisto/ARCAS.rdf#" + self.unit)
             self.conn.add(uri_format, RDF.TYPE, URIRef(arcas.Format))
             self.conn.add(agg, isCombinedToFormat, uri_format)

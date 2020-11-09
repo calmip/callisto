@@ -171,8 +171,8 @@ class RegisterService(object):
         log.basicConfig(filename='register_service.log', level=log.DEBUG, format='%(levelname)s:%(asctime)s %(message)s ')
         self.host = "CallistoAllegro"
         self.port = 10035
-        self.user = {{allegro_user}}
-        self.password = {{allegro_password}}
+        self.user = "{{allegro_user}}"
+        self.password = "{{allegro_password}}"
         repo =  sys.argv[4]
         connected = self.open_connection(repo)
         self.repo = connected[0]
@@ -184,4 +184,4 @@ update.update_ontology()
 
 
 #Operation plotting: <http://edamontology.org/operation_3441>
-#python3.6 /home/callisto/UTILS/RegisterService2.py Signal,CSV,UNITLESS\| PSD,CSV,UNITLESS\| "This service calculates the Power Spectral Density (PSD) using the Periodogram  method","http://callisto.calmip.univ-toulouse.fr/cgi-bin/","psd_periodogram.py","PSD_PERIO","PSD Periodogram calculation" DEMONSTRATION
+#./RegisterService.py Signal,CSV,UNITLESS\| PSD,CSV,UNITLESS\| "This service calculates the Power Spectral Density (PSD) using the Periodogram  method","http://callisto.calmip.univ-toulouse.fr/cgi-bin/","psd_periodogram.py","PSD_PERIO","PSD Periodogram calculation" sms

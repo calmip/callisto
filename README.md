@@ -101,6 +101,7 @@ Dataverse can be easily installed thanks to the ansible role provided by Dataver
     CallistoDataverse ansible_connection=lxd
 
 **Return** to base directory and **run** the command:
+
     cd ../
     ansible-playbook -v -i dataverse/inventory dataverse/dataverse.pb -e dataverse/defaults/main.yml
 
