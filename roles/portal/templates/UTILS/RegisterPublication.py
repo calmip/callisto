@@ -113,10 +113,10 @@ class RegisterPaper(object):
         """
         os.system("rm register_service.log")
         log.basicConfig(filename='register_service.log', level=log.DEBUG, format='%(levelname)s:%(asctime)s %(message)s ')
-        self.host = "192.168.0.80"
-        self.port = 10035
-        self.user = "callisto"
-        self.password = "ouiouioui123"
+        self.host = CallistoAllegro
+        self.port = {{allegro_port}}
+        self.user = "{{allegro_user}}"
+        self.password = "{{allegro_password}}"
         #repo = "demonstration"
         repo = "sms"
         connected = self.open_connection(repo)
