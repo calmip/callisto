@@ -113,6 +113,7 @@
 	<input type="radio" id="op1" name="operation" value="change_repo" onclick="Choose_operation();"> Change repository 
 	<input type="radio" id="op2" name="operation" value="semantic_query" onclick="Choose_operation();"> Search in repository 
 	<input type="radio" id="op3" name="operation" value="semi_auto" onclick="Choose_operation();"> Semi-automatic data analysis 
+	<input type="radio" id="op4" name="operation" value="biblio" onclick="Choose_operation();"> Register bibliographic reference	
 	<!--
 	<input type="radio" id="op4" name="operation" value="workflow" onclick="Choose_operation();"> Workflow composition<br/>
 	<input type="radio" id="op5" name="operation" value="register_data_service" onclick="Choose_operation();"> Register a data service<br/>
@@ -187,6 +188,19 @@
 	  
 	  <input type="button"  onclick="Register_soft_service();" id="repo_query_soft" value="Register this service"/><br>
 	</p7>
+		<p8 v-if="biblio">
+	  <h1>Register a bibliographic reference</h1>
+	  <br/>Please enter the bibliographic reference (eg: "Marouf, A., Tekap, Y. B., Simiriotis, N., Tô, J. B., Rouchon, J. F., Hoarau, Y., & Braza, M. (2019). Numerical investigation of frequency-amplitude effects of dynamic morphing for a high-lift configuration at high Reynolds number. International Journal of Numerical Methods for Heat & Fluid Flow.")<br/>
+	  <textarea name="BibliRef" id = "BibliRef" rows="10" cols="30">Marouf, A., Tekap, Y. B., Simiriotis, N., Tô, J. B., Rouchon, J. F., Hoarau, Y., & Braza, M. (2019). Numerical investigation of frequency-amplitude effects of dynamic morphing for a high-lift configuration at high Reynolds number. International Journal of Numerical Methods for Heat & Fluid Flow.</textarea><br/>
+	  <br/>Is there an url where the paper is downloadable?<input type = "text" id="BibliUrl"/>
+	  <br/>What are the ontology elements related to the publication? (pipe-separated (|), eg:NSMB|Dynamic Morphing|Signal)<input type = "text" id="BibliQual"/>
+	  <br/>Please indicate one or more claim(s) presented in the paper:
+	  <button class="add_form_field" onclick="addClaim()">Add claim &nbsp; 
+	      <span style="font-size:16px; font-weight:bold;">+ </span>
+	  </button>
+	  <div id="ClaimContainer"></div>
+	  <input type="button"  onclick="Register_publication();" id="bib_register" value="Register this reference"/><br>
+	</p8>
       </div>
  </section>
   <section>

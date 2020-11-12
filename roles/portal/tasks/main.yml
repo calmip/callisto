@@ -199,6 +199,7 @@
      - psd_welch_source.py
      - StringDist.py
      - cgi_conf.cfg
+     - RegisterService.py
 
 - name: creating cgi-bin TempFiles directory
   file:
