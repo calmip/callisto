@@ -49,13 +49,22 @@
      name: "{{ inventory_hostname }}"
      architecture: x86_64
      state: started
-  notify:
-    - attach port80
-    - attach port443
 
 - name: Set the timezone to {{ callisto_timezone }}
   timezone:
      name: "{{ callisto_timezone }}"
+
+- name: attach port80
+  delegate_to: localhost
+  connection: local
+  shell: ( lxc config device add CallistoProxy callport80 proxy listen=tcp:0.0.0.0:80 connect=tcp:127.0.0.1:80 proxy_protocol=false; exit 0 )
+  when: inventory_hostname == "CallistoProxy"
+
+- name: attach port443
+  delegate_to: localhost
+  connection: local
+  shell: ( lxc config device add CallistoProxy callport443 proxy listen=tcp:0.0.0.0:443 connect=tcp:127.0.0.1:443 proxy_protocol=false; exit 0 )
+  when: inventory_hostname == "CallistoProxy"
 
 - name: creating callisto directory on portal
   file:

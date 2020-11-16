@@ -6,15 +6,3 @@
 - name: restart sshd
   service: name=sshd state=restarted
 
-- name: attach port80
-  delegate_to: localhost
-  connection: local
-  shell: lxc config device add CallistoProxy callport80 proxy listen=tcp:0.0.0.0:80 connect=tcp:127.0.0.1:80 proxy_protocol=false
-  when: inventory_hostname == "CallistoProxy"
-
-- name: attach port443
-  delegate_to: localhost
-  connection: local
-  shell: lxc config device add CallistoProxy callport443 proxy listen=tcp:0.0.0.0:443 connect=tcp:127.0.0.1:443 proxy_protocol=false
-  when: inventory_hostname == "CallistoProxy"
-

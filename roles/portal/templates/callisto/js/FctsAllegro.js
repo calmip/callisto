@@ -925,3 +925,25 @@ function generateLink(url,ivalue) {
     //alert("<a href='"+url+key+"'>DOWNLOAD</a>");
     window.open("https://"+url+key);
 }
+
+function Register_publication() {
+    chaine_args = 'type=publication&claim=';
+    var bibliref = $("#BibliRef").val().replace("&","and");
+    var bibliurl = $("#BibliUrl").val();
+    var bibliqual = $("#BibliQual").val();
+    for(i=1;i< ClaimNumber;i++) {
+	chaine_args = chaine_args + $("#claim"+i).val().replace("&","and")+"|";
+    }
+    chaine_args = chaine_args + '&repo='+aff_repo.repository;
+    chaine_args = chaine_args + '&ref='+ bibliref;
+    chaine_args = chaine_args + '&url='+ bibliurl.replace("&","and");
+    chaine_args = chaine_args + '&qual='+ bibliqual.replace("&","and");
+    
+    var remote=$.ajax({
+        url: "/cgi-bin/RegisterPublication.py",
+        method: 'POST',
+        data:chaine_args,
+        dataType: "text",
+        success: handleSeekInformation
+    });
+}

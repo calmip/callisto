@@ -24,6 +24,7 @@ function Choose_operation() {
     operation_choice.change_repo = false;
     operation_choice.register_data_service = false;
     operation_choice.register_software_service = false;
+    operation_choice.biblio = false;
     //Si on change d'operation avant d'avoir validé un 
     //dépôt on force dépôt public
     if (aff_repo.repository == "changing repository...") {
@@ -49,6 +50,10 @@ function Choose_operation() {
     if (operation == "register_data_service") {
 	operation_choice.register_data_service = true;
     }
+    if (operation == "biblio") {
+	ClaimNumber = 1;
+	operation_choice.biblio = true;
+    }
     if (operation == "register_software_service") {
 	InputNumber = 1;
 	OutputNumber = 1;
@@ -67,7 +72,21 @@ function Check_password() {
 	operation_choice.repo_specific = true;
     }
 };
-
+function addClaim(){
+    // Container <div> where dynamic content will be placed
+    var container = document.getElementById("ClaimContainer");
+    // Append a node
+    container.appendChild(document.createTextNode("Claim " + (ClaimNumber)));
+    // Create an <input> element, set its type and name attributes
+    var claim = document.createElement('textarea', {width:400,id:'claim'+ClaimNumber});
+    claim.type = "text";
+    claim.name = "claim" + ClaimNumber;
+    claim.id = "claim" + ClaimNumber;
+    container.appendChild(claim);
+    // Append a line break 
+    container.appendChild(document.createElement("br"));
+    ClaimNumber += 1;    
+}
 function addInput(){
     // Container <div> where dynamic content will be placed
     var container = document.getElementById("InputContainer");
