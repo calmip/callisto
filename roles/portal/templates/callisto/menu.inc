@@ -25,7 +25,7 @@
  */
 ?>
 
-<?php global $CALLISTO_VERSION; $CALLISTO_VERSION="1.0.2" ?>
+<?php global $CALLISTO_VERSION; $CALLISTO_VERSION="1.0.3" ?>
 
 <body style="height:100%;margin:0;padding:0;" > 
 
