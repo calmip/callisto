@@ -96,13 +96,16 @@ Dataverse can be easily installed thanks to the ansible role provided by Dataver
 
     cd ../
     git clone https://github.com/GlobalDataverseCommunityConsortium/dataverse-ansible.git dataverse
-    git checkout 3b0277a0ad5bcb717dd2fd186fe9162fd157bfe9
     cd dataverse
+    git checkout 3b0277a0ad5bcb717dd2fd186fe9162fd157bfe9
 
 **Change** the file called inventory as follows:
 
     [dataverse]
     CallistoDataverse ansible_connection=lxd
+
+**Modify** the file  called default/main.yml:
+    port: 443 (line 20)
 
 **Return** to base directory and **run** the command:
 
