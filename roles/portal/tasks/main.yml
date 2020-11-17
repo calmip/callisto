@@ -165,6 +165,7 @@
      backup: yes
   loop:
      - FctsAllegro.js
+  when: send_all_files == true
 
 - name: creating TempFiles directory
   file:
