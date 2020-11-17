@@ -54,23 +54,28 @@ allegro_password: "**********"
 # ======== Generic parameters ===================
 # The email addresses used by several system automatic procedures
 system_email_from: "noreply@example.fr"
-system_email_to:   "someone@example.fr"
-root:              "{{ system_email_to }}"
+system_email_root: "someone@example.fr"
+system_email_to:   "{{ system_email_root }}" 
 mailhub:           "smtp-relay.example.fr"
 
 # ======== Shibboleth configuration =============
 # Renater, test federation
 shibd_discovery_url:     "discovery.renater.fr/test"
 # Renater, production federation
-# shibd_discoveryURL="https://discovery.renater.fr/"
+# shibd_discovery_url: "discovery.renater.fr/"
 
 # Contact for authentication questions
 shibd_support_contact:   "someonelse@example.fr"
 
-# Metadata provider certificate, url and backing file path
+# Metadata provider certificate, url and backing file path (test federation)
 shibd_metadata_url:      "metadata.federation.renater.fr/test/preview/preview-all-renater-test-metadata.xml"
 shibd_metadata_file:     "preview-all-renater-test-metadata.xml"
 shibd_metadata_cert:     "renater-metadata-signing-cert-2016.pem"
+
+# Metadata provider certificate, url and backing file path (production federation)
+#shibd_metadata_url:      "metadata.federation.renater.fr/renater/main/main-idps-renater-metadata.xml"
+#shibd_metadata_file:     "main-idps-renater-metadata.xml"
+#shibd_metadata_cert:     "renater-metadata-signing-cert-2016.pem"
 
 # To enable the COMPTES CRU
 shibd_metadata_cru_url:  "cru.renater.fr/idp/shibboleth"

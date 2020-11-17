@@ -106,7 +106,7 @@ if ($DEBUG_PHP==true)
               <span class="fa fa-table"></span>
               <h3>Work</h3>
               <p>Use the embedded tools to ease the discovery of data and software. Tell CALLISTO what you need and let us guide you!</p>
-	       <a href="work.html" class="mu-read-more-btn">Web interface</a>
+	       <a href="index-work.php" class="mu-read-more-btn">Web interface</a>
 	       <!-- <a href="http://callisto-local.mylaptop/hub/" class="mu-read-more-btn">Interactive scripting</a> -->
             </div>
             <!-- Start single service -->
