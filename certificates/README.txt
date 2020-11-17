@@ -30,5 +30,14 @@ OR a star certificate ({{callisto_url}} and *.{{callisto_url}}
 Copy the certificate, the key AND the chain to the directory  ../roles/proxy/files/ssl 
 The files should be renamed key.pem, cert.pem and chain.pem
 
+3/ Certificate for Shibboleth
+-----------------------------
+
+We must download the "MetaData signing certificate" from your identity federation (if any) and:
+
+- copy the certificate to the directory roles/proxy/files/
+- Set the variable shibd_metada_cert (the file is configured for Renater federation, but you have to download and deposit yourself the certificate)
+
+
 Emmanuel (emmanuel.courcelle@toulouse-inp.fr)
 

@@ -68,11 +68,14 @@ Installing Callisto (base containers)
     cp roles/proxy/files/cert.pem.dist roles/proxy/files/ssl/cert.pem
     cp roles/proxy/files/key.pem.dist  roles/proxy/files/ssl/key.pem
 
-*If installing on a server*, you should get secure certificates for the domains (a `*.{{ callisto_url }}` certificate is OK):
+*If installing on a server*, you should get a secure certificate for the domains (a `*.{{ callisto_url }}` certificate is OK):
  - {{ callisto_url }}
  - dataverse.{{ callisto_url }}
  - allegro.{{ callisto_url }}
-Copy the certificate and the 
+
+Copy the certificate, the key and the chain to the directory roles/proxy/files/ssl
+
+See also the file certificates/README.txt (there is a certificate to get for Shibboleth configuration)
 
 **Run the following command** to create the containers and deploy Callisto on them:
 
@@ -93,6 +96,7 @@ Dataverse can be easily installed thanks to the ansible role provided by Dataver
 
     cd ../
     git clone https://github.com/GlobalDataverseCommunityConsortium/dataverse-ansible.git dataverse
+    git checkout 3b0277a0ad5bcb717dd2fd186fe9162fd157bfe9
     cd dataverse
 
 **Change** the file called inventory as follows:
