@@ -69,6 +69,7 @@ Installing Callisto (base containers)
     cp roles/proxy/files/key.pem.dist  roles/proxy/files/ssl/key.pem
 
 *If installing on a server*, you should get a secure certificate for the domains (a `*.{{ callisto_url }}` certificate is OK):
+
  - {{ callisto_url }}
  - dataverse.{{ callisto_url }}
  - allegro.{{ callisto_url }}
@@ -171,8 +172,41 @@ Loading demonstration repository
 
     /usr/local/bin/initialize_demonstration_repository.py
 
+## Working with open data
+
+The users can manage an open data repository with Callisto (ie data accessible through the Internet without authentication, but with an oid), as long as you did choose a server install. But you should do some more configuration tasks in order to prepare things:
+
+- Enter inside the CallistoDataverse container, and edit a file (2 lines to complete, replace CallistoDataverse with a real fqdn and URL (please expand {{callisto_URL}}):
+
+  ```
+lxc exec CallistoDataverse bash
+  vi /usr/local/payara5/glassfish/domains/domain1/config/domain.xml
+ L.269 --> <jvm-options>-Ddataverse.fqdn=dataverse.{{callisto_URL}}</jvm-options>
+   L.278 --> <jvm-options>-Ddataverse.siteUrl=https://dataverse.{{callisto_URL}}</jvm-options>
+  ```
+  Then restart the container:
+  ```
+  lxc restart CallistoDataverse
+  ```
+  
+- Enter inside the CallistoProxy container, and edit a file (1 line to complete, expanding {{authority}} and {{shoulder}}). This is important to let the published data pass across the authentication system:
+
+  ```
+  lxc exec CallistoProxy bash
+  vi /etc/httpd/conf.d/dataverse.conf
+   L. 93 --> RewriteCond %{QUERY_STRING} !persistentId=doi:{{authority}}/{{shoulder}}
+  ```
+
+  Then restart the container:
+
+  ```
+  lxc restart CallistoProxy
+  ```
+- Read the dataverse documentation about the doi and open data: https://guides.dataverse.org/en/latest/installation/config.html?highlight=doi
+
 Running Callisto
 ----------------
+
 - Point your browser to the callisto url defined in vars.yml (variable `callisto_url`)
 
 ### Running on your laptop: ###
