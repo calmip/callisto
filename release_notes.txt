@@ -1,3 +1,19 @@
+v 1.0.5
+-------
+    Updated the documentation for open data dataverse and proxy configuration
+
+v 1.0.4
+-------
+    Changes in dataverse installation and several bug corrections
+
+v 1.0.3
+-------
+    Bug in the installation process
+
+v 1.0.2
+-------
+    Bug in the installation process
+
 v 1.0.1
 -------
     Bug in the installation process
