@@ -1,0 +1,12 @@
+body, body * {
+    padding: 0;
+    margin: 0;
+    color: $lisibilityColor;
+}
+
+html {
+    font-family: $regularFont;
+    font-size: 16px;
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+}

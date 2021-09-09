@@ -1,0 +1,28 @@
+.w {
+    @include dimensions(width);
+
+    &--screen {
+        &--40 {
+            width: 40vw;
+        }
+    }
+}
+.h {
+    @include dimensions(height);
+}
+.full {
+    width: 100%;
+    height: 100%;
+}
+
+.fullscreen {
+    width: 100vw;
+    height: 100vh;
+}
+
+.no-size {
+    width: 0 !important;
+    height: 0 !important;
+}
+
+

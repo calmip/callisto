@@ -1,0 +1,21 @@
+footer {
+    span {
+        font-size: .75rem;
+    }
+
+    img:not(.logo) {
+        filter: opacity(0.5);
+        height: 50px;
+        width: auto;
+        transition: 0.3s;
+
+        &:hover {
+            filter: opacity(1);
+        }
+    }
+
+    .logo {
+        height: 100px;
+        width: auto;
+    }
+}

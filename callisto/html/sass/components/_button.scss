@@ -1,0 +1,36 @@
+button {
+    background-image: $buttonGradient;
+    border: none;
+    font-family: $titleFont;
+    font-weight: bold;
+    font-size: 1rem;
+    color: $lightColor;
+    cursor: pointer;
+    box-shadow: 0 15px 30px rgba($lisibilityColor, .25);
+    padding: 1rem;
+    border-radius: 0.5rem;
+    width: 200px;
+    transition: 0.3s ease-out;
+    text-decoration: none;
+
+    &:hover {
+        box-shadow: 0 15px 30px rgba($lisibilityColor, .45);
+    }
+
+    &.btn{
+        &--big {
+            font-size: 1.5rem;
+            width: 300px; 
+            border-radius: 1rem; 
+        }
+        &--block {
+            width: 100%;
+        }
+
+        &--secondary {
+            background-image: unset;
+            background-color: $secondaryColor;
+        }
+    }
+}
+

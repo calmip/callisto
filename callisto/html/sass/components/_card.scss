@@ -1,0 +1,26 @@
+.card {
+    background-image: $cardGradient;
+    border-radius: 1rem;
+    box-shadow: 0 15px 30px rgba($lisibilityColor, .25);
+
+    .line {
+        width: 0.25rem;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+    } 
+
+    h4 {
+        background-image: $h4Gradient;
+        background-clip: text;
+        -webkit-background-clip: text;
+        -moz-background-clip: text;
+        -o-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        -moz-text-fill-color: transparent;
+        -o-text-fill-color: transparent;
+    }
+    
+}

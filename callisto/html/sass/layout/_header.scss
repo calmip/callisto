@@ -1,0 +1,42 @@
+header {
+    background-color: rgba($color: #ffff, $alpha: 0.5);
+    position: fixed;
+    z-index: 5;
+    top: 0;
+    width: 100vw;
+    height: $headerHeight;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 1px 2rem rgba($lisibilityColor, 0.25);
+
+    ul {
+        list-style: none;
+        height: 36px; // prevents resizing on animation
+    }
+
+    a {
+        text-decoration: none;
+        color: $lisibilityColor;
+    }
+
+    li {
+        display: flex;
+        padding-left: 2rem;
+    }
+
+    span {
+        width: 8px;
+        height: 8px;
+        margin-top: 0.5rem;
+        transition: 0.3s ease-out;
+
+        &.inactive {
+            opacity: 0;
+            margin-top: 0;
+        }
+    }
+
+    .active {
+        color: $primaryColor;
+    }
+}

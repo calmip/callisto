@@ -1,0 +1,14 @@
+.anchor{
+    display: block;
+    visibility: hidden;
+
+    &--start {
+        height: $headerHeight*2;
+        margin-top: -$headerHeight*2;
+    }
+
+    &--center {
+        height: $headerHeight;
+        margin-top: -$headerHeight;
+    }
+  }

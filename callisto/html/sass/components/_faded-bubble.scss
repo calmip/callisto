@@ -1,0 +1,35 @@
+.faded-bubble{
+    opacity: 0.2;
+    width: 800px;
+    height: 800px;
+    position: absolute;
+    z-index: -1;
+    &.primary {
+        background-image: $primaryFadedBubbleGradient;
+    }   
+    &.secondary {
+        background-image: $secondaryFadedBubbleGradient;
+    }   
+}
+
+#faded-bubble {
+    &-1{
+        top: 0;
+        right: 0;
+        transform: translate(30%, -40%); // higher to the right
+    }
+    &-2{
+        bottom: 0;
+        left: 0;
+        transform: translate(-30%, 20%); // lower to the left
+    }
+    &-3{
+        top: 0;
+        transform: translateX(25%);
+    }
+    &-4{
+        left: 0;
+        bottom: 0;
+        transform: translateY(50%);
+    }
+}

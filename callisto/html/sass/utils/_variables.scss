@@ -1,0 +1,48 @@
+$viewportPadding: 290px;
+
+/*
+ *  COLOR
+*/
+
+$primaryColor: #1789DC;
+$secondaryColor: #05BF17;
+$lightColor: #F6F6F6;
+$lisibilityColor: #444;
+$secondLisibilityColor: #6F6F6F;
+$mutedColor: #D7D7D7;
+$transparent: rgba(#fff, 0);
+$paleColor: #C4C4C4;
+$grayOverlayColor: rgba($lightColor, 0.25);
+//rgba($color, $alpha);
+$fairCircleGradientColor: rgba($primaryColor, 0.23);
+$buttonGradientColor: #62D582;
+$h4GradientColor: #B2DFFF;
+$cardPrimaryGradientColor: rgba($primaryColor, 0.75);
+$cardGradientColor: rgba(#0698C6, 0.79*0.75);
+$bgGradientTopColor: rgba($lightColor, 0.2);
+$bgGradientBottomColor: rgba($primaryColor, 0.2);
+
+/* 
+ * GRADIENTS
+*/
+
+$buttonGradient: linear-gradient(to right, $primaryColor, $buttonGradientColor);
+$fairCircleGradient: linear-gradient($fairCircleGradientColor, $primaryColor);
+$bgGradient: linear-gradient($bgGradientTopColor, $bgGradientBottomColor);
+$cardGradient: linear-gradient(to right, $primaryColor, $cardGradientColor);
+$h4Gradient: linear-gradient($lightColor, $h4GradientColor);
+$primaryFadedBubbleGradient: radial-gradient(closest-side, $primaryColor, $transparent);
+$secondaryFadedBubbleGradient: radial-gradient(closest-side, $secondaryColor, $transparent);
+
+
+/*
+ * FAIR
+*/
+$fairCircleDimensions: 120px;
+
+
+/*
+ * DIMENSIONS 
+*/
+
+$headerHeight: 108px;

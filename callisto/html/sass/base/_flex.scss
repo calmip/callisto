@@ -1,0 +1,48 @@
+.flex {
+    display: flex;
+    
+    &--row {
+        flex-direction: row;
+    }
+
+    &--col {
+        flex-direction: column;
+    }
+
+    &--center {
+        align-items: center;
+        justify-content: center;
+    }
+
+    &--align {
+
+        &-center {
+            align-items: center;
+        }
+        &-between {
+            align-items: space-between;
+        }
+        &-start {
+            align-items: start;
+        }
+    }
+
+    &--justify {
+
+        &-center {
+            justify-content: center;
+        }
+        &-between {
+            justify-content: space-between;
+        }
+        &-start {
+            justify-content: start;
+        }
+
+    }
+
+    &__even-object {
+        flex-grow: 1;
+        flex-basis: 0;
+    }
+}
