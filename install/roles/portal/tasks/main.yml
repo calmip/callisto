@@ -69,44 +69,6 @@
      backup: yes
   notify: restart apache
 
-- name: installing assets directory and other files
-  copy:
-     src:  callisto/{{ item }}
-     dest: /var/www/html/callisto
-     owner: root
-     group: root
-     mode: '0644'
-     backup: yes
-  loop:
-     - assets
-     - css
-     - js
-  when: send_all_files == true 
-
-- name: installing login/logout for laptop installation only
-  copy:
-     src:  callisto/{{ item }}
-     dest: /var/www/html/callisto
-     owner: root
-     group: root
-     mode: '0644'
-     backup: yes
-  loop:
-     - login
-     - logout
-  when: callisto_living_on == "laptop"
-
-- name: installing non-template web portal elements
-  copy:
-     src:  callisto/html/{{ item }}
-     dest: /var/www/html/callisto
-     owner: root
-     group: root
-     mode: '0644'
-     backup: yes
-  loop:
-     - work.html
-
 - name: installing demonstration repository file 
   template:
      src:  UTILS/{{ item }}
@@ -118,98 +80,6 @@
   loop:
      - demonstration.nt
      
-- name: installing callisto management scripts
-  template:
-     src:  UTILS/{{ item }}
-     dest: /usr/local/bin
-     owner: root
-     group: root
-     mode: '0755'
-     backup: yes
-  loop:
-     - DataSetsToAllegro.py
-     - GenerateDataverseMetadata.py
-     - RegisterPublication.py
-     - RegisterService.py
-     - Update_Allegro_Repositories.py
-     - initialize_demonstration_repository.py
-
-- name: installing web site
-  template:
-     src:  callisto/{{ item }}
-     dest: /var/www/html/callisto
-     owner: root
-     group: root
-     mode: '0644'
-     backup: yes
-  loop:
-     - index.php
-     - index-dataverse.php
-     - menu.inc
-     - headers.inc
-     - index-tools.php
-     - index-work.php
-     - collaborate.html
-     - index-contact.php
-     - tools.html
-     - contact.html
-     - license.txt
-
-- name: installing javascript
-  template:
-     src:  callisto/js/{{ item }}
-     dest: /var/www/html/callisto/js
-     owner: root
-     group: root
-     mode: '0644'
-     backup: yes
-  loop:
-     - FctsAllegro.js
-  when: send_all_files == true
-
-- name: creating TempFiles directory
-  file:
-    path: /var/www/html/callisto/TempFiles
-    state: directory
-    owner: apache
-    group: root
-    mode: '0740'
-
-- name: installing cgi-bin
-  template:
-     src:  cgi-bin/{{ item }}
-     dest: /var/www/cgi-bin
-     owner: root
-     group: root
-     mode: '0755'
-     backup: yes
-  loop:
-     - Allegro_Fcts.py
-     - Constants.py
-     - display.py
-     - get_dataset.py
-     - mean_Cp.py
-     - mean_Cp_source.py
-     - psd_display.py
-     - psd_fft_display.py
-     - psd_fft.py
-     - psd_fft_source.py
-     - psd_periodogram.py
-     - psd_periodogram_source.py
-     - psd_welch.py
-     - psd_welch_source.py
-     - StringDist.py
-     - cgi_conf.cfg
-     - RegisterService.py
-
-- name: creating cgi-bin TempFiles directory
-  file:
-    path: /var/www/cgi-bin/TempFiles
-    state: directory
-    owner: apache
-    group: root
-    mode: '0740'
-
 - name: creating /var/log/callisto directory
   file:
     path: /var/log/callisto
@@ -223,19 +93,19 @@
     name: "sync dataverse<->allegro"
     minute: "9,19,29,39,49,59"
     hour: "7-23"
-    job: "/usr/local/bin/Update_Allegro_Repositories.py > /dev/null"
+    job: "/usr/local/callisto/bin/Update_Allegro_Repositories.py > /dev/null"
 
-- name: clean TempFiles (cgi-bin)
+- name: clean TempFiles (cgi-bin) every hour
   cron:
     name: "Clean cgi-bin TempFiles"
     minute: "23"
     hour: "7-23"
-    job: find /var/www/cgi-bin/TempFiles -type f -ctime +1 | xargs rm -rf > /dev/null
+    job: find /usr/local/callisto/cgi-bin/TempFiles -type f -ctime +1 | xargs rm -rf > /dev/null
 
-- name: clean TempFiles (var/www)
+- name: clean TempFiles (html) every hour
   cron:
     name: "Clean var/www TempFiles"
     minute: "27"
     hour: "7-23"
-    job: find /var/www/html/callisto/TempFiles -type f -ctime +1 | xargs rm -rf > /dev/null
+    job: find /usr/local/callisto/html/TempFiles -type f -ctime +1 | xargs rm -rf > /dev/null
 
