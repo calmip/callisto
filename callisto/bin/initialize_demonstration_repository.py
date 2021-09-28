@@ -29,10 +29,10 @@ from rdflib import Namespace, URIRef, Literal
 from franz.openrdf.vocabulary import RDFS
 import ReadConfig
 
-self.readconf = ReadConfig.ReadConfig()
+readconf = ReadConfig.ReadConfig()
 
 arcas = Namespace("http://www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf#")
-server=AllegroGraphServer(host=self.readconf.host,port=self.readconf.port,user=self.readconf.user,password=self.readconf.password)
+server=AllegroGraphServer(host=readconf.host,port=readconf.port,user=readconf.user,password=readconf.password)
 catalog = server.openCatalog('')
 mode = Repository.ACCESS
 repository = catalog.getRepository("demonstration",mode)
