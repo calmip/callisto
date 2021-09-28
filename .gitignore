@@ -1,5 +1,6 @@
 *.bkp
 vars.yml
+callisto_conf.cfg
 *.rpm
 headers.conf
 *.pem

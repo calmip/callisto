@@ -38,15 +38,6 @@ callisto_timezone: "Europe/Paris"
 # The subdomain of the callisto top domain name dedicated to allegro
 allegro_subdomain: allegro
 
-# The port on which your Allegro installation will run
-allegro_port: 10035
-
-# The user under which your Allegro installation will run
-allegro_user: "*********"
-
-# The password for the user running Allegro
-allegro_password: "**********"
-
 # ===============================================
 # USEFUL ONLY WHEN CALLISTO IS LIVING ON A SERVER
 # ===============================================

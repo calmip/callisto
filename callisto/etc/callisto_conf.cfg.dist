@@ -1,13 +1,12 @@
 callisto-conf-allegro:
         host = CallistoAllegro
         port = 10035
-        user = manu
-        password = manu123
+        user = 
+        password = 
 
 callisto-conf-ontologies:
 	root_iri = http://www.callisto-dev.calmip.univ-toulouse.fr/
 	root_https = https://www.callisto-dev.calmip.univ-toulouse.fr/
-
 
 callisto-conf-generic:
 	close_enough = 0.28
