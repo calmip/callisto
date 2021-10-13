@@ -13,7 +13,7 @@
                     <h2 class="text--center text--light">Tools</h2>
                     <div class="flex m--t--2 pos--rel">
                         <div class="m--r--3 flex__even-object">
-                            <p class="text--light">SADA, which stands for "Semi-automatic data analysis" is a tool that helps you find useful operations to process the data that you're searching.</p>
+                            <p class="text--light">SADA, which stands for "Semi-automatic data analysis" helps you to find useful operations to process the data you're searching.</p>
                             <a href="sada.php" onclick="event.preventDefault(); changePage(this);">
                                 <button class="btn--block m--t--1 inner-border">SADA</button>
                             </a>
