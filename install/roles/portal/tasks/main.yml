@@ -88,6 +88,22 @@
     group: root
     mode: '0740'
 
+- name: creating /usr/local/callisto/html/TempFiles directory
+  file:
+    path: /usr/local/callisto/html/TempFiles
+    state: directory
+    owner: apache
+    group: apache
+    mode: '0740'
+
+- name: creating /usr/local/callisto/cgi-bin/TempFiles directory
+  file:
+    path: /usr/local/callisto/cgi-bin/TempFiles
+    state: directory
+    owner: apache
+    group: apache
+    mode: '0740'
+
 - name: synchronize dataverse and allegro every 15mn
   cron:
     name: "sync dataverse<->allegro"
