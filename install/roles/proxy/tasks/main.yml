@@ -36,6 +36,7 @@
      owner: root
      group: root
      mode: '0644'
+     force: no
      backup: no 
   notify: restart apache
 
@@ -153,10 +154,30 @@
   notify: restart shibd
   when: callisto_living_on == "server"
 
-- name: installing configuration files
+- name: The files for the maintenance page
+  copy:
+     src: maintenance
+     dest: /var/www/html
+     owner: root
+     group: root
+     mode: '0644'
+     backup: no
+
+- name: creating directories for callisto configuration files
+  file:
+    path: "/etc/httpd/conf.d/{{item}}"
+    state: directory
+    owner: apache
+    group: root
+    mode: '0740'
+  loop:
+     - callisto
+     - maintenance
+
+- name: installing configuration files to callisto directory
   template:
      src:  "{{item}}"
-     dest: /etc/httpd/conf.d/{{item}}
+     dest: /etc/httpd/conf.d/callisto
      owner: root
      group: root
      mode: '0644'
@@ -165,5 +186,25 @@
      - portal.conf
      - dataverse.conf
      - allegro.conf 
+     - ssl.conf
+     - welcome.conf
   notify: restart apache
 
+- name: installing configuration files to maintenance directory
+  template:
+     src:  "{{item}}"
+     dest: /etc/httpd/conf.d/maintenance
+     owner: root
+     group: root
+     mode: '0644'
+     backup: yes
+  loop:
+     - portal.maintenance.conf
+     - ssl.conf
+     - welcome.conf
+  notify: restart apache
+
+- name: exiting from maintenance mode
+  command: bash -c 'rm *.conf && for f in callisto/*.conf; do ln -s $f; done'
+  args:
+     chdir: /etc/httpd/conf.d
