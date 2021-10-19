@@ -1,3 +1,5 @@
+<?php include_once("vars.php");  ?>
+
 <header class="flex flex--align-center flex--justify-between inner-border p--viewport p--y--2">
     <a href="index.php"  onclick="event.preventDefault(); changePage(this);" class="flex flex--center">
         <img src="public/img/calmip.png" alt="Calmip's Logo">
@@ -18,7 +20,7 @@
                 <span class="circle bg--primary inactive"></span>
             </li>
             <li class="flex flex--col flex--align-center flex--justify-start unselectable">
-                <a href="/Shibboleth.sso/Login?target=/index-dataverse.php" onclick="event.preventDefault(); changePage(this);">Deposit</a>
+	    <a href="<?php echo $callisto_living_on==="laptop" ? 'index-dataverse.php' : '/Shibboleth.sso/Login?target=/index-dataverse.php' ?>" onclick="event.preventDefault(); changePage(this);">Deposit</a>
                 <span class="circle bg--primary inactive"></span>
             </li>
             <li class="flex flex--col flex--align-center flex--justify-start unselectable">

@@ -52,6 +52,7 @@
       - scipy
       - pandas
       - matplotlib
+    state: latest
     executable: pip3
 
 - name: Add the user 'callisto'
@@ -68,6 +69,14 @@
      mode: '0644'
      backup: yes
   notify: restart apache
+
+- name: create the vars.php file 
+  template:
+     src: vars.php
+     dest: /usr/local/callisto/html/components
+     owner: root
+     group: root
+     mode: '0444'
 
 - name: installing demonstration repository file 
   template:
