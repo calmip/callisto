@@ -38,6 +38,22 @@ or
 
 A more complete documentation about lxd can be found here: https://ubuntu.com/tutorials/introduction-to-lxd-projects#1-overview
 
+### Configure lxd to be able to share directories:
+
+You should prepare the mapping between the uid/gid in the host and in the containers (you'll have to restart lxd daemon, thus all containers will be restarted)
+
+```
+# printf "lxd:$(id -u):1\nroot:$(id -u):1\n" | sudo tee -a /etc/subuid
+lxd:1000:1
+root:1000:1
+
+# printf "lxd:$(id -g):1\nroot:$(id -g):1\n" | sudo tee -a /etc/subgid
+lxd:1000:1
+root:1000:1
+
+sudo systemctl restart snap.lxd.daemon
+```
+
 ### Installing Ansible: ###
 
 Callisto uses ansible to deploy the application on several lxd containers (centOs7 based). So Ansible should be installed on the host (release 2.9.11 required):
@@ -70,7 +86,7 @@ cp vars.yml.dist vars.yml
 **Managing** the certificates:
 
 - *If installing on your laptop*, you can use the self-signed certificates:
-    
+  
     ```
     cd $WORKDIR/install
     cp roles/proxy/files/cert.pem.dist roles/proxy/files/ssl/cert.pem
@@ -104,50 +120,6 @@ cp callisto_conf.cfg.dist callisto_conf.cfg
 vi callisto_conf.cfg 
 ```
 
-### Configuring directory sharing between the host and CallistoPortal container:
-
-Because the callisto tree is in the host, you must share it  with the CallistoPortal container. This operation cannot be automated with Ansible, it should be executed in four steps:
-
-1. Prepare the mapping between the uid/gid in the host and in the containers (you'll have to restart lxd daemon, thus all containers will be restarted)
-
-   ```
-   # printf "lxd:$(id -u):1\nroot:$(id -u):1\n" | sudo tee -a /etc/subuid
-   lxd:1000:1
-   root:1000:1
-   
-   # printf "lxd:$(id -g):1\nroot:$(id -g):1\n" | sudo tee -a /etc/subgid
-   lxd:1000:1
-   root:1000:1
-   
-   sudo systemctl restart snap.lxd.daemon
-   ```
-
-1. Map the current user in the host to root in the container:
-   ```
-   printf "uid $(id -u) 0\ngid $(id -g) 0" | lxc config set CallistoPortal raw.idmap -
-   ```
-   
-1. Create the share in `CallistoPortal` (we share the subdirectory `callisto` of the cloned tree) and restart the container:
-
-   ```
-   cd $WORKDIR
-   lxc config device add CallistoPortal CallistoPortal-disk disk source=$(pwd)/callisto path=/usr/local/callisto
-   lxc restart CallistoPortal   
-   ```
-
-1. Check that the sharing is up:
-   ```
-      # lxc exec CallistoPortal -- ls -l /usr/local/callisto/
-      total 20
-      drwxr-xr-x  2 1000 1000 4096 Sep  9 12:35 bin
-      drwxr-xr-x  3 1000 1000 4096 Sep  9 12:43 cgi-bin
-      drwxr-xr-x  2 1000 1000 4096 Sep  9 11:44 etc
-      drwxr-xr-x 10 1000 1000 4096 Sep  9 12:24 html
-      drwxr-xr-x  2 1000 1000 4096 Sep  9 12:38 logs
-   ```
-   
-    
-
 Installing dataverse:
 ---------------------
 
@@ -170,7 +142,7 @@ Dataverse can be installed thanks to the ansible role provided by Dataverse:
 **Return** to base directory and **run** the command:
 
     cd $WORKDIR/../dataverse
-    ansible-playbook -v -i dataverse/inventory dataverse/dataverse.pb -e dataverse/defaults/main.yml
+    ansible-playbook -v -i dataverse/inventory dataverse/dataverse.pb -e dataverse/defaults/main.yml -K
 
 Installing the demonstration repository in dataverse:
 -----------------------------------------------------

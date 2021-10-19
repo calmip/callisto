@@ -75,6 +75,14 @@
     mode: '0755'
   when: ansible_host == "CallistoPortal"
 
+- name: configuring shared directory on the portal
+  delegate_to: localhost
+  connection: local
+  shell: $(pwd)/shareDir.bash
+  args:
+     creates: ../callisto/SHARED.txt
+  when: inventory_hostname == "CallistoPortal"
+
 - name: Installing required software
   yum:
     name:
@@ -245,7 +253,6 @@
     warn: false
   when: callisto_living_on == "server"
 
-
 - name: Creating a group Callisto (only in CallistoAllegro)
   group:
     name: callisto
@@ -259,5 +266,4 @@
     groups: callisto
     password: '!'
   when: ansible_host == "CallistoAllegro"
-
 
