@@ -80,7 +80,7 @@
   connection: local
   shell: $(pwd)/shareDir.bash
   args:
-     creates: ../callisto/SHARED.txt
+     creates: ../callisto/.SHARED.txt
   when: inventory_hostname == "CallistoPortal"
 
 - name: Installing required software

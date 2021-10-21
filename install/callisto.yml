@@ -2,7 +2,7 @@
 - name: Creating and configuring containers for Callisto
   hosts: all
   connection: local
-  become: true
+  #  become: true
   gather_facts: false
   vars_files:
      - vars.yml

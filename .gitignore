@@ -8,5 +8,5 @@ logs
 TempFiles
 
 callisto/html/components/vars.php
-callisto/SHARED.txt
+callisto/.SHARED.txt
 
