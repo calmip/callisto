@@ -40,6 +40,18 @@
   notify: restart apache
   when: callisto_living_on == "laptop" 
 
+- name: Installing dependencies for the python packages
+  yum:
+    name:
+       - python3
+       - python3-devel
+       - zlib-devel
+       - zlib
+       - libjpeg-turbo-devel
+       - gcc
+    update_cache: true
+    state: latest
+
 - name: Installing several python packages using pip
   vars:
     ansible_python_interpreter: /usr/bin/python3
@@ -52,13 +64,14 @@
       - scipy
       - pandas
       - matplotlib
+    extra_args: --user
     state: latest
     executable: pip3
 
-- name: Add the user 'callisto'
-  user:
-    name: callisto
-    comment: 
+    #- name: Add the user 'callisto'
+    #user:
+    #name: '{{utilisateur}}'
+    #comment: 
 
 - name: installing configuration file
   template:
