@@ -73,12 +73,12 @@ class RegisterService(object):
         isDefined = self.conn.createURI("<http://www.w3.org/2000/01/rdf-schema#isDefinedBy>")
         servi = self.conn.createURI("<"+self.readconf.rootiri+self.svc_repo_tplt+".rdf#"+ svc+">")
         profile = self.conn.createURI("<"+self.readconf.rootiri+self.svc_repo_tplt+".rdf#" + profile_id+">")
-        data_tim = self.conn.createURI("<"+self.readconf.rootiri+self.svc_repo_tplt+".rdf#" + timer+">")
+        #data_tim = self.conn.createURI("<"+self.readconf.rootiri+self.svc_repo_tplt+".rdf#" + timer+">")
         data_url = self.conn.createURI("<"+self.readconf.rootiri+self.svc_repo_tplt+".rdf#" + short_url+">")
         
         self.conn.add(servi, RDF.TYPE, URIRef(service.Service))
         self.conn.add(profile, RDF.TYPE, URIRef(service.ServiceProfile))
-        self.conn.add(data_tim,RDF.TYPE, URIRef(arcas.MeasuredQuantity))
+        #self.conn.add(data_tim,RDF.TYPE, URIRef(arcas.MeasuredQuantity))
         
         self.conn.add(servi, presents, profile)
         print("service name:"+"<"+self.readconf.rootiri+self.svc_repo_tplt+".rdf#" + timer+">")
@@ -93,8 +93,8 @@ class RegisterService(object):
         self.conn.add(servi,"<http://www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf#isAccessedThrough>",data_url)
         self.conn.add(profile,"<http://www.daml.org/services/owl-s/1.2/Profile.owl#textDescription>", Literal(self.svc_desc_tplt))
         self.conn.add(profile, hasQuerySoftware, soft)
-        self.conn.add(soft,"<http://www.w3.org/2000/01/rdf-schema#label>",Literal(self.svc_label_tplt))
-        self.conn.add(servi,"<http://www.w3.org/2000/01/rdf-schema#isDefinedBy>", Literal(self.svc_desc_tplt))
+        self.conn.add(soft,labels,Literal(labelsoft))
+        #self.conn.add(servi,"<http://www.w3.org/2000/01/rdf-schema#isDefinedBy>", Literal(self.svc_desc_tplt))
         
         timer = str(time.time())
         aggregate = timer + "_agg"
@@ -102,7 +102,13 @@ class RegisterService(object):
         self.conn.add(agg, RDF.TYPE, URIRef(arcas.Aggregate))
         self.conn.add(servi, hasInput, agg)
         quantity = self.svc_input
-        q = self.conn.createURI("<"+self.readconf.rootiri+self.svc_repo_tplt+".rdf#" + quantity +">")
+        print("input:"+quantity)
+        if "http" in quantity:
+            #La quantite exprimee est decrite dans un vocabulaire importe
+            q = self.conn.createURI(quantity.replace(" ", ""))
+        else:
+            #La quantite exprimee vient d'ARCADIE
+            q = self.conn.createURI("<"+self.readconf.rootiri+self.svc_repo_tplt+".rdf#" + quantity +">")
         self.conn.add(agg,isCombinedToParam, q)
         form = self.svc_input_format
         f = self.conn.createURI("<"+self.readconf.rootiri+self.svc_repo_tplt+".rdf#" + form +">")
@@ -123,10 +129,15 @@ class RegisterService(object):
         quantity = self.svc_output
         print("Q: "+str(q))
         print("Quantity: "+str(quantity))
-        q = self.conn.createURI("<"+self.readconf.rootiri+self.svc_repo_tplt+".rdf#" + quantity +">")
+        if "http" in quantity:
+            #La quantite exprimee est decrite dans un vocabulaire importe
+            q = self.conn.createURI(quantity.replace(" ", ""))
+        else:
+            #La quantite exprimee vient d'ARCADIE
+            q = self.conn.createURI("<"+self.readconf.rootiri+self.svc_repo_tplt+".rdf#" + quantity +">")
+            self.conn.add(q,isDefined,Literal(quantity))
         print("New Q: "+str(q))
         self.conn.add(agg,isCombinedToParam, q)
-        self.conn.add(q,isDefined,Literal(quantity))
         form = self.svc_output_format
         f = self.conn.createURI("<"+self.readconf.rootiri+self.svc_repo_tplt+".rdf#" + form +">")
         self.conn.add(agg, isCombinedToFormat, f)
@@ -204,23 +215,46 @@ class RegisterService(object):
                 log.debug("Service repository:"+str(self.svc_repo_tplt)+".")
             if "operations =" in line:
                 self.svc_opt_tplt = str(line.split("operations =")[1].replace("\n",""))
-                log.debug("Service operations:"+str(self.svc_opt_tplt)+".") 
+                log.debug("Service operations:"+str(self.svc_opt_tplt)+".")
+            if "resultfile =" in line:
+                self.svc_result_tplt = str(line.split("resultfile =")[1].replace("\n",""))
+                log.debug("Service results:"+str(self.svc_result_tplt)+".")
 
     def generate_skeleton(self):
+        os.system("rm -f ../cgi-bin/"+self.svc_script_tplt)
         skel_file = open('skeleton.py', 'r')
         res_file = open('scriptfile.py','w')
+        script = open(self.svc_script_tplt,'r')
         lines = skel_file.readlines()
         for line in lines:
             if "MyNewTerm" in line:
-                line = line.replace("MyNewTerm",self.svc_input)
+                if "#" in self.svc_input:
+                    line = line.replace("MyNewTerm",self.svc_input.split("#")[1])
+                elif "/" in self.svc_input:
+                    line = line.replace("MyNewTerm",self.svc_input.split("/")[len(self.svc_input.split("/")) - 1])
+                else:
+                    line = line.replace("MyNewTerm",self.svc_input)
+            if "... your script will be put here ..." in line:
+                res_file.write("# ------- Beginning of your script. You may change things from here\n")
+                for line_script in script.readlines():
+                    res_file.write(line_script)
+                res_file.write("# ------- Ending of your script. You should not change things after this line\n")
+                continue
+            if "myresult" in line:
+                line = line.replace("myresult",self.svc_result_tplt.rstrip(" ").lstrip(" "))
             res_file.write(line)
-                
+        res_file.close()
+        skel_file.close()
+        script.close()
+        os.system("mv ./scriptfile.py ../cgi-bin/"+self.svc_script_tplt)
+        os.system("chmod 755 ../cgi-bin/"+self.svc_script_tplt) 
+
     def __init__(self):
         """
         use: CSV inputs(uris) quantity,format,unit CSV of outputs(URIs) quantity,format,unit "description","url","driver name" [operations by uris]]
         """
-        os.system("rm register_service.log")
-        log.basicConfig(filename='register_service.log', level=log.DEBUG, format='%(levelname)s:%(asctime)s %(message)s ')
+        os.system("rm ../logs/register_service.log")
+        log.basicConfig(filename='../logs/register_service.log', level=log.DEBUG, format='%(levelname)s:%(asctime)s %(message)s ')
         self.readconf = ReadConfig.ReadConfig()
         for elt in sys.argv:
             print(elt)
@@ -234,5 +268,5 @@ class RegisterService(object):
             self.update_ontology()
 update = RegisterService()
 
-#Exemple: RegisterService.py RegisterService.template.example generate
-#Exemple: RegisterService.py RegisterService.template.example register
+#Exemple: python3 ./RegisterService.py ExempleService1.template generate
+#Exemple: python3 ./RegisterService.py ExempleService1.template register

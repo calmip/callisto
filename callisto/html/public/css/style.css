@@ -1153,5 +1153,62 @@ div:has(.workflow__element) {
   min-width: 100%;
   transform: translate(-50%, -50%);
 }
+#cy {
+  width: 600px;
+  height: 300px;
+  position: absolute;
+  top: 50%;
+  left: 5%;
+}
+#cyresults {
+  width: 600px;
+  height: 300px;
+  position: absolute;
+  top: 65%;
+  left: 5%;
+  /*overflow:scroll;*/
+}
+#cydetails {
+  width: 600px;
+  height: 300px;
+  position: absolute;
+  top: 15%;
+  left: 1%;
+}
+#runflow {
+  width: 600px;
+  height: 300px;
+  position: absolute;
+  top: 75%;
+  left: 1%;
+}
+.modal {
+  display:    none;
+  position:   fixed;
+  z-index:    1000;
+  top:        0;
+  left:       0;
+  height:     100%;
+  width:      100%;
+  background: rgba( 255, 255, 255, .8 ) 
+              url('http://i.stack.imgur.com/FhHRx.gif') 
+              50% 50% 
+              no-repeat;
+}
 
+/* When the body has the loading class, we turn
+ the scrollbar off with overflow:hidden */
+.loading .modal {
+  overflow: hidden;
+  background: rgba( 255, 255, 255, .8 ) 
+              url('http://i.stack.imgur.com/FhHRx.gif') 
+              50% 50% 
+              no-repeat;
+}
+
+/* Anytime the body has the loading class, our
+ modal element will be visible */
+.loading .modal {
+  display: block;
+}
 /*# sourceMappingURL=style.css.map */

@@ -1,0 +1,16 @@
+service_name = WORD_AND_LETTER_COUNTING
+input:
+	name = textualcontent
+	format = ASCII
+	unit = UNITLESS
+output:
+	name = http://edamontology.org/data_0972
+	format = CSV
+	unit = UNITLESS
+description = This service counts the number of words of more than 7 letters from an input ascii file 
+base url = http://www.callisto-dev.calmip.univ-toulouse.fr/cgi-bin/
+scriptfile = ExempleService2.py
+resultfile = ExempleService2_results.txt
+label = Second exemple de service 
+repository = demonstration
+operations = Word count&Letter count

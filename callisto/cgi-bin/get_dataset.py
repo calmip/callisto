@@ -1,5 +1,5 @@
 #! /usr/bin/python3
-  
+
 #
 # This file is part of Callisto software
 # Callisto helps scientists to share data between collaborators
@@ -23,19 +23,30 @@
 #        Emmanuel Courcelle - C.N.R.S. - UMS 3667 - CALMIP
 #
 
-from franz.openrdf.sail.allegrographserver import AllegroGraphServer
-from franz.openrdf.repository.repository import Repository
-from rdflib import Namespace, URIRef, Literal
-from franz.openrdf.vocabulary import RDFS
+import cgi
+import os
+import time
+import logging as log
 import ReadConfig
 
-self.readconf = ReadConfig.ReadConfig()
+readconf = ReadConfig.ReadConfig()
+timer = str(time.time())
+try:
+    os.system("rm "+self.portalog+"get_dataset.log")
+except:
+    pass
+log.basicConfig(filename=readconf.portalog+'get_dataset.log', level=log.DEBUG, format='%(levelname)s:%(asctime)s %(message)s ')
 
-arcas = Namespace("http://www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf#")
-server=AllegroGraphServer(host=self.readconf.host,port=self.readconf.port,user=self.readconf.user,password=self.readconf.password)
-catalog = server.openCatalog('')
-mode = Repository.ACCESS
-repository = catalog.getRepository("demonstration",mode)
-repository.initialize()
-conn = repository.getConnection()
-conn.addFile("/home/callisto/demonstration.nt",format="application/n-triples")
+form = cgi.FieldStorage()
+url = str(form.getvalue("url"))
+outputs = str(form.getvalue("outputs"))
+key =  str(form.getvalue("ApiKeyValue")).replace(" ","").replace("\"","")
+ord = "wget "+url+key+" --no-check-certificate -O TempFiles/"+timer
+ordre=ord.replace("None","")
+log.debug(ordre)
+os.system (ordre)
+os.system ("cp TempFiles/"+timer+" .."+readconf.portalhtml+"TempFiles")
+print ("Content-Type: text/xml\n")
+print ("<options>\n")
+print("<"+outputs+">"+readconf.portalhost+readconf.portaltemp+timer+"</"+outputs+">\n")
+print ("</options>\n")

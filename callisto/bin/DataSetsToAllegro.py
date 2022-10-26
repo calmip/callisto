@@ -53,8 +53,8 @@ class DatasetsToOntology(object):
         API_TOKEN = "9ec41056-85e6-461d-925f-d29fde9cb6e1"
         API_TOKEN = "cb606579-8270-4c3b-a970-43340189499d"
         API_TOKEN = "bea7b84d-3a41-4282-aac0-3a7593271b71"
-        API_TOKEN = "785468a2-ce65-4076-8b5c-a3ecd9f8f82c"
-        API_TOKEN = "9ebc9be4-3601-471a-a0aa-cc2931090d6a"
+        API_TOKEN = "a8ca1699-09db-48d2-8717-87780f850238"
+        #API_TOKEN = "9ebc9be4-3601-471a-a0aa-cc2931090d6a"
         SERVER_URL = "Callistodataverse:8080"
         liste_results = []
         log.debug("get_detail, repos:"+str(self.repos))
@@ -227,12 +227,12 @@ class DatasetsToOntology(object):
             self.get_registered_datasets()
             datatypes = elt[8]
             datatypes_values = elt[9]
-            myont = Namespace(self.rootiri+repo.upper()+".rdf#")
+            myont = Namespace(self.rootiri+repo+".rdf#")
             print("svc: "+svc)
             #print("URL is: --> "+url)
             print("keywords:" + str(keywords))
             for type in range (len(datatypes)):
-                print(svc+self.rootiri+repo.upper()+".rdf#"+datatypes[type]+">value:"+datatypes_values[type])
+                print(svc+self.rootiri+repo+".rdf#"+datatypes[type]+">value:"+datatypes_values[type])
             same = 0
             for reg_desc in self.registered_services:
                 print("service:" + svc)
@@ -262,17 +262,17 @@ class DatasetsToOntology(object):
 
             labels = self.conn.createURI("<http://www.w3.org/2000/01/rdf-schema#label>")
             isDefined = self.conn.createURI("<http://www.w3.org/2000/01/rdf-schema#isDefinedBy>")
-            servi = self.conn.createURI(self.rootiri+repo.upper()+".rdf#"+ svc)
-            profile = self.conn.createURI(self.rootiri+repo.upper()+".rdf#" + profile_id)
-            data_tim = self.conn.createURI(self.rootiri+repo.upper()+".rdf#" + timer)
-            data_url = self.conn.createURI(self.rootiri+repo.upper()+".rdf#" + url)
-            agg = self.conn.createURI(self.rootiri+repo.upper()+".rdf#" + aggregate)
+            servi = self.conn.createURI(self.rootiri+repo+".rdf#"+ svc)
+            profile = self.conn.createURI(self.rootiri+repo+".rdf#" + profile_id)
+            data_tim = self.conn.createURI(self.rootiri+repo+".rdf#" + timer)
+            data_url = self.conn.createURI(self.rootiri+repo+".rdf#" + url)
+            #agg = self.conn.createURI(self.rootiri+repo+".rdf#" + aggregate)
             
             #log.debug(" --> Adding service: "+servi,profile,data_tim,data_url,agg)
             
             self.conn.add(servi, RDF.TYPE, URIRef(service.Service))
             self.conn.add(profile, RDF.TYPE, URIRef(service.ServiceProfile))
-            self.conn.add(data_tim,RDF.TYPE, URIRef(arcas.MeasuredQuantity))
+            #self.conn.add(data_tim,RDF.TYPE, URIRef(arcas.MeasuredQuantity))
             self.conn.add(servi, presents, profile)
             
             self.conn.add(servi, hasoperation,  URIRef(arcas.retrieve_dataset))
@@ -281,46 +281,48 @@ class DatasetsToOntology(object):
             qsoft = self.conn.createURI("<http://www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf#get_dataset>")
             self.conn.add(profile, hasQuerySoftware, qsoft)
             self.conn.add(profile,"<http://www.daml.org/services/owl-s/1.2/Profile.owl#textDescription>", Literal(description))
-            self.conn.add(agg, RDF.TYPE, URIRef(arcas.Aggregate))
+            #self.conn.add(agg, RDF.TYPE, URIRef(arcas.Aggregate))
 
-            self.conn.add(servi, hasOutput, agg)
             self.conn.add(servi, hasInput, ApiKey)
             for type in range (len(datatypes)):
-                self.conn.add(servi, self.rootiri+repo.upper()+".rdf#"+datatypes[type]+">",datatypes_values[type])
+                self.conn.add(servi, self.rootiri+repo+".rdf#"+datatypes[type]+">",datatypes_values[type])
             self.conn.add(servi,"<http://www.w3.org/2000/01/rdf-schema#isDefinedBy>", Literal(measurement))
             for word in range(len(keywords)):
                 print ("Registering:"+str(keywords[word]))
                 if isinstance(keywords[word],str):
                     clean_word = keywords[word].rstrip("']").lstrip("['").replace("'","").replace(",","")
-                    quantity = self.conn.createURI(self.rootiri+repo.upper()+".rdf#" + clean_word.replace(" ", ""))
-                    label = self.conn.createURI(self.rootiri+repo.upper()+".rdf#" + clean_word)
-                    self.conn.add(agg,isCombinedToParam,quantity)
-                    self.conn.add(quantity,isDefined,label)
-                    self.conn.add(quantity,labels,label)
+                    #La quantite exprimee vient d'ARCADIE
+                    quantity = clean_word.replace(" ", "")
+                    qri = self.conn.createURI(self.rootiri+repo+".rdf#"+quantity)
+                    self.conn.add(servi, hasOutput, qri)
+                        #label = self.conn.createURI(self.rootiri+repo+".rdf#" + clean_word)
+                        #self.conn.add(quantity,isDefined,label)
+                        #self.conn.add(quantity,labels,label)
+                    #self.conn.add(agg,isCombinedToParam,quantity)
                 else:
                     for stage2 in range(len(keywords[word])):
                         clean_word = keywords[word][stage2].rstrip("']").lstrip("['").replace("'","").replace(",","")
-                        label = self.conn.createURI(self.rootiri+repo.upper()+".rdf#" + clean_word)
-                        quantity = self.conn.createURI(self.rootiri+repo.upper()+".rdf#" + clean_word.replace(" ", ""))
-                        self.conn.add(agg,isCombinedToParam,quantity)
-                        self.conn.add(quantity,isDefined,label)
-                        self.conn.add(quantity,labels,label)
-                        
+                        #label = self.conn.createURI(self.rootiri+repo+".rdf#" + clean_word)
+                        quantity = clean_word.replace(" ", "")
+                        qri = self.conn.createURI(self.rootiri+repo+".rdf#"+quantity)
+                        self.conn.add(servi, hasOutput, qri)                        
+            #agg = self.conn.createURI(self.rootiri+repo+".rdf#" + aggregate)
+            
 
             self.conn.add(data_tim, RDF.TYPE, URIRef(mp.Data))
             self.conn.add(data_tim,"<http://www.w3.org/2000/01/rdf-schema#isDefinedBy>",Literal(description))
 
             # Format<http://www.callisto.calmip.univ-toulouse.fr/
             # Reify this with formats from swo is needed. http://edamontology.org/format_1915
-            uri_format = self.conn.createURI(self.rootiri+repo.upper()+".rdf#" + elt_type)
+            #uri_format = self.conn.createURI(self.rootiri+repo+".rdf#" + elt_type)
             #uri_unit = self.conn.createURI(self.rootiri+"ARCAS.rdf#" + self.unit)
-            self.conn.add(uri_format, RDF.TYPE, URIRef(arcas.Format))
-            self.conn.add(agg, isCombinedToFormat, uri_format)
-            self.conn.add(agg, isCombinedToUnit, URIRef(arcas.unitless))
+            #self.conn.add(uri_format, RDF.TYPE, URIRef(arcas.Format))
+            #self.conn.add(agg, isCombinedToFormat, uri_format)
+            #self.conn.add(agg, isCombinedToUnit, URIRef(arcas.unitless))
             # # Outputs:
             #
 
-            self.conn.add(servi,"<http://www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf#hasOutput>",agg)
+            #self.conn.add(servi,"<http://www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf#hasOutput>",agg)
 
             # AccessURL:
             self.conn.add(data_url, RDF.TYPE, URIRef(arcas.accessURL))
@@ -337,7 +339,7 @@ class DatasetsToOntology(object):
         return (self.catalog.listRepositories())
 
     def read_config(self):
-        config_file = open("../etc/callisto_conf.cfg", 'r')
+        config_file = open("/usr/local/callisto/etc/callisto_conf.cfg", 'r')
         case = ""
         lines = config_file.readlines()
         for line in lines:
@@ -384,10 +386,11 @@ class DatasetsToOntology(object):
 
     def __init__(self):
         try:
-            output = subprocess.check_output("rm ../logs/Datasets_to_allegro.log" , stderr=subprocess.STDOUT, shell=True)
+            output = subprocess.check_output("rm /usr/local/callisto/logs/Datasets_to_allegro.log" , stderr=subprocess.STDOUT, shell=True)
         except:
             pass
-        log.basicConfig(filename='../logs/Datasets_to_allegro.log', level=log.DEBUG, format='%(levelname)s:%(asctime)s %(message)s ')
+        os.system("touch /usr/local/callisto/logs/Datasets_to_allegro.log")
+        log.basicConfig(filename='/usr/local/callisto/logs/Datasets_to_allegro.log', level=log.DEBUG, format='%(levelname)s:%(asctime)s %(message)s ')
         self.read_config()
         self.repos = self.open_connection()
         log.debug("trouve repos:"+str(self.repos))

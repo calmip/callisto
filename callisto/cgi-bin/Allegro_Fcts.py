@@ -65,6 +65,8 @@ class Allegro(object):
         print("Content-Type: text/xml\n")
         print("<options>\n")
         print("<case>" + self.usecase + "</case>")
+        print("<allegro>" + self.rootallegro.replace("\"","") + "</allegro>\n")
+        print("<suffix>" + self.onto_suffix + "</suffix>\n")
         print("<csvschemafile>" + self.csv_file + "</csvschemafile>\n")
 
     def send_footer(self):
@@ -84,8 +86,12 @@ class Allegro(object):
             log.debug("---> operation 0:"+str(self.operations[0]))
             try:
                 soft = str(url_soft[0]).replace(">", "").replace("<", "").replace("\"", "")
+                log.debug("---> url_soft:"+str(url_soft) + "soft:" + soft)
                 url = str(url_soft[1])
-                out_svc = str(self.operations[0][4]).replace(">", "").replace("<", "").split("#")[1]
+                if "#" in str(self.operations[0][4]):
+                    out_svc = str(self.operations[0][4]).replace(">", "").replace("<", "").split("#")[1]
+                else:
+                    out_svc = str(self.operations[0][4]).replace(">", "").replace("<", "")
                 out_svc_definition = str(self.operations[0][6]).replace(">", "").replace("<", "")
                 svc_definition = str(self.operations[0][7]).replace(">", "").replace("<", "")
                 print("<service>\n")
@@ -94,17 +100,28 @@ class Allegro(object):
                 print("<ontology_id>" + self.input_svc.replace(">", "").replace("<", "") + "</ontology_id>\n")
                 print("<nom>S0</nom>\n")
                 print("<output>" + out_svc + "</output>\n")
+                if "http://" in out_svc:
+                    if "#" in out_svc:
+                        short_output = out_svc.split("#")[len(out_svc.split("#")) - 1]
+                    else:
+                        short_output = out_svc.split("/")[len(out_svc.split("/")) - 1]
+                else:
+                    short_output = out_svc
+                print("<short_output>" + short_output + "</short_output>\n")
                 print("<output_definition>" + out_svc_definition + "</output_definition>\n")
                 print("<information>ToBD</information>\n")
+                print("<information_label>" + out_svc_definition + "</information_label>\n")
                 print("<definition>ToBD</definition>\n")
                 print("<profdef>" + svc_definition + "</profdef>\n")
             except:
+                log.debug("Gestion Exception")
                 print("<service>\n")
                 print("<url>void</url>\n")
                 print("<soft>void</soft>\n")
                 print("<ontology_id>" + self.input_svc.replace(">", "").replace("<", "") + "</ontology_id>\n")
                 print("<nom>S0</nom>\n")
                 print("<output>void</output>\n")
+                print("<short_output>void</short_output>\n")
                 print("<output_definition>void</output_definition>\n")
                 print("<information>ToBD</information>\n")
                 print("<definition>ToBD</definition>\n")
@@ -112,21 +129,38 @@ class Allegro(object):
                 out_svc_definition = ""
             log.debug("Next debugging message is general file content")
             log.debug(out_svc_definition)
-            #log.debug("service:S0," + out_svc + "\n"
+            log.debug("service:S0," + out_svc + "\n")
             self.general_file.write("service:S0," + out_svc + "\n")
             try:
                 in_svc = self.operations[0][5].replace(">", "").replace("<", "").split("#")[1]
-                print("<input>" + str(self.operations[0][5]).replace(">", "").replace("<", "").split("#")[1] + "</input>\n")
+                print("<input>" + in_svc + "</input>\n")
+                if "http://" in in_svc:
+                    if "#" in in_svc:
+                        short_input = in_svc.split("#")[len(in_svc.split("#")) - 1]
+                    else:
+                        short_input = in_svc.split("/")[len(in_svc.split("/")) - 1]
+                else:
+                    short_input = in_svc
+                print("<short_input>" + short_input + "</short_input>\n")
                 print("<input_definition>" + str(self.operations[0][5]).replace(">", "").replace("<", "").split("#")[1] + "</input_definition>\n")
                 self.general_file.write(in_svc + ",service:S0\n")
             except:
                 try:
                     in_svc = str(self.operations[0][5]).replace(">", "").replace("<", "").split("#")[1]
-                    print("<input>" + str(self.operations[0][5]).replace(">", "").replace("<", "").split("#")[1]+ "</input>\n")
+                    print("<input>" + in_svc + "</input>\n")
+                    if "http://" in in_svc:
+                        if "#" in in_svc:
+                            short_input = in_svc.split("#")[len(in_svc.split("#")) - 1]
+                        else:
+                            short_input = in_svc.split("/")[len(in_svc.split("/")) - 1]
+                    else:
+                        short_input = in_svc
+                    print("<short_input>" + short_input + "</short_input>\n")
                     print("<input_definition>" + str(self.operations[0][5]).replace(">", "").replace("<", "").split("#")[1]+ "</input_definition>\n")
                     self.general_file.write(in_svc + "," + "service:S0\n")
                 except:
                     print("<input>void</input>\n")
+                    print("<short_input>void</short_input>\n")
                     print("<input_definition>void</input_definition>\n")
 
             print("</service>\n")
@@ -139,31 +173,52 @@ class Allegro(object):
                 url = str(url_soft[1])
                 out_svc_definition = str(operation[6]).replace(">", "").replace("<", "").replace('\"', '')
                 print("<service>\n")
+                print("<nom>S" + str(cpt_op) + "</nom>\n")
                 print("<url>" + url + "</url>\n")
                 print("<soft>" + soft + "</soft>\n")
                 print("<ontology_id>" + str(operation[0]).replace(">", "").replace("<", "") + "</ontology_id>\n")
-                print("<nom>S" + str(cpt_op) + "</nom>\n")
-                print("<information>" + str(operation[1]).replace(">", "").replace("<", "") + "</information>\n")
-                out_svc = str(operation[1]).replace(">", "").replace("<", "").split("#")[1]
-                in_svc = str(operation[4]).replace(">", "").replace("<", "").split("#")[1]
-                print("<output>" + str(operation[1]).replace(">", "").replace("<", "").split("#")[1] + "</output>\n")
-                print("<input>" + str(operation[4]).replace(">", "").replace("<", "").split("#")[1] + "</input>\n")
+                if "#" in str(operation[1]):
+                    out_svc = str(operation[1]).replace(">", "").replace("<", "").split("#")[1]
+                else:
+                    out_svc = str(operation[1]).replace(">", "").replace("<", "")
+                print("<information>" + out_svc + "</information>\n")
+                info_lab = str(operation[8]).replace(">", "").replace("<", "")
+                print("<information_label>" + info_lab + "</information_label>\n")
+                if "#" in str(operation[4]):
+                    in_svc = str(operation[4]).replace(">", "").replace("<", "").split("#")[1]
+                else:
+                    in_svc = str(operation[4]).replace(">", "").replace("<", "")
+                print("<output>" + out_svc + "</output>\n")
+                if "http://" in out_svc:
+                    if "#" in out_svc:
+                        short_output = out_svc.split("#")[len(out_svc.split("#")) - 1]
+                    else:
+                        short_output = out_svc.split("/")[len(out_svc.split("/")) - 1]
+                else:
+                    short_output = out_svc
+                print("<short_output>" + short_output + "</short_output>\n")
+                print("<input>" + in_svc + "</input>\n")
+                if "http://" in in_svc:
+                        if "#" in in_svc:
+                            short_input = in_svc.split("#")[len(in_svc.split("#")) - 1]
+                        else:
+                            short_input = in_svc.split("/")[len(in_svc.split("/")) - 1]
+                else:
+                    short_input = in_svc
+                print("<short_input>" + short_input + "</short_input>\n")
                 try:
-                    print("<input_definition>" + out_svc_definition.split("#")[1] + "</input_definition>\n")
+                    if "#" in out_svc_definition:
+                        print("<input_definition>" + out_svc_definition.split("#")[1] + "</input_definition>\n")
+                    else:
+                        print("<input_definition>" + out_svc_definition + "</input_definition>\n")
                 except:
                     print("<input_definition>" + out_svc_definition + "</input_definition>\n")
-                try:
-                    print("<output_definition>" + str(operation[2].encode('utf8')).replace(">", "").replace("<", "") +
-                          "</output_definition>\n")
-                except:
-                    print("<output_definition>" + str(operation[1]).replace(">", "").replace("<", "").split("#")[
-                        1] + "</output_definition>\n")
+                
+                if "#" in str(operation[2]):
+                    print("<output_definition>" + str(operation[2]).replace(">", "").replace("<", "").split("#")[1] + "</output_definition>\n")
+                else:
+                    print("<output_definition>" + str(operation[2]).replace(">", "").replace("<", "") + "</output_definition>\n")
                 print("<profdef>" + str(operation[3]) + "</profdef>\n")
-                #out_svc = str(operation[2])
-                #if "#" in str(operation[4]):
-                #    in_svc = str(operation[4]).replace(">", "").replace("<", "").split("#")[1]
-                #else:
-                #    in_svc = str(operation[6])
                 self.general_file.write("service:S" + str(cpt_op) + "," + out_svc + "\n")
                 try:
                     self.general_file.write(in_svc + "," + "service:S" + str(cpt_op) + "\n")
@@ -482,7 +537,7 @@ class Allegro(object):
         ?profile arcas:hasQuerySoftware ?soft.
         ?svc arcas:isAccessedThrough ?accessurl.
         ?accessurl rdfs:isDefinedBy ?url.
-        }""" % (self.rootiri,self.repository.upper(), self.qual, self.qual)
+        }""" % (self.rootiri,self.repository, self.qual, self.qual)
         log.debug(queryString)
         tupleQuery = self.conn.prepareTupleQuery(QueryLanguage.SPARQL, queryString)
         result = tupleQuery.evaluate()
@@ -633,24 +688,27 @@ class Allegro(object):
             PREFIX service: <http://www.daml.org/services/owl-s/1.2/Service.owl#>
             PREFIX arcas: <http://www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf#>
             PREFIX rdfsns: <http://www.w3.org/2000/01/rdf-schema#>
-            SELECT DISTINCT ?service ?information ?definition ?profdef ?param_out ?param_in ?label_first_out ?firstdef
+            SELECT DISTINCT ?service ?information ?information_label ?definition ?profdef ?param_out ?param_in ?label_first_out ?firstdef
             WHERE { 
             <%s> arcas:hasOutput ?out .
             <%s> service:presents ?firstprofile .
             OPTIONAL {
-            <%s> arcas:hasInput ?in2 .
-            ?in2 arcas:isCombinedToParam ?param_in .
+                <%s> arcas:hasInput ?in2 .
+                ?in2 arcas:isCombinedToParam ?param_in .
             }
             ?firstprofile profile:textDescription ?firstdef.
             ?out arcas:isCombinedToParam ?param_out .
             ?out arcas:isCombinedToFormat ?format_out .
             ?out arcas:isCombinedToUnit ?unit_out .
-            ?param_out rdfsns:isDefinedBy ?label_first_out .
+            ?param_out rdfs:label ?label_first_out .
             ?service profile:hasInput ?out2 .
             ?out2 arcas:isCombinedToParam ?param_out .
             ?service arcas:hasOutput ?out3 .
             ?out3 arcas:isCombinedToParam ?information .
             ?information rdfsns:isDefinedBy ?definition.
+            OPTIONAL {
+                ?information rdfs:label ?information_label .
+            }
             ?service service:presents ?profile .
             ?profile  profile:textDescription ?profdef.
             }""" % (svc, svc, svc)
@@ -664,26 +722,36 @@ class Allegro(object):
                     information = binding_set.getValue("information")
                     definition = binding_set.getValue("definition")
                     profdef = binding_set.getValue("profdef")
-                    input_svc = binding_set.getValue("param_out")
+                    param_out = binding_set.getValue("param_out")
                     param_in = binding_set.getValue("param_in")
                     label_first_out = binding_set.getValue("label_first_out")
                     firstdef = binding_set.getValue("firstdef")
+                    information_label = binding_set.getValue("information_label")
                     # self.operations.append([service,information,definition,profdef,input_svc,param_in,label_first_out,firstdef])
                     newservice = str(service).replace("<", "").replace(">", "")
                     log.info("New service:"+newservice)
                     if str(service).replace("<", "").replace(">", "") not in self.tested_services:
                         new_list_svc.append(str(service).replace("<", "").replace(">", ""))
                         self.tested_services.append(str(service).replace("<", "").replace(">", ""))
-                        log.info("Adding "+ str(service).replace("<", "").replace(">", "") + " To the list of operations") 
+                        log.debug("Adding "+ str(service).replace("<", "").replace(">", "") + " To the list of operations") 
                         log.debug(information)
                         log.debug(definition)
                         log.debug(profdef)
-                        log.debug(input_svc)
+                        log.debug(param_out)
                         log.debug(param_in)
                         log.debug(label_first_out)
-                        log.debug(firstdef)      
+                        log.debug(firstdef)   
+                        log.debug(information_label)
                         self.operations.append(
-                            [service, information, definition, profdef, input_svc, param_in, label_first_out, firstdef])
+                            [service, 
+                            information, 
+                            definition, 
+                            profdef, 
+                            param_out, 
+                            param_in, 
+                            label_first_out, 
+                            firstdef,
+                            information_label])
             log.info("Removing "+svc+" from the list of input services")
             self.list_inputs_svc.remove(svc)
         for elt in new_list_svc:
@@ -754,7 +822,7 @@ class Allegro(object):
             self.data_claim() 
     
     def read_config(self):
-        config_file = open("cgi_conf.cfg", 'r')
+        config_file = open("../etc/callisto_conf.cfg", 'r')
         case = ""
         lines = config_file.readlines()
         for line in lines:
@@ -789,7 +857,10 @@ class Allegro(object):
                 self.rootiri = str(line.split("root_iri = ")[1].replace("\n",""))
             if "root_https = " in line and case == "ontologies":
                 self.roothttps = str(line.split("root_https = ")[1].replace("\n",""))
-
+            if "root_allegro = " in line and case == "ontologies":
+                self.rootallegro = str(line.split("root_allegro = ")[1].replace("\n",""))
+            if "onto_suffix = " in line and case == "ontologies":
+                self.onto_suffix = str(line.split("onto_suffix = ")[1].replace("\n",""))
             if "host_port = "  in line and case == "dataverse":
                 self.dataport = str(line.split("host_port = ")[1].replace("\n",""))
             if "host_url = "  in line and case == "dataverse":
@@ -840,7 +911,7 @@ class Allegro(object):
             # log.info("Available repositories in catalog '%s':" % catalog.getName())
             # log.info("Available repositories in catalog:" % str(catalog.listRepositories()))
             for repo_name in catalog.listRepositories():
-                self.repository = repo_name.upper()
+                self.repository = repo_name
                 self.myont = self.rootiri + self.repository + ".rdf"
                 log.debug("querying repo: " + str(repo_name))
                 self.repo = self.open_connection(repo_name)[0]
@@ -849,7 +920,7 @@ class Allegro(object):
                 # self.send_response()
                 self.close_connection()
         else:
-            self.repository = repo.upper()
+            self.repository = repo
             self.myont = self.rootiri + self.repository + ".rdf"
             self.repo = self.open_connection(repo)[0]
             self.conn = self.open_connection(repo)[1]

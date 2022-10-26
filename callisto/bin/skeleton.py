@@ -1,5 +1,5 @@
 #! /usr/bin/python3
-  
+# -*- coding: utf-8 -*-
 #
 # This file is part of Callisto software
 # Callisto helps scientists to share data between collaborators
@@ -22,20 +22,20 @@
 #        Thierry Louge      - C.N.R.S. - UMS 3667 - CALMIP
 #        Emmanuel Courcelle - C.N.R.S. - UMS 3667 - CALMIP
 #
-
-from franz.openrdf.sail.allegrographserver import AllegroGraphServer
-from franz.openrdf.repository.repository import Repository
-from rdflib import Namespace, URIRef, Literal
-from franz.openrdf.vocabulary import RDFS
+import cgi
 import ReadConfig
+import os
+readconf = ReadConfig.ReadConfig()
+form = cgi.FieldStorage()
+outputs = str(form.getvalue("outputs"))
 
-self.readconf = ReadConfig.ReadConfig()
+inp = str(form.getvalue("MyNewTerm").replace(readconf.portalhost+readconf.portaltemp,'../html/'+readconf.portaltemp))
+input_file = open(inp,'r',encoding="utf-8")
 
-arcas = Namespace("http://www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf#")
-server=AllegroGraphServer(host=self.readconf.host,port=self.readconf.port,user=self.readconf.user,password=self.readconf.password)
-catalog = server.openCatalog('')
-mode = Repository.ACCESS
-repository = catalog.getRepository("demonstration",mode)
-repository.initialize()
-conn = repository.getConnection()
-conn.addFile("/home/callisto/demonstration.nt",format="application/n-triples")
+... your script will be put here ...
+
+os.system("mv myresult ../html/"+readconf.portaltemp+"myresult")
+print ("Content-Type: text/xml\n")
+print ("<options>\n")
+print("<"+outputs+">"+readconf.portalhost+readconf.portaltemp+"myresult</"+outputs+">\n")
+print ("</options>\n")
