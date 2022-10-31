@@ -151,6 +151,9 @@ class RegisterService(object):
         print('Repository contains %d statement(s).' % self.conn.size())
 
     def open_connection(self):
+        """
+        Opens the connection to allegro server
+        """
         server=AllegroGraphServer(host=self.readconf.host,port=self.readconf.port,user=self.readconf.user,password=self.readconf.password)
         catalog = server.openCatalog('')
         mode = Repository.OPEN
@@ -160,6 +163,9 @@ class RegisterService(object):
         return [repository,conn]
 
     def close_connection(self):
+        """
+        Closes the connection to allegro server
+        """
         self.conn.close()
         self.repo.shutDown()
 

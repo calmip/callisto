@@ -30,7 +30,7 @@ from franz.openrdf.query.query import QueryLanguage
 from time import gmtime, strftime
 import os,sys
 import logging as log
-
+import ReadConfig
 
 class Metadata(object):
     """
@@ -40,14 +40,14 @@ class Metadata(object):
     def open_connection(self):
         """
         Opens the connection to allegro server
-        connects to the repository passed as an argument
         """
-        server = AllegroGraphServer(host=self.host, port=self.port, user=self.user, password=self.password)
+        server=AllegroGraphServer(host=self.readconf.host,port=self.readconf.port,user=self.readconf.user,password=self.readconf.password)
         catalog = server.openCatalog('')
         mode = Repository.OPEN
-        repository = catalog.getRepository(self.repo, mode)
+        print("repository:"+self.svc_repo_tplt)
+        repository = catalog.getRepository(self.svc_repo_tplt.lower(), mode)
         conn = repository.getConnection()
-        return [repository, conn]
+        return [repository,conn]
 
     def close_connection(self):
         """
@@ -81,17 +81,12 @@ class Metadata(object):
             print(self.dict_metadata[key])
             subjectlabel = self.dict_metadata[key][0].replace("\"","").replace(" ","")
             metadatablock_id = str(subjectlabel) + strftime("%a%d%b%Y%H:%M:%S", gmtime())
-            if "#" in str(subjectlabel):
-                metadatafile = open(str(subjectlabel).split("#")[1]+"_metadata.tsv",'w')
-            else:
-                metadatafile = open(str(subjectlabel)+"_metadata.tsv",'w')
+            metadatafile = open(self.name_metadata_file,'w')
             metadatafile.write("#metadataBlock\tname\tdataverseAlias\tdisplayName\n")
             metadatafile.write("\t"+metadatablock_id+"\t\t"+subjectlabel+" Metadata ("+strftime("%a, %d %b %Y %H:%M:%S", gmtime())+")\n")
             metadatafile.write("#datasetField\tname\ttitle\tdescription\twatermark\tfieldType\tdisplayOrder\tdisplayFormat\tadvancedSearchField\tallowControlledVocabulary\tallowmultiples\tfacetable\tdisplayoncreate\trequired\tparent\tmetadatablock_id\n")
             for elt in self.dict_metadata[key]:
                 print(elt)
-                count += 1
-                print(count)
                 parent = key
                 #print("property list"+str(elt))
                 prop = elt[0]
@@ -114,28 +109,27 @@ class Metadata(object):
                 metadatafile.write("\t"+name+"\t"+title+"\t"+description+"\t"+watermark+"\t"+fieldType+"\t"+str(count)+"\t"+displayFormat+"\t"+advancedSearchField+"\t"+allowControlledVocabulary+"\t"+allowmultiples+"\t"+facetable+"\t"+displayoncreate+"\t"+required+"\t"+parent+"\t"+metadatablock_id+"\n")
             metadatafile.write("#controlledVocabulary\tDatasetField\tValue\tidentifier\tdisplayOrder\n")
             identifier = " "
-            for elt in self.dict_metadata[key]:
-                prop = elt
-                print("property:"+str(prop))
-                print("property 0:"+str(prop[0]))
-                propname = str(prop[0])
-                try:
-                    if self.property_dict[propname]=='None':
-                        print("No predefined values")
-                    else:
-                        print("Predefined values"+str(self.property_dict[propname]))
-                        for predefined in self.property_dict[propname]:
-                            dispOrder += 1
-                            print("predefined value:" + str(predefined))
-                            print("predefined[1]:"+str(predefined[1]))
-                            if str(predefined[1]) == "None":
-                                continue
-                            metadatafile.write("\t"+propname+"\t"+str(predefined[1])+"\t"+identifier+"\t"+str(dispOrder)+"\n")
-                except Exception as e:
-                    #print(type(e))    # the exception instance
-                    #print(e.args)     # arguments stored in .args
-                    print(e)
-                count += 1
+            print ("property dic content:")
+            print(self.property_dict)
+            print ("metadata dict content:")
+            print(self.dict_metadata)
+            elt = self.dict_metadata[key][1]
+            print("key:")
+            print(key)
+            print("elt:")
+            print(elt)
+            propname = elt[0]
+            if self.property_dict[propname]=='None':
+                print("No predefined values")
+            else:
+                print("Predefined values"+str(self.property_dict[propname]))
+                for predefined in self.property_dict[propname]:
+                    dispOrder += 1
+                    print("predefined value:" + str(predefined))
+                    print("predefined[1]:"+str(predefined[1]))
+                    if str(predefined[1]) == "None":
+                        continue
+                    metadatafile.write("\t"+propname+"\t"+str(predefined[1])+"\t"+identifier+"\t"+str(dispOrder)+"\n")
 
         #for binding in bindings:
             #print(binding.getAttribute("name"))
@@ -164,7 +158,7 @@ class Metadata(object):
         count = 0
         queryString = """PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
         PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-        PREFIX myont: <http://www.callisto.calmip.univ-toulouse.fr/MSHT.rdf#>
+        PREFIX myont: <%s%s.rdf#>
         PREFIX arcas: <http://www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf#>
         PREFIX service: <http://www.daml.org/services/owl-s/1.2/Service.owl#>
         PREFIX profile: <http://www.daml.org/services/owl-s/1.2/Profile.owl#>
@@ -182,29 +176,28 @@ class Metadata(object):
                 ?range <http://www.w3.org/2002/07/owl#oneOf> ?list.
   	            ?list rdf:rest*/rdf:first ?values.
             }
-        }"""
+        }""" % (self.readconf.rootiri,self.svc_repo_tplt)
         tupleQuery = self.conn.prepareTupleQuery(QueryLanguage.SPARQL, queryString)
         log.info(queryString)
         result = tupleQuery.evaluate()
         with result:
             for binding_set in result:
-                #print("subject"+str(binding_set.getValue("subject")))
-                #print("label"+str(binding_set.getValue("label")))
-                #print("comment"+str(binding_set.getValue("comment")))
-                #print("supertype"+str(binding_set.getValue("supertype")))
-                #print("metadatalevel"+str(binding_set.getValue("metadatalevel")))
-                #print("property"+str(binding_set.getValue("property")))
-                #print("range"+str(binding_set.getValue("range")))
-                #print("values"+str(binding_set.getValue("values")))
-                values = str(binding_set.getValue("values")).replace("http://www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf#","").replace("http://www.callisto.calmip.univ-toulouse.fr/MSHT.rdf#","").replace(">","").replace("<","")
-                subject = str(binding_set.getValue("subject")).replace("http://www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf#","").replace("http://www.callisto.calmip.univ-toulouse.fr/MSHT.rdf#","").replace(">","").replace("<","")
-                property = str(binding_set.getValue("property")).replace("http://www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf#","").replace("http://www.callisto.calmip.univ-toulouse.fr/MSHT.rdf#","").replace(">","").replace("<","")
-                label = str(binding_set.getValue("label")).replace("http://www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf#","").replace("http://www.callisto.calmip.univ-toulouse.fr/MSHT.rdf#","").replace(">","").replace("<","")
-                definition = str(binding_set.getValue("definition")).replace("http://www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf#","").replace("http://www.callisto.calmip.univ-toulouse.fr/MSHT.rdf#","").replace(">","").replace("<","")
-                supertype = str(binding_set.getValue("supertype")).replace("http://www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf#","").replace("http://www.callisto.calmip.univ-toulouse.fr/MSHT.rdf#","").replace(">","").replace("<","")
-                metadatalevel = str(binding_set.getValue("metadatalevel")).replace("http://www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf#","").replace("http://www.callisto.calmip.univ-toulouse.fr/MSHT.rdf#","").replace(">","").replace("<","")
-                subjectlabel = str(binding_set.getValue("subjectlabel")).replace("http://www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf#","").replace("http://www.callisto.calmip.univ-toulouse.fr/MSHT.rdf#","").replace(">","").replace("<","")
-                range = str(binding_set.getValue("range")).replace("http://www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf#","").replace("http://www.callisto.calmip.univ-toulouse.fr/MSHT.rdf#","").replace(">","").replace("<","")
+                print("subject"+str(binding_set.getValue("subject")))
+                print("label"+str(binding_set.getValue("label")))
+                print("supertype"+str(binding_set.getValue("supertype")))
+                print("metadatalevel"+str(binding_set.getValue("metadatalevel")))
+                print("property"+str(binding_set.getValue("property")))
+                print("range"+str(binding_set.getValue("range")))
+                print("values"+str(binding_set.getValue("values")))
+                values = str(binding_set.getValue("values")).replace("http://www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf#","").replace("http://www.callisto.calmip.univ-toulouse.fr/"+self.svc_repo_tplt+".rdf#","").replace(">","").replace("<","")
+                subject = str(binding_set.getValue("subject")).replace("http://www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf#","").replace("http://www.callisto.calmip.univ-toulouse.fr/"+self.svc_repo_tplt+".rdf#","").replace(">","").replace("<","")
+                property = str(binding_set.getValue("property")).replace("http://www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf#","").replace("http://www.callisto.calmip.univ-toulouse.fr/"+self.svc_repo_tplt+".rdf#","").replace(">","").replace("<","")
+                label = str(binding_set.getValue("label")).replace("http://www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf#","").replace("http://www.callisto.calmip.univ-toulouse.fr/"+self.svc_repo_tplt+".rdf#","").replace(">","").replace("<","")
+                definition = str(binding_set.getValue("definition")).replace("http://www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf#","").replace("http://www.callisto.calmip.univ-toulouse.fr/"+self.svc_repo_tplt+".rdf#","").replace(">","").replace("<","")
+                supertype = str(binding_set.getValue("supertype")).replace("http://www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf#","").replace("http://www.callisto.calmip.univ-toulouse.fr/"+self.svc_repo_tplt+".rdf#","").replace(">","").replace("<","")
+                metadatalevel = str(binding_set.getValue("metadatalevel")).replace("http://www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf#","").replace("http://www.callisto.calmip.univ-toulouse.fr/"+self.svc_repo_tplt+".rdf#","").replace(">","").replace("<","")
+                subjectlabel = str(binding_set.getValue("subjectlabel")).replace("http://www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf#","").replace("http://www.callisto.calmip.univ-toulouse.fr/"+self.svc_repo_tplt+".rdf#","").replace(">","").replace("<","")
+                range = str(binding_set.getValue("range")).replace("http://www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf#","").replace("http://www.callisto.calmip.univ-toulouse.fr/"+self.svc_repo_tplt+".rdf#","").replace(">","").replace("<","")
                 if property in self.property_dict:
                     self.property_dict[property].append([range,values])
                 else:
@@ -217,46 +210,6 @@ class Metadata(object):
                 else:
                     if [property,metadatalevel,label,definition,supertype] not in self.dict_metadata[subject]:
                         self.dict_metadata[subject].append([property,metadatalevel,label,definition,supertype])
-    def read_config(self):
-        config_file = open("../etc/callisto_conf.cfg", 'r')
-        case = ""
-        lines = config_file.readlines()
-        for line in lines:
-            if "callisto-conf-allegro" in line:
-                case = "allegro"
-            if "callisto-conf-ontologies" in line:
-                case = "ontologies"
-            if "callisto-conf-generic" in line:
-                case = "generic"
-            if "callisto-conf-dataverse" in line:
-                case = "dataverse"
-            #log.debug("case="+case)
-                    
-            if "host = " in line and case == "allegro":
-                self.host = str(line.split("host = ")[1].replace("\n",""))
-                log.debug("host="+str(self.host)+".")
-            if "port = " in line and case == "allegro":
-                self.port = str(line.split("port = ")[1].replace("\n",""))
-                log.debug("port="+str(self.port)+".")
-            if "user = " in line and case == "allegro":
-                self.user = str(line.split("user = ")[1].replace("\n",""))
-                log.debug("user="+str(self.user)+".")
-            if "password = " in line and case == "allegro":
-                self.password = str(line.split("password = ")[1].replace("\n",""))
-                log.debug("password="+str(self.password)+".")
-            if "close_enough" in line and case == "generic":
-                self.close_enough = float(line.split("close_enough = ")[1].replace("\n",""))
-                log.debug("close_enough="+str(self.close_enough)+".")
-
-            if "root_iri = " in line and case == "ontologies":
-                self.rootiri = str(line.split("root_iri = ")[1].replace("\n",""))
-            if "root_https = " in line and case == "ontologies":
-                self.roothttps = str(line.split("root_https = ")[1].replace("\n",""))
-
-            if "host_port = "  in line and case == "dataverse":
-                self.dataport = str(line.split("host_port = ")[1].replace("\n",""))
-            if "host_url = "  in line and case == "dataverse":
-                self.dataurl = str(line.split("host_url = ")[1].replace("\n",""))
             
     def __init__(self):
 	
@@ -267,10 +220,12 @@ class Metadata(object):
         self.dict_metadata={}
         self.property_dict = {}
         log.basicConfig(filename='../logs/metadatas.log', level=log.DEBUG, format='%(levelname)s:%(asctime)s %(message)s ')
-        self.read_config()
-        self.repo = sys.argv[1]
-        self.name_metadata_file = self.repo + "_metadata.tsv"
-        self.conn = self.open_connection()[1]
+        self.readconf = ReadConfig.ReadConfig()
+        self.svc_repo_tplt = sys.argv[1]
+        self.name_metadata_file = self.svc_repo_tplt + "_metadata.tsv"
+        connected = self.open_connection()
+        self.repo = connected[0]
+        self.conn = connected[1]
         self.get_metadatas()
         self.construct_metadata()
 
