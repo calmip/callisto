@@ -312,18 +312,6 @@ class DatasetsToOntology(object):
             self.conn.add(data_tim, RDF.TYPE, URIRef(mp.Data))
             self.conn.add(data_tim,"<http://www.w3.org/2000/01/rdf-schema#isDefinedBy>",Literal(description))
 
-            # Format<http://www.callisto.calmip.univ-toulouse.fr/
-            # Reify this with formats from swo is needed. http://edamontology.org/format_1915
-            #uri_format = self.conn.createURI(self.rootiri+repo+".rdf#" + elt_type)
-            #uri_unit = self.conn.createURI(self.rootiri+"ARCAS.rdf#" + self.unit)
-            #self.conn.add(uri_format, RDF.TYPE, URIRef(arcas.Format))
-            #self.conn.add(agg, isCombinedToFormat, uri_format)
-            #self.conn.add(agg, isCombinedToUnit, URIRef(arcas.unitless))
-            # # Outputs:
-            #
-
-            #self.conn.add(servi,"<http://www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf#hasOutput>",agg)
-
             # AccessURL:
             self.conn.add(data_url, RDF.TYPE, URIRef(arcas.accessURL))
             self.conn.add(data_url, "<http://www.w3.org/2000/01/rdf-schema#isDefinedBy>", Literal(url))

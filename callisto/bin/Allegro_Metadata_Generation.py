@@ -80,7 +80,7 @@ class Metadata(object):
             print("value")
             print(self.dict_metadata[key])
             subjectlabel = self.dict_metadata[key][0].replace("\"","").replace(" ","")
-            metadatablock_id = str(subjectlabel) + strftime("%a%d%b%Y%H:%M:%S", gmtime())
+            metadatablock_id = str(subjectlabel) + strftime("%a%d%b%Y", gmtime())
             metadatafile = open(self.name_metadata_file,'w')
             metadatafile.write("#metadataBlock\tname\tdataverseAlias\tdisplayName\n")
             metadatafile.write("\t"+metadatablock_id+"\t\t"+subjectlabel+" Metadata ("+strftime("%a, %d %b %Y %H:%M:%S", gmtime())+")\n")
@@ -131,24 +131,6 @@ class Metadata(object):
                         continue
                     metadatafile.write("\t"+propname+"\t"+str(predefined[1])+"\t"+identifier+"\t"+str(dispOrder)+"\n")
 
-        #for binding in bindings:
-            #print(binding.getAttribute("name"))
-            #if binding.getAttribute("name") == "subject":
-                #for lab in binding.getElementsByTagName("uri"):
-                    #name = lab.firstChild.data.replace("http://www.w3.org/2000/01/rdf-schema#","").replace("http://www.semanticweb.org/thierry/ontologies/2019/10/untitled-ontology-19#", "")
-                    #title = name.replace("_"," ")
-                    
-            # if binding.getAttribute("name") == "comment":
-            #     for lit in binding.getElementsByTagName("literal"):
-            #         description = lit.firstChild.data
-            # if binding.getAttribute("name") == "supertype":
-            #     for lit in binding.getElementsByTagName("uri"):
-            #         parent = lit.firstChild.data.replace("http://www.w3.org/2000/01/rdf-schema#","").replace("http://www.semanticweb.org/thierry/ontologies/2019/10/untitled-ontology-19#", "")
-                   
-            # #The first parent encountered for a field is the only one displayed
-    
-            #     displayOrder = str(count)
-            #     metadatafile.write("\t"+name+"\t"+title+"\t"+description+"\t"+watermark+"\t"+fieldType+"\t"+displayOrder+"\t"+displayFormat+"\t"+advancedSearchField+"\t"+allowControlledVocabulary+"\t"+allowmultiples+"\t"+facetable+"\t"+displayoncreate+"\t"+required+"\t"+parent+"\t"+metadatablock_id+"\n")
         metadatafile.close()
 
     def get_metadatas(self):
@@ -170,9 +152,9 @@ class Metadata(object):
             ?subject rdfs:label ?subjectlabel.
             ?property rdfs:domain ?subject.
             ?property rdfs:range ?range.
+            ?property rdfs:isDefinedBy ?definition.
+            ?property rdfs:label ?label.
             OPTIONAL {
-                ?property rdfs:isDefinedBy ?definition.
-                ?property rdfs:label ?label.
                 ?range <http://www.w3.org/2002/07/owl#oneOf> ?list.
   	            ?list rdf:rest*/rdf:first ?values.
             }

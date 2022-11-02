@@ -1,4 +1,4 @@
-var active_repo = 'sms';
+var active_repo = 'demonstration';
 var w;
 function Ouvrir() {
   w=window.open("popup.html","pop1","width=200,height=200");
@@ -36,7 +36,7 @@ function drawGraph() {
         {
             selector: 'node',
             style: {
-            'background-color': '#666',
+            'background-color': 'black',
             'label': 'data(label)',
             'shape': 'data(shape)'
             }
@@ -46,8 +46,8 @@ function drawGraph() {
             selector: 'edge',
             style: {
             'width': 3,
-            'line-color': 'black',
-            'target-arrow-color': 'black',
+            'line-color': 'blue',
+            'target-arrow-color': 'blue',
             'target-arrow-shape': 'triangle',
             'curve-style': 'bezier'
             }
@@ -61,7 +61,7 @@ function drawGraph() {
         {
             selector: ".donenode",
             css: {
-            "background-color": "blue"
+            "background-color": "green"
             }
         },
         {
@@ -69,24 +69,20 @@ function drawGraph() {
             css: {
             "background-color": "green"
             }
+        },
+	{
+            selector: ".blackenedEdge",
+            css: {
+		"line-color": "black",
+		"target-arrow-color": "black",
+		"line-style": "dotted"
+            }
         }
         ],
     });
     cy.mount(document.getElementById('cydetails'));
 };
 
-// DOESN'T WORK
-function ajaxReq(requestType, filePath, ajaxArgs) {
-    var xhttp = new XMLHttpRequest()
-    xhttp.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-            handleServicesAutomation()
-        }
-    }
-    xhttp.open(requestType /* GET or POST*/, filePath, true)
-    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded; charset=UTF-8")
-    xhttp.send(ajaxArgs)
-}
 
 function Change_repository() {
     active_repo = document.querySelector("#repository").value;
@@ -144,13 +140,7 @@ function query_repository() {
 }
 function BackToSearch() {
     activateLoadscreen();
-    //closeGetFiles(); 
-    //hideGetFilesResultBox();
     hideLoadscreen();
-    /*
-    semSearchResults.wrapper.classList.add('flex');
-    semSearchResults.container.innerHTML = '';
-    */
 }
 // onload sem-search
 function handleQueryArcadie (request) {
@@ -181,7 +171,6 @@ function handleQueryArcadie (request) {
     } 
     var x = xmlDoc.getElementsByTagName("service");
 
-    // SIMPLIFY LOOPS WITHIN SWITCH
     if (x.length > 0) {
         appendElement(semSearchResults.container, 'h2', x.length + ' result(s) found', {'className': 'text--center m--b--2'})
 
@@ -212,24 +201,15 @@ function handleQueryArcadie (request) {
                         appendElement(link, 'button', quals[qu].childNodes[0].nodeValue, {'className': 'bg--primary bg--img--none inner-border w--50'})
                     }
 
-                    if (urldata != '"No Url attached"') { // UNTESTED
+                    if (urldata != '"No Url attached"') {
                         appendElement(result, 'a', 'Download this document', {
                             'href': urldata,
                             'target': '_BLANK',
-                            // uncomment when getDataClaim button is added
-                            // 'className': 'm--b--1'
+                            
                         })
-                    } else {
-                        appendElement(result, 'p', 'No download links available', /*{
-                            'className': 'm--b--1'
-                        }*/) // uncomment when getDataClaim button is added
-                    }
+                    } 
 
-                    // getDataClaim button
-                    // var getDataClaim = appendElement(result, 'button', 'Get relevant data', {'className': 'inner-border w--full'})
-                    // getDataClaim.addEventListener('click', function(){
-                    //     getDataClaim()
-                    // })
+                    
 
                     if (i == 0) {
                         var addBtnWrapper = appendElement(semSearchResults.wrapper, 'div', null, {'className': 'pos--rel w--full'})
@@ -247,7 +227,6 @@ function handleQueryArcadie (request) {
                 break
 
                 case 'functionality': // software elements and functionalities
-                    //  FUNCTIONALITY'S DESCRIPTION MUST BE 120 CHARACTERS LONG MAX
                     label = x[i].getElementsByTagName("label")[0].childNodes[0].nodeValue.slice(1,-1);
                     definition = x[i].getElementsByTagName("definition")[0].childNodes[0].nodeValue.slice(1,-1);
                     var charLimit = 120
@@ -273,38 +252,17 @@ function handleQueryArcadie (request) {
                     appendElement(serviceLink, 'button', 'Learn more', {'className': 'bg--primary bg--img--none w--full'})
                 break
 
-                /*
-                * OTHER CASES - NEED TO BE RECONFIGURED TO WORK ON SWITCH
-                */
-
-                // if (case_returned == "data") {
-            //     $("#visuQuery").html("<h2>Here is a list of services that may be useful:</h2>")
-            //     if (x.length > 0) {
-            //         for (i=0;i<x.length;i++) {
-            //             nom = x[i].getElementsByTagName("nom")[0].childNodes[0].nodeValue;
-            //             soft = x[i].getElementsByTagName("soft")[0].childNodes[0].nodeValue;
-            //             url = x[i].getElementsByTagName("url")[0].childNodes[0].nodeValue; 
-            //             description = x[i].getElementsByTagName("description")[0].childNodes[0].nodeValue; 
-            //             $("#visuQuery").append(nom+": <br/>"+description+"<br/><input type=\"button\"  onclick=\"getDetails(['"+nom+"']);\" value=\"Get details\"/>");
-            //             if (soft == "get_dataset") {
-            //                 $("#visuQuery").append("<br/>Data direct download: <a href='"+url+"'>Click HERE</a>")
-            //             }
-            //         }
-            //     }
-            // }
+                
                 
                 case 'getDetails':
-                    //alert("handling getDetails:"+x.length);
                     $("#visuQuery").append("<div id=\"about\"></div>");
                     $("#about").html("");
                     if (x.length > 0) {
                         for (i=0;i<x.length;i++) {
-                    //alert(i);
                             statement = x[i].getElementsByTagName("statement")[0].childNodes[0].nodeValue;
                             publisher = x[i].getElementsByTagName("publisher")[0].childNodes[0].nodeValue;
                             description = x[i].getElementsByTagName("description")[0].childNodes[0].nodeValue;
                             datadesc = x[i].getElementsByTagName("datadesc")[0].childNodes[0].nodeValue;
-                            //alert("<b>Description of the service:</b><br/>"+description+"<br/>");
                             $("#about").append("<b>Description of the service:</b><br/>"+description+"<br/>");
                             $("#about").append("<b>Service published by (when available):</b><br/>"+publisher+"<br/>");
                             $("#about").append("<b>Data coming from this service argues that (when applicable):</b><br/>"+statement+"<br/>");
@@ -340,11 +298,9 @@ function SeekInformation() {
     loadscreen.title.textContent = "Now loading"
     loadscreen.subtitle.textContent = "This may take a few moments"
 }
-// Load SADA results 
-// MUST SIMPLIFY (appendElement)
-function handleSeekInformation(request)  {
-    // FETCH
 
+function handleSeekInformation(request)  {
+    
     if (window.DOMParser) {
         parser=new DOMParser();
         xmlDoc=parser.parseFromString(request,"text/xml");
@@ -443,17 +399,12 @@ function deselectEquivalents() {
     var nodes_graph = cy.nodes();
         for (i = 0; i < nodes_graph.length; i++) {
             var cl = nodes_graph[i].classes();
-            /*
-            console.log("Boucle1");
-            console.log(nodes_graph[i].id());
-            */
+           
             if (! cl.includes("selectednode")) {
                 continue
             }
-            //console.log("tap", node.id(), node.position());
-            console.log("Testing neighbors");
+            
             var vois =  nodes_graph[i].neighborhood();
-            //console.log("Number of neighbors",vois.length);
             for (j = 0; j < nodes_graph.length; j++) {
                 if(i == j) {continue}
                 var vois2 =  nodes_graph[j].neighborhood();
@@ -462,6 +413,11 @@ function deselectEquivalents() {
                     //On devalide les equivalents 
                     //on ne garde que le dernier par defaut
                     nodes_graph[j].removeClass("selectednode");
+		    edges_toblack = nodes_graph.edgesWith(nodes_graph[j]);
+		    alert(edges_toblack);
+		    for (tb = 0; tb < edges_toblack.length; tb++) {
+			edges_toblack[tb].addClass("blackenedEdge");
+		    }
                 }
             }
         }
@@ -488,10 +444,7 @@ function handleOperationsWorkflow (request) {
     drawGraph()
     $("#sada-wrapper").hide();
     $("#sada-workflow").show();
-    /*
-    sadaResults.wrapper.classList.remove('flex')
-    sadaWorkflow.wrapper.classList.add('flex')
-    */
+    
     hideLoadscreen()
     outputs_generaux = []
     tab_inout = []
@@ -565,11 +518,17 @@ function handleOperationsWorkflow (request) {
     allSet();
     deselectEquivalents(); 
     cy.on('tap', 'node', function(evt) {
+	var nodes_graph = cy.nodes();
         var node = evt.target;
         node.addClass("selectednode");
+	if (node.style('shape') == "diamond") {
+	    edges_tohighlight = nodes_graph.edgesWith(node);
+	    for (th = 0; th < edges_tohighlight.length; th++) {
+		edges_tohighlight[th].removeClass("blackenedEdge");
+	    }
+	}
         $("#cy").html(tab_definition[node.id()]);
         $("#cy").append("<br/><br/><a href='"+tab_ontologies[node.id()]+">'>Find out more</a>");
-        var nodes_graph = cy.nodes();
         var vois = node.neighborhood();
         for (i = 0; i < nodes_graph.length; i++) {
             if (node.id() == nodes_graph[i].id()){continue}
@@ -580,14 +539,16 @@ function handleOperationsWorkflow (request) {
             var vois2 =  nodes_graph[i].neighborhood();
             if (vois.filter("nodes").same(vois2.filter("nodes"))) {
                 nodes_graph[i].removeClass("selectednode");
+		edges_toblack = nodes_graph.edgesWith(nodes_graph[i]);
+		for (tb = 0; tb < edges_toblack.length; tb++) {
+		    edges_toblack[tb].addClass("blackenedEdge");
+		}
             }
         }
       });
 };
 function AutomateServices() {
-    //console.log("Automation begun");
     var nodes_graph = cy.nodes();
-    //Ouvrir();
     for (i = 0; i < nodes_graph.length; i++) {
             if (nodes_graph[i].hasClass("selectednode")) {
                 service_name = nodes_graph[i].id();
@@ -608,33 +569,12 @@ function AutomateServices() {
                 ajaxArgs += 'url=' + url + '&';
                 ajaxArgs += 'outputs=' + output;
                 requestService(ajaxArgs, soft);
-                //Fermer();
-                //document.getElementById("cyresults").style.background = "url('http://i.stack.imgur.com/FhHRx.gif')"
-                //document.getElementById("cyresults").innerHTML = document.getElementById("cyresults").innerHTML;
-                //setTimeout(() => {  console.log("World!"); }, 2000);
-                /*var remote=$.ajax({
-                    url: '/cgi-bin/'+soft.replace("\"",""),
-                    method: 'POST',
-                    data: ajaxArgs,
-                    async: false,
-                    dataType: "text",
-                    success: handleServicesAutomation
-                }); 
-                activateLoadscreen();    
-                loadscreen.title.textContent = "Now loading"
-                loadscreen.subtitle.textContent = "This may take a few moments"*/
         }
     
     }
-    //hideLoadscreen();
-    //removeLoadAnimation()
-    //document.querySelector('#get-files-results.hidden').classList.replace('hidden', 'open')
-    //Fermer();
 }
 
 function requestService (chaine,software) {
-    //document.getElementById("cyresults").style.background = "url('http://i.stack.imgur.com/FhHRx.gif')"
-    //$( "#cyresults" ).load(window.location.href + " #cyresults" );
     var remote=$.ajax({
         url: '/cgi-bin/'+software.replace("\"",""),
         method: 'POST',
@@ -643,16 +583,11 @@ function requestService (chaine,software) {
         dataType: "text",
         success: handleServicesAutomation
     }); 
-    /*activateLoadscreen();    
-    loadscreen.title.textContent = "Now loading"
-    loadscreen.subtitle.textContent = "This may take a few moments"*/
+    
 }
 // onload getfiles
 function handleServicesAutomation (request) {
-    /*hideLoadscreen();
-    removeLoadAnimation();*/ 
-    //$tohide.removeClass("loading");
-    //document.getElementById("cyresults").style.background = ""
+    
     if (window.DOMParser) {
         parser = new DOMParser();
         xmlDoc = parser.parseFromString(request,"text/xml");
@@ -663,46 +598,12 @@ function handleServicesAutomation (request) {
         xmlDoc.loadXML(request);
     }
     var x = xmlDoc.getElementsByTagName("options");
-    //console.log("RECHERCHE",output)
     var result = x[0].getElementsByTagName(output)[0].childNodes[0].nodeValue;
-    //console.log("info recue",result);
     info_values[output]=result;
     var link = 'https://' + result;
-    //var result_components = result.split('.')
-    //var file_extension = result_components[result_components.length - 1]
-    //console.log("extension",file_extension)
-    //$("#cyresults").append("<br/>");
     $("#cyresults").append("|");
     $("#cyresults").append("<a href='"+link+"'>"+output+"</a>");
     $("#cyresults").append("| ");
-    /*var nodes_graph = cy.nodes();
-    for (i = 0; i < nodes_graph.length; i++) {
-            if (nodes_graph[i].id()==output) {
-                nodes_graph[i].addClass("donenode");
-            }
-        }*/
-    /* else if (extensions.table.includes(file_extension)) {
-
-        if (file_extension == 'csv') {
-            appendElement(link, 'img', null, {
-                'src': 'public/img/file-csv-solid.svg',
-                'className': 'getfiles-icon'
-            })
-        } else {
-            appendElement(link, 'img', null, {
-                'src': 'public/img/table-solid.svg',
-                'className': 'getfiles-icon'
-            })
-        }
-
-    } else {
-
-        appendElement(link, 'img', null, {
-            'src': 'public/img/file-alt-solid.svg',
-            'className': 'getfiles-icon'
-        })
-
-    }*/
 }
 
 // onclick abr

@@ -18,13 +18,13 @@
 
                     <label for="repository">Step 1: Select a repository</label>
                     <select name="repository" class="w--50 m--b--1" id="repository" onchange="Change_repository()">
-                        <option value="sms">Smart Morphing and Sensing (SMS)</option>
-                        <option value="demonstration">Demonstration</option>
+		    	    <option value="demonstration">Demonstration</option>
+		    	    <option value="sms">Smart Morphing and Sensing (SMS)</option>
                     </select>
 
                     <label for="keywords">Step 2: Search by keywords</label>
                     <div class="input-container w--50 m--b--1">
-                        <input name="keywords" type="text" value="NSMB-simulated near-trailing edge piezo-actuation" id="information">
+                        <input name="keywords" type="text" value="un fichier de texte avec des lignes de mots" id="information">
                         <img src="" alt="">
                     </div>
                     <button id = "seekInfo" class="inner-border" onclick="event.preventDefault(); activateLoadscreen(); SeekInformation(); closeGetFiles(); hideGetFilesResultBox()">Search</button>
