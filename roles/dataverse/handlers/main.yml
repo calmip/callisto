@@ -1,5 +1,0 @@
----
-# handlers file for dataverse---
-- name: restart apache
-  service: name=httpd state=restarted
-

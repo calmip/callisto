@@ -1,0 +1,15 @@
+name = PSD_PERIOD
+input:
+	name = MySuperHyperTerm
+	format = x-python
+	unit = UNITLESS
+output:
+	name = PSD
+	format = CSV
+	unit = UNITLESS
+description = This service calculates the Power Spectral Density (PSD) using the Periodogram  method
+base url = http://callisto.calmip.univ-toulouse.fr/cgi-bin/
+scriptfile = psd_periodogram.py
+label = psd_periodogram.py
+repository = DEMONSTRATION
+operations = Mean calculation&PSD perisdogram

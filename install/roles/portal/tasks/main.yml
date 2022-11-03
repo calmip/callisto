@@ -1,0 +1,149 @@
+---
+#
+# This file is part of Callisto software
+# Callisto helps scientists to share data between collaborators
+#
+# Callisto is free software: you can redistribute it and/or modify
+# it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+#  Copyright (C) 2019-2021    C A L M I P
+#  callisto is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU AFFERO GENERAL PUBLIC LICENSE for more details.
+#
+#  You should have received a copy of the GNU AFFERO GENERAL PUBLIC LICENSE
+#  along with Callisto.  If not, see <http://www.gnu.org/licenses/agpl-3.0.txt>.
+#
+#  Authors:
+#        Thierry Louge      - C.N.R.S. - UMS 3667 - CALMIP
+#        Emmanuel Courcelle - C.N.R.S. - UMS 3667 - CALMIP
+#
+
+# tasks file for portal
+
+- name: Installing php on the portal only
+  yum:
+    name:
+       - php
+    state: latest
+  notify: restart apache
+
+- name: Configuring php (display_errors On on laptop)
+  lineinfile:
+     path: "/etc/php.ini"
+     regexp: "^display_errors *="
+     line: "display_errors = On"
+     state: present
+  notify: restart apache
+  when: callisto_living_on == "laptop" 
+
+- name: Installing dependencies for the python packages
+  yum:
+    name:
+       - python3
+       - python3-devel
+       - zlib-devel
+       - zlib
+       - libjpeg-turbo-devel
+       - gcc
+    update_cache: true
+    state: latest
+
+- name: Installing several python packages using pip
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+  pip:
+    name:
+      - agraph-python
+      - six 
+      - rdflib
+      - jellyfish
+      - scipy
+      - pandas
+      - matplotlib
+    extra_args: --user
+    state: latest
+    executable: pip3
+
+    #- name: Add the user 'callisto'
+    #user:
+    #name: '{{utilisateur}}'
+    #comment: 
+
+- name: installing configuration file
+  template:
+     src:  00-portal.conf
+     dest: /etc/httpd/conf.d
+     owner: root
+     group: root
+     mode: '0644'
+     backup: yes
+  notify: restart apache
+
+- name: create the vars.php file 
+  template:
+     src: vars.php
+     dest: /usr/local/callisto/html/components
+     owner: root
+     group: root
+     mode: '0444'
+
+- name: installing demonstration repository file 
+  template:
+     src:  UTILS/{{ item }}
+     dest: /home/callisto
+     owner: root
+     group: root
+     mode: '0644'
+     backup: yes
+  loop:
+     - demonstration.nt
+     
+- name: creating /var/log/callisto directory
+  file:
+    path: /var/log/callisto
+    state: directory
+    owner: apache
+    group: root
+    mode: '0740'
+
+- name: creating /usr/local/callisto/html/TempFiles directory
+  file:
+    path: /usr/local/callisto/html/TempFiles
+    state: directory
+    owner: apache
+    group: apache
+    mode: '0740'
+
+- name: creating /usr/local/callisto/cgi-bin/TempFiles directory
+  file:
+    path: /usr/local/callisto/cgi-bin/TempFiles
+    state: directory
+    owner: apache
+    group: apache
+    mode: '0740'
+
+- name: synchronize dataverse and allegro every 15mn
+  cron:
+    name: "sync dataverse<->allegro"
+    minute: "9,19,29,39,49,59"
+    hour: "7-23"
+    job: "/usr/local/callisto/bin/Update_Allegro_Repositories.py > /dev/null"
+
+- name: clean TempFiles (cgi-bin) every hour
+  cron:
+    name: "Clean cgi-bin TempFiles"
+    minute: "23"
+    hour: "7-23"
+    job: find /usr/local/callisto/cgi-bin/TempFiles -type f -ctime +1 | xargs rm -rf > /dev/null
+
+- name: clean TempFiles (html) every hour
+  cron:
+    name: "Clean var/www TempFiles"
+    minute: "27"
+    hour: "7-23"
+    job: find /usr/local/callisto/html/TempFiles -type f -ctime +1 | xargs rm -rf > /dev/null
+

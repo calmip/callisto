@@ -1,0 +1,65 @@
+h1 {
+    font-family: $titleFont;
+    font-weight: bold;
+    font-size: 2.75rem;
+    line-height: 122%;
+}
+
+h2 {
+    font-family: $titleFont;
+    font-weight: bold;
+    font-size: 2rem;
+}
+
+h3 {
+    font-family: $titleFont;
+    font-size: 1.5rem;
+}
+
+h4 {
+    font-size: 1.25rem;
+}
+
+h5 {
+    font-size: 1rem;
+}
+
+p {
+    line-height: 200%;
+}
+
+.text{
+    &--primary {
+        color: $primaryColor;
+    }
+    &--light {
+        color: $lightColor;
+    }
+    &--light {
+        color: $lightColor;
+    }
+    &--second-lisibility {
+        color: $secondLisibilityColor
+    }
+
+    &--center {
+        text-align: center;
+    }
+
+    &--muted {
+        font-size: 0.75rem;
+        color: $mutedColor;
+        font-weight: 400;
+    }
+    &--small {
+        font-size: 0.75rem;
+    }
+
+    &--no-decoration {
+        text-decoration: none;
+    }
+    &--underline {
+        text-decoration: underline;
+    }
+}
+

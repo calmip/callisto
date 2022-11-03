@@ -1,0 +1,17 @@
+.bg {
+    background-image: linear-gradient($bgGradientTopColor, $bgGradientBottomColor);
+
+    &--inverted {
+        background-image: linear-gradient($bgGradientBottomColor, $bgGradientTopColor);
+    }
+
+    &--primary {
+        background-color: $primaryColor;
+    }
+    &--light {
+        background-color: $lightColor;
+    }
+    &--pale {
+        background-color: $paleColor;
+    }
+}

@@ -1,0 +1,2 @@
+root:{{system_email_from}}:{{ mailhub }}
+

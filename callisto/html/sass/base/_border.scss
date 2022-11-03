@@ -1,0 +1,14 @@
+.inner-border {
+    border: 2px solid rgba($color: #fff, $alpha: 0.5);
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+
+.circle {
+    border-radius: 50%;
+}
+
+.rounded {
+    border-radius: 1rem;
+}

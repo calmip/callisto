@@ -1,0 +1,8 @@
+---
+# handlers file for create_containers
+- name: restart apache
+  service: name=httpd state=restarted
+
+- name: restart sshd
+  service: name=sshd state=restarted
+

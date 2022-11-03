@@ -7,7 +7,7 @@ Pre-requisites
  - Callisto can be installed on your laptop (gnu/linux based) for tests and development
  - Callisto should be installed on a gnu/linux based server (tested on Ubuntu) for production
  - Callisto lives in different lxd containers, SO you should first install lxd
- - Callisto used ansible to deploy the programs in the lxc containers: ansible should be installed on the host
+ - Callisto uses ansible to deploy the programs in the lxc containers: ansible should be installed on the host
  - The Callisto software should be downloaded on the host
 
 ### Installing lxd: ###
@@ -38,6 +38,22 @@ or
 
 A more complete documentation about lxd can be found here: https://ubuntu.com/tutorials/introduction-to-lxd-projects#1-overview
 
+### Configure lxd to be able to share directories:
+
+You should prepare the mapping between the uid/gid in the host and in the containers (you'll have to restart lxd daemon, thus all containers will be restarted)
+
+```
+# printf "lxd:$(id -u):1\nroot:$(id -u):1\n" | sudo tee -a /etc/subuid
+lxd:1000:1
+root:1000:1
+
+# printf "lxd:$(id -g):1\nroot:$(id -g):1\n" | sudo tee -a /etc/subgid
+lxd:1000:1
+root:1000:1
+
+sudo systemctl restart snap.lxd.daemon
+```
+
 ### Installing Ansible: ###
 
 Callisto uses ansible to deploy the application on several lxd containers (centOs7 based). So Ansible should be installed on the host (release 2.9.11 required):
@@ -48,54 +64,68 @@ Callisto uses ansible to deploy the application on several lxd containers (centO
 
     git clone https://github.com/calmip/callisto
 
+in the following, `$WORKDIR` means: the directory where you cloned callisto
+
 Installing Callisto (base containers)
 -------------------------------------
 
 **Copy** the file vars.yml.dist:
 
-    cp vars.yml.dist vars.yml
+```
+cd $WORKDIR/install
+cp vars.yml.dist vars.yml
+```
 
- - **Edit** the file vars.yml: 
-   - choose **laptop** or **server** for the variable `callisto_living_on`
-   - Choose and write credentials for the use of Allegro software (`allegro_user` and `allegro_password`)
-   - `ssh_wanted`: if true, your ssh public key shall be copied to the containers, to easily enter the containers. This is only convenient if you are a developer. Default is false
-   - If installing on **server**, there are other variables to set (`callisto_url`, mail addresses and some other stuff)
+**Edit** the file vars.yml: 
+
+- choose **laptop** or **server** for the variable `callisto_living_on`
+- Choose and write credentials for the use of Allegro software (`allegro_user` and `allegro_password`)
+- `ssh_wanted`: if true, your ssh public key shall be copied to the containers, to easily enter the containers. This is only convenient if you are a developer. Default is false
+- If installing on **server**, there are other variables to set (`callisto_url`, mail addresses and some other stuff)
 
 **Managing** the certificates:
 
-*If installing on your laptop*, you can use the self-signed certificates:
-
+- *If installing on your laptop*, you can use the self-signed certificates:
+  
+    ```
+    cd $WORKDIR/install
     cp roles/proxy/files/cert.pem.dist roles/proxy/files/ssl/cert.pem
     cp roles/proxy/files/key.pem.dist  roles/proxy/files/ssl/key.pem
+    ```
 
-*If installing on a server*, you should get a secure certificate for the domains (a `*.{{ callisto_url }}` certificate is OK):
+- *If installing on a server*, you should get a secure certificate for the domains (a `*.{{ callisto_url }}` certificate is OK):
+   - {{ callisto_url }}
+   - dataverse.{{ callisto_url }}
+   - allegro.{{ callisto_url }}
+   - Copy the certificate, the key and the chain to the directory `roles/proxy/files/ssl`
+   - See also the file `certificates/README.txt` (there is a certificate to get for Shibboleth configuration)
 
- - {{ callisto_url }}
- - dataverse.{{ callisto_url }}
- - allegro.{{ callisto_url }}
+**Run the following command** to create the containers:
 
-Copy the certificate, the key and the chain to the directory roles/proxy/files/ssl
-
-See also the file certificates/README.txt (there is a certificate to get for Shibboleth configuration)
-
-**Run the following command** to create the containers and deploy Callisto on them:
-
-    ansible-playbook -i inventory callisto.yml 
-
-If this does not work with a password related message, add the -K switch to the above command:
-
+    cd $WORKDIR/install
     ansible-playbook -i inventory callisto.yml -K
 
 Partial installs can be done with the `--tags` switch (have a look to `callisto.yml` to know the tags):
 
+    cd $WORKDIR/install
     ansible-playbook -i inventory --tags proxy callisto.yml -K
+
+## Installing Callisto (the code):
+
+Create and edit the callisto configuration file. Please choose a user name and a password as Allegro administrator.
+
+```
+cd $WORKDIR/callisto/etc
+cp callisto_conf.cfg.dist callisto_conf.cfg
+vi callisto_conf.cfg 
+```
 
 Installing dataverse:
 ---------------------
 
-Dataverse can be easily installed thanks to the ansible role provided by Dataverse:
+Dataverse can be installed thanks to the ansible role provided by Dataverse:
 
-    cd ../
+    cd $WORKDIR/..
     git clone https://github.com/GlobalDataverseCommunityConsortium/dataverse-ansible.git dataverse
     cd dataverse
     git checkout 3b0277a0ad5bcb717dd2fd186fe9162fd157bfe9
@@ -105,14 +135,10 @@ Dataverse can be easily installed thanks to the ansible role provided by Dataver
     [dataverse]
     CallistoDataverse ansible_connection=lxd
 
-**Modify** the file  called default/main.yml:
-
-    port: 443 (line 20)
-
 **Return** to base directory and **run** the command:
 
-    cd ../
-    ansible-playbook -v -i dataverse/inventory dataverse/dataverse.pb -e dataverse/defaults/main.yml
+    cd $WORKDIR/../dataverse
+    ansible-playbook -v -i dataverse/inventory dataverse/dataverse.pb -e dataverse/defaults/main.yml -K
 
 Installing the demonstration repository in dataverse:
 -----------------------------------------------------
@@ -170,7 +196,8 @@ Loading demonstration repository
 
 **Load** the demonstration repository:
 
-    /usr/local/bin/initialize_demonstration_repository.py
+    cd /usr/local/callisto/bin
+    ./initialize_demonstration_repository.py
 
 ## Working with open data
 
@@ -179,9 +206,9 @@ The users can manage an open data repository with Callisto (ie data accessible t
 - Enter inside the CallistoDataverse container, and edit a file (2 lines to complete, replace CallistoDataverse with a real fqdn and URL (please expand {{callisto_URL}}):
 
   ```
-lxc exec CallistoDataverse bash
+  lxc exec CallistoDataverse bash
   vi /usr/local/payara5/glassfish/domains/domain1/config/domain.xml
- L.269 --> <jvm-options>-Ddataverse.fqdn=dataverse.{{callisto_URL}}</jvm-options>
+   L.269 --> <jvm-options>-Ddataverse.fqdn=dataverse.{{callisto_URL}}</jvm-options>
    L.278 --> <jvm-options>-Ddataverse.siteUrl=https://dataverse.{{callisto_URL}}</jvm-options>
   ```
   Then restart the container:

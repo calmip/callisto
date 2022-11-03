@@ -1,0 +1,269 @@
+---
+#
+# This file is part of Callisto software
+# Callisto helps scientists to share data between collaborators
+#
+# Callisto is free software: you can redistribute it and/or modify
+# it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+#  Copyright (C) 2019-2021    C A L M I P
+#  callisto is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU AFFERO GENERAL PUBLIC LICENSE for more details.
+#
+#  You should have received a copy of the GNU AFFERO GENERAL PUBLIC LICENSE
+#  along with Callisto.  If not, see <http://www.gnu.org/licenses/agpl-3.0.txt>.
+#
+#  Authors:
+#        Thierry Louge      - C.N.R.S. - UMS 3667 - CALMIP
+#        Emmanuel Courcelle - C.N.R.S. - UMS 3667 - CALMIP
+#
+
+# tasks file for create_containers
+
+- name: if running on laptop, add an alias for Callisto, dataverse etc.
+  delegate_to: localhost
+  connection: local
+  lineinfile:
+     path: "/etc/hosts"
+     line: "127.0.0.1 {{callisto_url}} {{callisto_url}} dataverse.{{callisto_url}} allegro.{{callisto_url}}"
+     state: present
+  when: callisto_living_on == "laptop"
+
+- name: containers exist
+  delegate_to: localhost
+  connection: local
+  lxd_container:
+     url: https://127.0.0.1:8443
+     ephemeral: no
+     source:
+         type: image
+         mode: pull
+         server: https://images.linuxcontainers.org
+         #protocol: lxd # if you get a 404, try setting protocol: simplestreams
+         protocol: simplestreams
+         alias: centos/7/amd64
+     name: "{{ inventory_hostname }}"
+     architecture: x86_64
+     state: started
+
+- name: Set the timezone to {{ callisto_timezone }}
+  timezone:
+     name: "{{ callisto_timezone }}"
+
+- name: attach port80
+  delegate_to: localhost
+  connection: local
+  shell: ( lxc config device add CallistoProxy callport80 proxy listen=tcp:0.0.0.0:80 connect=tcp:127.0.0.1:80 proxy_protocol=false; exit 0 )
+  when: inventory_hostname == "CallistoProxy"
+
+- name: attach port443
+  delegate_to: localhost
+  connection: local
+  shell: ( lxc config device add CallistoProxy callport443 proxy listen=tcp:0.0.0.0:443 connect=tcp:127.0.0.1:443 proxy_protocol=false; exit 0 )
+  when: inventory_hostname == "CallistoProxy"
+
+- name: creating callisto directory on portal
+  file:
+    path: /var/www/html/callisto
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+  when: ansible_host == "CallistoPortal"
+
+- name: configuring shared directory on the portal
+  delegate_to: localhost
+  connection: local
+  shell: $(pwd)/shareDir.bash
+  args:
+     creates: ../callisto/.SHARED.txt
+  when: inventory_hostname == "CallistoPortal"
+
+- name: Installing required software
+  yum:
+    name:
+       - vim
+       - epel-release
+       - sudo
+       - tar
+       - wget
+       - python3
+    update_cache: true
+    state: latest
+
+- name: Installing apache
+  yum:
+    name:
+       - httpd
+    update_cache: true
+    state: latest
+  when: ansible_host != "CallistoAllegro"
+
+- name: Installing mod_ssl
+  yum:
+    name:
+       - mod_ssl
+    state: latest
+  notify: restart apache
+  when: ansible_host != "CallistoAllegro"
+
+- name: Ensure apache is running
+  service: name=httpd state=started enabled=yes
+  when: ansible_host != "CallistoAllegro"
+
+- name: Allegro - installing openssl
+  yum:
+    name:
+       - openssl
+    update_cache: true
+    state: latest
+  when: ansible_host == "CallistoAllegro"
+
+- name: Install ssh and firefox in containers
+  yum:
+    name:
+      - openssh-server
+      - xauth
+      - firefox
+    state: latest
+  when: ssh_wanted == true
+ 
+- name: modify the config of sshd_config (1)
+  lineinfile:
+     path: "/etc/ssh/sshd_config"
+     regexp: "^PasswordAuthentication"
+     line: "###PasswordAuthentication"
+     state: present
+  when: ssh_wanted == true
+  notify: restart sshd
+
+- name: modify the config of sshd_config (2)
+  lineinfile:
+     path: "/etc/ssh/sshd_config"
+     regexp: "^GSSAPIAuthentication"
+     line: "###GSSAPIAuthentication"
+     state: present
+  when: ssh_wanted == true
+  notify: restart sshd
+
+- name: modify the config of sshd_config (3)
+  lineinfile:
+     path: "/etc/ssh/sshd_config"
+     regexp: "^GSSAPICleanupCredentials"
+     line: "###GSSAPICleanupCredentials"
+     state: present
+  when: ssh_wanted == true
+  notify: restart sshd
+
+- name: Ensure sshd is running
+  service: name=sshd state=started enabled=yes
+  when: ssh_wanted == true
+
+- name: Create the root .ssh directory
+  file:
+    dest: "/root/.ssh"
+    state: directory
+    group: root
+    owner: root
+    mode: '0700'
+  when: ssh_wanted == true
+
+- name: Send my ssh key to the new container
+  copy:
+    src: "{{ lookup('env','HOME') }}/.ssh/id_rsa.pub"
+    dest: .ssh/authorized_keys
+    group: root
+    owner: root
+    mode: '0600'
+  when: ssh_wanted == true
+
+- name: Installing some stuff recommended for server administration
+  yum:
+    name:
+       - ssmtp
+       - yum-cron
+       - logwatch
+    state: latest
+  when: callisto_living_on == "server"
+
+- name: Configuring ssmtp -> ssmtp.conf
+  template:
+     src: ssmtp.conf
+     dest: /etc/ssmtp/ssmtp.conf
+     owner: root
+     group: root
+     mode: '0644'
+     backup: yes
+  when: callisto_living_on == "server"
+
+- name: Configuring ssmtp -> revaliases
+  template:
+     src: revaliases
+     dest: /etc/ssmtp/revaliases
+     owner: root
+     group: mail
+     mode: '0640'
+     backup: yes
+  when: callisto_living_on == "server"
+
+- name: Configuring yum-cron -> yum-cron.conf
+  template:
+     src: yum-cron.conf
+     dest: /etc/yum/yum-cron.conf
+     owner: root
+     group: root
+     mode: u=rx,go=r
+     backup: yes
+  when: callisto_living_on == "server"
+
+- name: Configuring logwatch -> logwatch.conf
+  template:
+     src: logwatch.conf
+     dest: /etc/logwatch/logwatch.conf
+     owner: root
+     group: root
+     mode: u=rx,go=r
+     backup: yes
+  when: callisto_living_on == "server"
+
+- name: Configuring logwatch -> weekly, not daily
+  command:  
+     removes: /etc/cron.daily/0logwatch
+     creates: /etc/cron.weekly/0logwatch
+     cmd: mv /etc/cron.daily/0logwatch /etc/cron.weekly
+  when: callisto_living_on == "server"
+
+- name: Configuring logrotate (default values)
+  copy:
+    src: logrotate.conf
+    dest: /etc/logrotate.conf
+    group: root
+    owner: root
+    mode: '0644'
+  when: callisto_living_on == "server"
+
+- name: Configuring logrotate (forcing default values)
+  shell: 
+    cmd:     sed -i "s/\(^\s\+rotate\|nocompress\|weekly\|monthly\)/#\1/" /etc/logrotate.d/* && touch /etc/logrotate.d/.callisto
+    creates: /etc/logrotate.d/.callisto
+    warn: false
+  when: callisto_living_on == "server"
+
+- name: Creating a group Callisto (only in CallistoAllegro)
+  group:
+    name: callisto
+    state: present
+  when: ansible_host == "CallistoAllegro"
+
+- name: Creating a user Callisto (only in CallistoAllegro)
+  user:
+    name: callisto
+    create_home: yes
+    groups: callisto
+    password: '!'
+  when: ansible_host == "CallistoAllegro"
+

@@ -1,0 +1,12 @@
+.card {
+    .abr-link {
+        img {
+            transition: 0.3s ease-out;
+            width: 30px;
+            height: 30px;
+        }
+        &:hover img {
+            transform: rotateZ(180deg);
+        }
+    }
+}

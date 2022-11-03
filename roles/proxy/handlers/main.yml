@@ -1,8 +1,0 @@
----
-# handlers file for proxy
-- name: restart apache
-  service: name=httpd state=restarted
-
-- name: restart shibd
-  service: name=shibd state=restarted
-

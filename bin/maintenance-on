@@ -1,0 +1,4 @@
+#! /bin/bash
+
+lxc exec CallistoProxy -- bash -c 'cd /etc/httpd/conf.d && rm -f *.conf && for f in  maintenance/*.conf; do ln -s $f; done && systemctl restart httpd'
+

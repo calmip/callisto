@@ -1,0 +1,47 @@
+.p {
+    @include sideSpacing(padding);
+    @include axisSpacing(padding);
+    @include spacing(padding);
+
+    &--viewport {
+        padding-left: $viewportPadding;
+        padding-right: $viewportPadding;
+    }
+
+    &--t--10 {
+        padding-top: 10rem
+    }
+
+    &--b--05 {
+        padding-bottom: 0.5rem
+    }
+    &--t--05 {
+        padding-top: 0.5rem
+    }
+    
+}
+
+.m {
+    @include sideSpacing(margin);
+    @include axisSpacing(margin);
+    @include spacing(margin);
+
+    &--t--10 {
+        margin-top: 10rem;
+    }
+
+    &--x--auto {
+        margin: 0 auto;
+    }
+
+    &--auto {
+        margin: auto;
+    }
+    &--r--05 {
+        margin-right: 0.5rem
+    }
+}
+
+
+
+

@@ -1,0 +1,15 @@
+service_name = PSD_PERIOD
+input:
+	name = Signal
+	format = CSV
+	unit = UNITLESS
+output:
+	name = PSD
+	format = CSV
+	unit = UNITLESS
+description = This service calculates the Power Spectral Density (PSD) using the Periodogram  method
+base url = http://callisto.calmip.univ-toulouse.fr/cgi-bin/
+script name = psd_periodogram.py
+label = PSD Periodogram calculation
+repository = sms
+operations = Mean calculation&PSD perisdogram

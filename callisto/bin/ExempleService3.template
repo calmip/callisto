@@ -1,0 +1,16 @@
+service_name = WORD_AND_LETTER_COUNTING
+output:
+	name = scatterpoints
+	format = PNG
+	unit = UNITLESS
+input:
+	name = http://edamontology.org/data_0972
+	format = CSV
+	unit = UNITLESS
+description = This service plots contents from a csv file
+base url = http://www.callisto-dev.calmip.univ-toulouse.fr/cgi-bin/
+scriptfile = ExempleService3.py
+resultfile = ExempleService3_results.png
+label = Troisieme exemple de service 
+repository = demonstration
+operations = Histogram plot

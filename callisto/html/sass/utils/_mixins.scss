@@ -1,0 +1,71 @@
+// SPACING
+$sideMap: ( 
+    t: top,
+    b: bottom,
+    l: left,
+    r: right
+);
+@mixin sideSpacing($spacing) {
+    @each $key, $side in $sideMap {
+        &--#{$key} {
+            @for $i from 0 through 5 {
+                &--#{$i} {
+
+                    #{$spacing}-#{$side}: $i+rem;
+                }
+            } 
+        }
+    }
+}
+
+$axisMap: ( 
+    x: (
+        left,
+        right
+    ),
+    y: (
+        top,
+        bottom
+    )
+);
+@mixin axisSpacing($spacing) {
+    @each $key, $axis in $axisMap {
+        &--#{$key} {
+            @for $i from 0 through 5 {
+                &--#{$i} {
+                    @each $side in $axis {
+                        #{$spacing}-#{$side}: $i+rem;
+                    }
+                }
+            } 
+        }
+    }
+}
+
+@mixin spacing($spacing) {
+    @for $i from 0 through 5 {
+        &--#{$i} {
+            #{$spacing}: $i+rem;
+        }
+    } 
+}
+
+// DIMENSIONS
+$dimensions: (
+    full: 100%,
+    80: 80%,
+    75: 70%,
+    60: 60%,
+    50: 50%,
+    40: 40%,
+    25: 25%,
+    20: 20%
+);
+
+@mixin dimensions($dimension) {
+    @each $key, $size in $dimensions {
+        &--#{$key} {
+            #{$dimension}: $size;
+        }
+    }
+}

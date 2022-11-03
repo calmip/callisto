@@ -1,6 +1,12 @@
 *.bkp
 vars.yml
+callisto_conf.cfg
 *.rpm
-headers.conf
 *.pem
+__pycache__
+logs
+TempFiles
+
+callisto/html/components/vars.php
+callisto/.SHARED.txt
 

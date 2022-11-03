@@ -1,0 +1,49 @@
+---
+- name: Creating and configuring containers for Callisto
+  hosts: all
+  connection: local
+  #  become: true
+  gather_facts: false
+  vars_files:
+     - vars.yml
+  roles:
+     - name: create_containers
+       tags:
+         - create_containers
+
+- name:  Working on proxy
+  hosts: CallistoProxy
+  vars_files:
+     - vars.yml
+  roles:
+     - name: proxy
+       tags: 
+         - proxy
+
+- name:  Working on portal
+  hosts: CallistoPortal
+  vars_files:
+     - vars.yml
+  roles:
+     - name: portal
+       tags: 
+         - portal
+
+- name:  Working on dataverse
+  hosts: CallistoDataverse
+  vars_files:
+     - vars.yml
+  roles:
+     - name: dataverse
+       tags:
+         - dataverse
+
+
+           #- name:  Working on allegro
+           #  hosts: CallistoAllegro
+           #  vars_files:
+           #     - vars.yml
+           #  roles:
+           #     - name: allegro
+           #       tags:
+           #         - allegro
