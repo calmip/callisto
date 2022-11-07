@@ -83,14 +83,6 @@
      backup: yes
   notify: restart apache
 
-- name: create the vars.php file 
-  template:
-     src: vars.php
-     dest: /usr/local/callisto/html/components
-     owner: root
-     group: root
-     mode: '0444'
-
 - name: installing demonstration repository file 
   template:
      src:  UTILS/{{ item }}
@@ -125,6 +117,14 @@
     owner: apache
     group: apache
     mode: '0740'
+
+- name: create the vars.php file 
+  template:
+     src: vars.php
+     dest: /usr/local/callisto/html/components
+     owner: root
+     group: root
+     mode: '0444'
 
 - name: synchronize dataverse and allegro every 15mn
   cron:
