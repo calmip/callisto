@@ -1,0 +1,18 @@
+DEBUG:2022-11-03 14:50:41,705 host=CallistoAllegro. 
+DEBUG:2022-11-03 14:50:41,705 port=10035. 
+DEBUG:2022-11-03 14:50:41,705 user=thierry. 
+DEBUG:2022-11-03 14:50:41,705 password=thierry74. 
+DEBUG:2022-11-03 14:50:41,705 close_enough=0.28. 
+DEBUG:2022-11-03 14:50:41,706 input name:textualcontent. 
+DEBUG:2022-11-03 14:50:41,706 input format:ASCII. 
+DEBUG:2022-11-03 14:50:41,706 input unit:UNITLESS. 
+DEBUG:2022-11-03 14:50:41,706 output name:http://edamontology.org/data_0972. 
+DEBUG:2022-11-03 14:50:41,706 output format:CSV. 
+DEBUG:2022-11-03 14:50:41,706 output unit:UNITLESS. 
+DEBUG:2022-11-03 14:50:41,706 Service description:This service counts the number of words of given letters from an input ascii file . 
+DEBUG:2022-11-03 14:50:41,706 Service url:http://www.callisto-dev.calmip.univ-toulouse.fr/cgi-bin/. 
+DEBUG:2022-11-03 14:50:41,706 Service script name:ExempleService1.py. 
+DEBUG:2022-11-03 14:50:41,706 Service results: ExempleService1_results.txt. 
+DEBUG:2022-11-03 14:50:41,706 Service label:Exemple de service. 
+DEBUG:2022-11-03 14:50:41,706 Service repository:demonstration. 
+DEBUG:2022-11-03 14:50:41,706 Service operations: Word count&Letter count. 

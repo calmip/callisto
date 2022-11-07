@@ -1,0 +1,87 @@
+DEBUG:2022-11-03 15:54:16,720 case=allegro 
+DEBUG:2022-11-03 15:54:16,721 host=CallistoAllegro. 
+DEBUG:2022-11-03 15:54:16,721 port=10035. 
+DEBUG:2022-11-03 15:54:16,721 user=thierry. 
+DEBUG:2022-11-03 15:54:16,721 password=thierry74. 
+DEBUG:2022-11-03 15:54:16,721 case=ontologies 
+DEBUG:2022-11-03 15:54:16,721 case=generic 
+DEBUG:2022-11-03 15:54:16,721 close_enough=0.28. 
+DEBUG:2022-11-03 15:54:16,721 case=dataverse 
+DEBUG:2022-11-03 15:54:16,724 Starting new HTTP connection (1): callistoallegro:10035 
+DEBUG:2022-11-03 15:54:16,727 http://callistoallegro:10035 "GET /catalogs HTTP/1.1" 200 None 
+DEBUG:2022-11-03 15:54:16,730 Starting new HTTP connection (1): callistoallegro:10035 
+DEBUG:2022-11-03 15:54:16,735 http://callistoallegro:10035 "GET /repositories HTTP/1.1" 200 None 
+DEBUG:2022-11-03 15:54:16,736 trouve repos:['demonstration'] 
+DEBUG:2022-11-03 15:54:16,736 get_detail, repos:['demonstration'] 
+DEBUG:2022-11-03 15:54:17,394 regisering service:FDV_591 
+DEBUG:2022-11-03 15:54:17,402 http://callistoallegro:10035 "GET /repositories HTTP/1.1" 200 None 
+INFO:2022-11-03 15:54:17,403 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+        PREFIX oboInOwl: <http://www.geneontology.org/formats/oboInOwl#>
+        PREFIX edamontology: <http://edamontology.org/>
+        PREFIX obo: <http://purl.obolibrary.org/obo/>
+        PREFIX arcas: <http://www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf#>
+        PREFIX service: <http://www.daml.org/services/owl-s/1.2/Service.owl#>
+        PREFIX profile: <http://www.daml.org/services/owl-s/1.2/Profile.owl#>
+        PREFIX mp:<http://purl.org/mp#>
+        SELECT DISTINCT ?service
+        WHERE {
+        ?service service:presents ?profile.
+        ?profile arcas:hasQuerySoftware <http://www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf#get_dataset>.
+        ?profile profile:textDescription ?description.
+        } 
+DEBUG:2022-11-03 15:54:17,408 Starting new HTTP connection (1): callistoallegro:10035 
+DEBUG:2022-11-03 15:54:17,461 http://callistoallegro:10035 "GET /repositories/demonstration?query=PREFIX%20rdfs%3A%20%3Chttp%3A//www.w3.org/2000/01/rdf-schema%23%3E%0A%20%20%20%20%20%20%20%20PREFIX%20oboInOwl%3A%20%3Chttp%3A//www.geneontology.org/formats/oboInOwl%23%3E%0A%20%20%20%20%20%20%20%20PREFIX%20edamontology%3A%20%3Chttp%3A//edamontology.org/%3E%0A%20%20%20%20%20%20%20%20PREFIX%20obo%3A%20%3Chttp%3A//purl.obolibrary.org/obo/%3E%0A%20%20%20%20%20%20%20%20PREFIX%20arcas%3A%20%3Chttp%3A//www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf%23%3E%0A%20%20%20%20%20%20%20%20PREFIX%20service%3A%20%3Chttp%3A//www.daml.org/services/owl-s/1.2/Service.owl%23%3E%0A%20%20%20%20%20%20%20%20PREFIX%20profile%3A%20%3Chttp%3A//www.daml.org/services/owl-s/1.2/Profile.owl%23%3E%0A%20%20%20%20%20%20%20%20PREFIX%20mp%3A%3Chttp%3A//purl.org/mp%23%3E%0A%20%20%20%20%20%20%20%20SELECT%20DISTINCT%20%3Fservice%0A%20%20%20%20%20%20%20%20WHERE%20%7B%0A%20%20%20%20%20%20%20%20%3Fservice%20service%3Apresents%20%3Fprofile.%0A%20%20%20%20%20%20%20%20%3Fprofile%20arcas%3AhasQuerySoftware%20%3Chttp%3A//www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf%23get_dataset%3E.%0A%20%20%20%20%20%20%20%20%3Fprofile%20profile%3AtextDescription%20%3Fdescription.%0A%20%20%20%20%20%20%20%20%7D&infer=false&checkVariables=false&analyzeIndicesUsed=false&returnQueryMetadata=true HTTP/1.1" 200 None 
+DEBUG:2022-11-03 15:54:17,462 regisering service:FDV_651 
+DEBUG:2022-11-03 15:54:17,467 http://callistoallegro:10035 "GET /repositories HTTP/1.1" 200 None 
+INFO:2022-11-03 15:54:17,467 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+        PREFIX oboInOwl: <http://www.geneontology.org/formats/oboInOwl#>
+        PREFIX edamontology: <http://edamontology.org/>
+        PREFIX obo: <http://purl.obolibrary.org/obo/>
+        PREFIX arcas: <http://www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf#>
+        PREFIX service: <http://www.daml.org/services/owl-s/1.2/Service.owl#>
+        PREFIX profile: <http://www.daml.org/services/owl-s/1.2/Profile.owl#>
+        PREFIX mp:<http://purl.org/mp#>
+        SELECT DISTINCT ?service
+        WHERE {
+        ?service service:presents ?profile.
+        ?profile arcas:hasQuerySoftware <http://www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf#get_dataset>.
+        ?profile profile:textDescription ?description.
+        } 
+DEBUG:2022-11-03 15:54:17,471 Starting new HTTP connection (1): callistoallegro:10035 
+DEBUG:2022-11-03 15:54:17,478 http://callistoallegro:10035 "GET /repositories/demonstration?query=PREFIX%20rdfs%3A%20%3Chttp%3A//www.w3.org/2000/01/rdf-schema%23%3E%0A%20%20%20%20%20%20%20%20PREFIX%20oboInOwl%3A%20%3Chttp%3A//www.geneontology.org/formats/oboInOwl%23%3E%0A%20%20%20%20%20%20%20%20PREFIX%20edamontology%3A%20%3Chttp%3A//edamontology.org/%3E%0A%20%20%20%20%20%20%20%20PREFIX%20obo%3A%20%3Chttp%3A//purl.obolibrary.org/obo/%3E%0A%20%20%20%20%20%20%20%20PREFIX%20arcas%3A%20%3Chttp%3A//www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf%23%3E%0A%20%20%20%20%20%20%20%20PREFIX%20service%3A%20%3Chttp%3A//www.daml.org/services/owl-s/1.2/Service.owl%23%3E%0A%20%20%20%20%20%20%20%20PREFIX%20profile%3A%20%3Chttp%3A//www.daml.org/services/owl-s/1.2/Profile.owl%23%3E%0A%20%20%20%20%20%20%20%20PREFIX%20mp%3A%3Chttp%3A//purl.org/mp%23%3E%0A%20%20%20%20%20%20%20%20SELECT%20DISTINCT%20%3Fservice%0A%20%20%20%20%20%20%20%20WHERE%20%7B%0A%20%20%20%20%20%20%20%20%3Fservice%20service%3Apresents%20%3Fprofile.%0A%20%20%20%20%20%20%20%20%3Fprofile%20arcas%3AhasQuerySoftware%20%3Chttp%3A//www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf%23get_dataset%3E.%0A%20%20%20%20%20%20%20%20%3Fprofile%20profile%3AtextDescription%20%3Fdescription.%0A%20%20%20%20%20%20%20%20%7D&infer=false&checkVariables=false&analyzeIndicesUsed=false&returnQueryMetadata=true HTTP/1.1" 200 None 
+DEBUG:2022-11-03 15:54:17,479 regisering service:FDV_666 
+DEBUG:2022-11-03 15:54:17,483 http://callistoallegro:10035 "GET /repositories HTTP/1.1" 200 None 
+INFO:2022-11-03 15:54:17,484 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+        PREFIX oboInOwl: <http://www.geneontology.org/formats/oboInOwl#>
+        PREFIX edamontology: <http://edamontology.org/>
+        PREFIX obo: <http://purl.obolibrary.org/obo/>
+        PREFIX arcas: <http://www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf#>
+        PREFIX service: <http://www.daml.org/services/owl-s/1.2/Service.owl#>
+        PREFIX profile: <http://www.daml.org/services/owl-s/1.2/Profile.owl#>
+        PREFIX mp:<http://purl.org/mp#>
+        SELECT DISTINCT ?service
+        WHERE {
+        ?service service:presents ?profile.
+        ?profile arcas:hasQuerySoftware <http://www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf#get_dataset>.
+        ?profile profile:textDescription ?description.
+        } 
+DEBUG:2022-11-03 15:54:17,488 Starting new HTTP connection (1): callistoallegro:10035 
+DEBUG:2022-11-03 15:54:17,494 http://callistoallegro:10035 "GET /repositories/demonstration?query=PREFIX%20rdfs%3A%20%3Chttp%3A//www.w3.org/2000/01/rdf-schema%23%3E%0A%20%20%20%20%20%20%20%20PREFIX%20oboInOwl%3A%20%3Chttp%3A//www.geneontology.org/formats/oboInOwl%23%3E%0A%20%20%20%20%20%20%20%20PREFIX%20edamontology%3A%20%3Chttp%3A//edamontology.org/%3E%0A%20%20%20%20%20%20%20%20PREFIX%20obo%3A%20%3Chttp%3A//purl.obolibrary.org/obo/%3E%0A%20%20%20%20%20%20%20%20PREFIX%20arcas%3A%20%3Chttp%3A//www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf%23%3E%0A%20%20%20%20%20%20%20%20PREFIX%20service%3A%20%3Chttp%3A//www.daml.org/services/owl-s/1.2/Service.owl%23%3E%0A%20%20%20%20%20%20%20%20PREFIX%20profile%3A%20%3Chttp%3A//www.daml.org/services/owl-s/1.2/Profile.owl%23%3E%0A%20%20%20%20%20%20%20%20PREFIX%20mp%3A%3Chttp%3A//purl.org/mp%23%3E%0A%20%20%20%20%20%20%20%20SELECT%20DISTINCT%20%3Fservice%0A%20%20%20%20%20%20%20%20WHERE%20%7B%0A%20%20%20%20%20%20%20%20%3Fservice%20service%3Apresents%20%3Fprofile.%0A%20%20%20%20%20%20%20%20%3Fprofile%20arcas%3AhasQuerySoftware%20%3Chttp%3A//www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf%23get_dataset%3E.%0A%20%20%20%20%20%20%20%20%3Fprofile%20profile%3AtextDescription%20%3Fdescription.%0A%20%20%20%20%20%20%20%20%7D&infer=false&checkVariables=false&analyzeIndicesUsed=false&returnQueryMetadata=true HTTP/1.1" 200 None 
+DEBUG:2022-11-03 15:54:17,495 regisering service:FDV_684 
+DEBUG:2022-11-03 15:54:17,499 http://callistoallegro:10035 "GET /repositories HTTP/1.1" 200 None 
+INFO:2022-11-03 15:54:17,500 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+        PREFIX oboInOwl: <http://www.geneontology.org/formats/oboInOwl#>
+        PREFIX edamontology: <http://edamontology.org/>
+        PREFIX obo: <http://purl.obolibrary.org/obo/>
+        PREFIX arcas: <http://www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf#>
+        PREFIX service: <http://www.daml.org/services/owl-s/1.2/Service.owl#>
+        PREFIX profile: <http://www.daml.org/services/owl-s/1.2/Profile.owl#>
+        PREFIX mp:<http://purl.org/mp#>
+        SELECT DISTINCT ?service
+        WHERE {
+        ?service service:presents ?profile.
+        ?profile arcas:hasQuerySoftware <http://www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf#get_dataset>.
+        ?profile profile:textDescription ?description.
+        } 
+DEBUG:2022-11-03 15:54:17,504 Starting new HTTP connection (1): callistoallegro:10035 
+DEBUG:2022-11-03 15:54:17,510 http://callistoallegro:10035 "GET /repositories/demonstration?query=PREFIX%20rdfs%3A%20%3Chttp%3A//www.w3.org/2000/01/rdf-schema%23%3E%0A%20%20%20%20%20%20%20%20PREFIX%20oboInOwl%3A%20%3Chttp%3A//www.geneontology.org/formats/oboInOwl%23%3E%0A%20%20%20%20%20%20%20%20PREFIX%20edamontology%3A%20%3Chttp%3A//edamontology.org/%3E%0A%20%20%20%20%20%20%20%20PREFIX%20obo%3A%20%3Chttp%3A//purl.obolibrary.org/obo/%3E%0A%20%20%20%20%20%20%20%20PREFIX%20arcas%3A%20%3Chttp%3A//www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf%23%3E%0A%20%20%20%20%20%20%20%20PREFIX%20service%3A%20%3Chttp%3A//www.daml.org/services/owl-s/1.2/Service.owl%23%3E%0A%20%20%20%20%20%20%20%20PREFIX%20profile%3A%20%3Chttp%3A//www.daml.org/services/owl-s/1.2/Profile.owl%23%3E%0A%20%20%20%20%20%20%20%20PREFIX%20mp%3A%3Chttp%3A//purl.org/mp%23%3E%0A%20%20%20%20%20%20%20%20SELECT%20DISTINCT%20%3Fservice%0A%20%20%20%20%20%20%20%20WHERE%20%7B%0A%20%20%20%20%20%20%20%20%3Fservice%20service%3Apresents%20%3Fprofile.%0A%20%20%20%20%20%20%20%20%3Fprofile%20arcas%3AhasQuerySoftware%20%3Chttp%3A//www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf%23get_dataset%3E.%0A%20%20%20%20%20%20%20%20%3Fprofile%20profile%3AtextDescription%20%3Fdescription.%0A%20%20%20%20%20%20%20%20%7D&infer=false&checkVariables=false&analyzeIndicesUsed=false&returnQueryMetadata=true HTTP/1.1" 200 None 
