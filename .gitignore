@@ -11,3 +11,5 @@ callisto/html/components/vars.php
 callisto/.SHARED.txt
 
 callisto/cgi-bin/ExempleService*.py
+callisto/logs/** 
+
