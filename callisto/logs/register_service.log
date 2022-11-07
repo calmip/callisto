@@ -1,18 +1,45 @@
-DEBUG:2022-11-03 14:50:41,705 host=CallistoAllegro. 
-DEBUG:2022-11-03 14:50:41,705 port=10035. 
-DEBUG:2022-11-03 14:50:41,705 user=thierry. 
-DEBUG:2022-11-03 14:50:41,705 password=thierry74. 
-DEBUG:2022-11-03 14:50:41,705 close_enough=0.28. 
-DEBUG:2022-11-03 14:50:41,706 input name:textualcontent. 
-DEBUG:2022-11-03 14:50:41,706 input format:ASCII. 
-DEBUG:2022-11-03 14:50:41,706 input unit:UNITLESS. 
-DEBUG:2022-11-03 14:50:41,706 output name:http://edamontology.org/data_0972. 
-DEBUG:2022-11-03 14:50:41,706 output format:CSV. 
-DEBUG:2022-11-03 14:50:41,706 output unit:UNITLESS. 
-DEBUG:2022-11-03 14:50:41,706 Service description:This service counts the number of words of given letters from an input ascii file . 
-DEBUG:2022-11-03 14:50:41,706 Service url:http://www.callisto-dev.calmip.univ-toulouse.fr/cgi-bin/. 
-DEBUG:2022-11-03 14:50:41,706 Service script name:ExempleService1.py. 
-DEBUG:2022-11-03 14:50:41,706 Service results: ExempleService1_results.txt. 
-DEBUG:2022-11-03 14:50:41,706 Service label:Exemple de service. 
-DEBUG:2022-11-03 14:50:41,706 Service repository:demonstration. 
-DEBUG:2022-11-03 14:50:41,706 Service operations: Word count&Letter count. 
+DEBUG:2022-11-07 09:44:20,439 host=CallistoAllegro. 
+DEBUG:2022-11-07 09:44:20,439 port=10035. 
+DEBUG:2022-11-07 09:44:20,439 user=thierry. 
+DEBUG:2022-11-07 09:44:20,439 password=thierry74. 
+DEBUG:2022-11-07 09:44:20,439 close_enough=0.28. 
+DEBUG:2022-11-07 09:44:20,439 output name:scatterpoints. 
+DEBUG:2022-11-07 09:44:20,439 output format:PNG. 
+DEBUG:2022-11-07 09:44:20,440 output unit:UNITLESS. 
+DEBUG:2022-11-07 09:44:20,440 input name:http://edamontology.org/data_0972. 
+DEBUG:2022-11-07 09:44:20,440 input format:CSV. 
+DEBUG:2022-11-07 09:44:20,440 input unit:UNITLESS. 
+DEBUG:2022-11-07 09:44:20,440 Service description:This service plots contents from a csv file. 
+DEBUG:2022-11-07 09:44:20,440 Service url:http://www.callisto-dev.calmip.univ-toulouse.fr/cgi-bin/. 
+DEBUG:2022-11-07 09:44:20,440 Service script name:ExempleService3.py. 
+DEBUG:2022-11-07 09:44:20,440 Service results: ExempleService3_results.png. 
+DEBUG:2022-11-07 09:44:20,440 Service label:Troisieme exemple de service . 
+DEBUG:2022-11-07 09:44:20,440 Service repository:demonstration. 
+DEBUG:2022-11-07 09:44:20,440 Service operations: Histogram plot. 
+DEBUG:2022-11-07 09:44:20,444 Starting new HTTP connection (1): callistoallegro:10035 
+DEBUG:2022-11-07 09:44:20,446 http://callistoallegro:10035 "GET /catalogs HTTP/1.1" 200 None 
+DEBUG:2022-11-07 09:44:20,449 Starting new HTTP connection (1): callistoallegro:10035 
+DEBUG:2022-11-07 09:44:20,456 http://callistoallegro:10035 "GET /repositories HTTP/1.1" 200 None 
+DEBUG:2022-11-07 09:44:20,457 Starting new HTTP connection (1): callistoallegro:10035 
+DEBUG:2022-11-07 09:44:20,460 http://callistoallegro:10035 "GET /repositories/demonstration/size HTTP/1.1" 200 None 
+DEBUG:2022-11-07 09:44:20,468 http://callistoallegro:10035 "PUT /repositories/demonstration/statement?subj=%3Chttp%3A//www.callisto.calmip.univ-toulouse.fr/demonstration.rdf%231667810660.461539%3E&pred=%3Chttp%3A//www.w3.org/1999/02/22-rdf-syntax-ns%23type%3E&obj=%22http%3A//www.daml.org/services/owl-s/1.2/Service.owl%23Service%22&context=null HTTP/1.1" 200 None 
+DEBUG:2022-11-07 09:44:20,472 http://callistoallegro:10035 "PUT /repositories/demonstration/statement?subj=%3Chttp%3A//www.callisto.calmip.univ-toulouse.fr/demonstration.rdf%231667810660.461539_Profile%3E&pred=%3Chttp%3A//www.w3.org/1999/02/22-rdf-syntax-ns%23type%3E&obj=%22http%3A//www.daml.org/services/owl-s/1.2/Service.owl%23ServiceProfile%22&context=null HTTP/1.1" 200 None 
+DEBUG:2022-11-07 09:44:20,477 http://callistoallegro:10035 "PUT /repositories/demonstration/statement?subj=%3Chttp%3A//www.callisto.calmip.univ-toulouse.fr/demonstration.rdf%231667810660.461539%3E&pred=%3Chttp%3A//www.daml.org/services/owl-s/1.2/Service.owl%23presents%3E&obj=%3Chttp%3A//www.callisto.calmip.univ-toulouse.fr/demonstration.rdf%231667810660.461539_Profile%3E&context=null HTTP/1.1" 200 None 
+DEBUG:2022-11-07 09:44:20,492 http://callistoallegro:10035 "PUT /repositories/demonstration/statement?subj=%3Chttp%3A//www.callisto.calmip.univ-toulouse.fr/demonstration.rdf%231667810660.461539_url%3E&pred=%3Chttp%3A//www.w3.org/1999/02/22-rdf-syntax-ns%23type%3E&obj=%22http%3A//www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf%23accessURL%22&context=null HTTP/1.1" 200 None 
+DEBUG:2022-11-07 09:44:20,497 http://callistoallegro:10035 "PUT /repositories/demonstration/statement?subj=%3Chttp%3A//www.callisto.calmip.univ-toulouse.fr/demonstration.rdf%231667810660.461539_url%3E&pred=%3Chttp%3A//www.w3.org/2000/01/rdf-schema%23isDefinedBy%3E&obj=%22http%3A//www.callisto-dev.calmip.univ-toulouse.fr/cgi-bin/%22&context=null HTTP/1.1" 200 None 
+DEBUG:2022-11-07 09:44:20,501 http://callistoallegro:10035 "PUT /repositories/demonstration/statement?subj=%3Chttp%3A//www.callisto.calmip.univ-toulouse.fr/demonstration.rdf%231667810660.461539%3E&pred=%3Chttp%3A//www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf%23isAccessedThrough%3E&obj=%3Chttp%3A//www.callisto.calmip.univ-toulouse.fr/demonstration.rdf%231667810660.461539_url%3E&context=null HTTP/1.1" 200 None 
+DEBUG:2022-11-07 09:44:20,506 http://callistoallegro:10035 "PUT /repositories/demonstration/statement?subj=%3Chttp%3A//www.callisto.calmip.univ-toulouse.fr/demonstration.rdf%231667810660.461539_Profile%3E&pred=%3Chttp%3A//www.daml.org/services/owl-s/1.2/Profile.owl%23textDescription%3E&obj=%22This%20service%20plots%20contents%20from%20a%20csv%20file%22&context=null HTTP/1.1" 200 None 
+DEBUG:2022-11-07 09:44:20,511 http://callistoallegro:10035 "PUT /repositories/demonstration/statement?subj=%3Chttp%3A//www.callisto.calmip.univ-toulouse.fr/demonstration.rdf%231667810660.461539_Profile%3E&pred=%3Chttp%3A//www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf%23hasQuerySoftware%3E&obj=%3Chttp%3A//www.callisto.calmip.univ-toulouse.fr/demonstration.rdf%23ExempleService3.py%3E&context=null HTTP/1.1" 200 None 
+DEBUG:2022-11-07 09:44:20,516 http://callistoallegro:10035 "PUT /repositories/demonstration/statement?subj=%3Chttp%3A//www.callisto.calmip.univ-toulouse.fr/demonstration.rdf%23ExempleService3.py%3E&pred=%3Chttp%3A//www.w3.org/2000/01/rdf-schema%23label%3E&obj=%22ExempleService3.py%22&context=null HTTP/1.1" 200 None 
+DEBUG:2022-11-07 09:44:20,521 http://callistoallegro:10035 "PUT /repositories/demonstration/statement?subj=%3Chttp%3A//www.callisto.calmip.univ-toulouse.fr/demonstration.rdf%231667810660.516704_agg%3E&pred=%3Chttp%3A//www.w3.org/1999/02/22-rdf-syntax-ns%23type%3E&obj=%22http%3A//www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf%23Aggregate%22&context=null HTTP/1.1" 200 None 
+DEBUG:2022-11-07 09:44:20,526 http://callistoallegro:10035 "PUT /repositories/demonstration/statement?subj=%3Chttp%3A//www.callisto.calmip.univ-toulouse.fr/demonstration.rdf%231667810660.461539%3E&pred=%3Chttp%3A//www.daml.org/services/owl-s/1.2/Profile.owl%23hasInput%3E&obj=%3Chttp%3A//www.callisto.calmip.univ-toulouse.fr/demonstration.rdf%231667810660.516704_agg%3E&context=null HTTP/1.1" 200 None 
+DEBUG:2022-11-07 09:44:20,531 http://callistoallegro:10035 "PUT /repositories/demonstration/statement?subj=%3Chttp%3A//www.callisto.calmip.univ-toulouse.fr/demonstration.rdf%231667810660.516704_agg%3E&pred=%3Chttp%3A//www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf%23isCombinedToParam%3E&obj=%3Chttp%3A//edamontology.org/data_0972%3E&context=null HTTP/1.1" 200 None 
+DEBUG:2022-11-07 09:44:20,542 http://callistoallegro:10035 "PUT /repositories/demonstration/statement?subj=%3Chttp%3A//www.callisto.calmip.univ-toulouse.fr/demonstration.rdf%231667810660.516704_agg%3E&pred=%3Chttp%3A//www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf%23isCombinedToFormat%3E&obj=%3Chttp%3A//www.callisto.calmip.univ-toulouse.fr/demonstration.rdf%23CSV%3E&context=null HTTP/1.1" 200 None 
+DEBUG:2022-11-07 09:44:20,547 http://callistoallegro:10035 "PUT /repositories/demonstration/statement?subj=%3Chttp%3A//www.callisto.calmip.univ-toulouse.fr/demonstration.rdf%231667810660.516704_agg%3E&pred=%3Chttp%3A//www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf%23isCombinedToUnit%3E&obj=%22http%3A//www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf%23unitless%22&context=null HTTP/1.1" 200 None 
+DEBUG:2022-11-07 09:44:20,552 http://callistoallegro:10035 "PUT /repositories/demonstration/statement?subj=%3Chttp%3A//www.callisto.calmip.univ-toulouse.fr/demonstration.rdf%231667810660.5478725_agg%3E&pred=%3Chttp%3A//www.w3.org/1999/02/22-rdf-syntax-ns%23type%3E&obj=%22http%3A//www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf%23Aggregate%22&context=null HTTP/1.1" 200 None 
+DEBUG:2022-11-07 09:44:20,556 http://callistoallegro:10035 "PUT /repositories/demonstration/statement?subj=%3Chttp%3A//www.callisto.calmip.univ-toulouse.fr/demonstration.rdf%231667810660.461539%3E&pred=%3Chttp%3A//www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf%23hasOutput%3E&obj=%3Chttp%3A//www.callisto.calmip.univ-toulouse.fr/demonstration.rdf%231667810660.5478725_agg%3E&context=null HTTP/1.1" 200 None 
+DEBUG:2022-11-07 09:44:20,561 http://callistoallegro:10035 "PUT /repositories/demonstration/statement?subj=%3Chttp%3A//www.callisto.calmip.univ-toulouse.fr/demonstration.rdf%23scatterpoints%3E&pred=%3Chttp%3A//www.w3.org/2000/01/rdf-schema%23isDefinedBy%3E&obj=%22scatterpoints%22&context=null HTTP/1.1" 200 None 
+DEBUG:2022-11-07 09:44:20,566 http://callistoallegro:10035 "PUT /repositories/demonstration/statement?subj=%3Chttp%3A//www.callisto.calmip.univ-toulouse.fr/demonstration.rdf%231667810660.5478725_agg%3E&pred=%3Chttp%3A//www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf%23isCombinedToParam%3E&obj=%3Chttp%3A//www.callisto.calmip.univ-toulouse.fr/demonstration.rdf%23scatterpoints%3E&context=null HTTP/1.1" 200 None 
+DEBUG:2022-11-07 09:44:20,571 http://callistoallegro:10035 "PUT /repositories/demonstration/statement?subj=%3Chttp%3A//www.callisto.calmip.univ-toulouse.fr/demonstration.rdf%231667810660.5478725_agg%3E&pred=%3Chttp%3A//www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf%23isCombinedToFormat%3E&obj=%3Chttp%3A//www.callisto.calmip.univ-toulouse.fr/demonstration.rdf%23PNG%3E&context=null HTTP/1.1" 200 None 
+DEBUG:2022-11-07 09:44:20,575 http://callistoallegro:10035 "PUT /repositories/demonstration/statement?subj=%3Chttp%3A//www.callisto.calmip.univ-toulouse.fr/demonstration.rdf%231667810660.5478725_agg%3E&pred=%3Chttp%3A//www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf%23isCombinedToUnit%3E&obj=%22http%3A//www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf%23unitless%22&context=null HTTP/1.1" 200 None 
+DEBUG:2022-11-07 09:44:20,578 http://callistoallegro:10035 "GET /repositories/demonstration/size HTTP/1.1" 200 None 
