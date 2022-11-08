@@ -208,49 +208,10 @@ Installing Allegro:
 
     systemctl start agraph 
 
-Loading demonstration repository
----------------------------------
+Creating your first workflow
+----------------------------
 
-**Enter** the Portal container:
-
-    lxc exec CallistoPortal bash
-
-**Load** the demonstration repository:
-
-    cd /usr/local/callisto/bin
-    ./initialize_demonstration_repository.py
-
-## Working with open data
-
-The users can manage an open data repository with Callisto (ie data accessible through the Internet without authentication, but with an oid), as long as you did choose a server install. But you should do some more configuration tasks in order to prepare things:
-
-- Enter inside the CallistoDataverse container, and edit a file (2 lines to complete, replace CallistoDataverse with a real fqdn and URL (please expand {{callisto_URL}}):
-
-  ```
-  lxc exec CallistoDataverse bash
-  vi /usr/local/payara5/glassfish/domains/domain1/config/domain.xml
-   L.269 --> <jvm-options>-Ddataverse.fqdn=dataverse.{{callisto_URL}}</jvm-options>
-   L.278 --> <jvm-options>-Ddataverse.siteUrl=https://dataverse.{{callisto_URL}}</jvm-options>
-  ```
-  Then restart the container:
-  ```
-  lxc restart CallistoDataverse
-  ```
-  
-- Enter inside the CallistoProxy container, and edit a file (1 line to complete, expanding {{authority}} and {{shoulder}}). This is important to let the published data pass across the authentication system:
-
-  ```
-  lxc exec CallistoProxy bash
-  vi /etc/httpd/conf.d/dataverse.conf
-   L. 93 --> RewriteCond %{QUERY_STRING} !persistentId=doi:{{authority}}/{{shoulder}}
-  ```
-
-  Then restart the container:
-
-  ```
-  lxc restart CallistoProxy
-  ```
-- Read the dataverse documentation about the doi and open data: https://guides.dataverse.org/en/latest/installation/config.html?highlight=doi
+Read the document (in french) inside the directory callisto/doc
 
 Running Callisto
 ----------------
