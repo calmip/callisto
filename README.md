@@ -100,7 +100,7 @@ cp vars.yml.dist vars.yml
    - Copy the certificate, the key and the chain to the directory `roles/proxy/files/ssl`
    - See also the file `certificates/README.txt` (there is a certificate to get for Shibboleth configuration)
 
-**Run the following command** to create the containers:
+**Run the following command** to create the containers and install inside the depencies :
 
     cd $WORKDIR/install
     ansible-playbook -i inventory callisto.yml -K
@@ -109,6 +109,17 @@ Partial installs can be done with the `--tags` switch (have a look to `callisto.
 
     cd $WORKDIR/install
     ansible-playbook -i inventory --tags proxy callisto.yml -K
+
+### share the callisto directory with CallistoPortal:
+
+The directory `$WORDIR/callisto` must be shared by the container `CallistoPortal` under `/usr/local/callisto`. this is done by the following command:
+
+```
+cd $WORKDIR/install
+bash shareDir.bash
+```
+
+Now, *if you modifiy anything from the host under directory `$WORKDIR/callisto`*, your modifications will be visible *from the `CallistoPortal` container, under the directory `/usr/local/callisto`*
 
 ## Installing Callisto (the code):
 
@@ -123,7 +134,17 @@ vi callisto_conf.cfg
 Installing dataverse:
 ---------------------
 
-Dataverse can be installed thanks to the ansible role provided by Dataverse:
+`Dataverse` should be installed inside the container `CallistoDataverse`:
+
+```
+lxc exec CallistoDataverse bash
+```
+
+You live now in a CentOs 7 computer, please install dataverse as explained here: https://dataverse.harvard.edu/
+
+###  Using the Dataverse ansible role:
+
+You may try to use the ansible role provided by Dataverse; you shoud stay on the host an proceed as follows:
 
     cd $WORKDIR/..
     git clone https://github.com/GlobalDataverseCommunityConsortium/dataverse-ansible.git dataverse

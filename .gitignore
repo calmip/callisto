@@ -3,6 +3,7 @@ vars.yml
 callisto_conf.cfg
 *.rpm
 *.pem
+*.pyc
 __pycache__
 logs
 TempFiles
