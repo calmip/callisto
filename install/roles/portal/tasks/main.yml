@@ -64,7 +64,6 @@
       - scipy
       - pandas
       - matplotlib
-    extra_args: --user
     state: latest
     executable: pip3
 
@@ -94,36 +93,36 @@
   loop:
      - demonstration.nt
      
-- name: creating /var/log/callisto directory
-  file:
-    path: /var/log/callisto
-    state: directory
-    owner: apache
-    group: root
-    mode: '0740'
+       #- name: creating /var/log/callisto directory
+       #  file:
+       #    path: /var/log/callisto
+       #    state: directory
+       #    owner: apache
+       #    group: root
+       #    mode: '0740'
 
-- name: creating /usr/local/callisto/html/TempFiles directory
-  file:
-    path: /usr/local/callisto/html/TempFiles
-    state: directory
-    owner: apache
-    group: apache
-    mode: '0740'
+       #- name: creating /usr/local/callisto/html/TempFiles directory
+       #  file:
+       #    path: /usr/local/callisto/html/TempFiles
+       #    state: directory
+       #    owner: apache
+       #    group: apache
+       #    mode: '0740'
 
-- name: creating /usr/local/callisto/cgi-bin/TempFiles directory
-  file:
-    path: /usr/local/callisto/cgi-bin/TempFiles
-    state: directory
-    owner: apache
-    group: apache
-    mode: '0740'
+       #- name: creating /usr/local/callisto/cgi-bin/TempFiles directory
+       #  file:
+       #    path: /usr/local/callisto/cgi-bin/TempFiles
+       #    state: directory
+       #    owner: apache
+       #    group: apache
+       #    mode: '0740'
 
 - name: create the vars.php file 
+  delegate_to: localhost
+  connection: local
   template:
      src: vars.php
-     dest: /usr/local/callisto/html/components
-     owner: root
-     group: root
+     dest: ../callisto/html/components
      mode: '0444'
 
 - name: synchronize dataverse and allegro every 15mn

@@ -414,7 +414,7 @@ function deselectEquivalents() {
                     //on ne garde que le dernier par defaut
                     nodes_graph[j].removeClass("selectednode");
 		    edges_toblack = nodes_graph.edgesWith(nodes_graph[j]);
-		    alert(edges_toblack);
+		    //alert(edges_toblack);
 		    for (tb = 0; tb < edges_toblack.length; tb++) {
 			edges_toblack[tb].addClass("blackenedEdge");
 		    }
