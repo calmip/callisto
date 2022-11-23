@@ -7,6 +7,8 @@ callisto-conf-allegro:
 callisto-conf-ontologies:
 	root_iri = http://www.callisto-dev.calmip.univ-toulouse.fr/
 	root_https = https://www.callisto-dev.calmip.univ-toulouse.fr/
+	root_allegro = "https://allegro.callisto-dev.calmip.univ-toulouse.fr/#/repositories/"
+	onto_suffix = http://www.callisto.calmip.univ-toulouse.fr/
 
 callisto-conf-generic:
 	close_enough = 0.28
@@ -17,6 +19,6 @@ callisto-conf-dataverse:
 
 callisto-conf-portal:
 	host = callisto-dev.calmip.univ-toulouse.fr/
-	logs = /var/log/callisto/
-	html = /html/callisto/
+	logs = /usr/local/callisto/logs/
+	html = /html/
 	temp = TempFiles/
