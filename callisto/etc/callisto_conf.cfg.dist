@@ -5,20 +5,20 @@ callisto-conf-allegro:
         password = 
 
 callisto-conf-ontologies:
-	root_iri = http://www.callisto-dev.calmip.univ-toulouse.fr/
-	root_https = https://www.callisto-dev.calmip.univ-toulouse.fr/
-	root_allegro = "https://allegro.callisto-dev.calmip.univ-toulouse.fr/#/repositories/"
-	onto_suffix = http://www.callisto.calmip.univ-toulouse.fr/
+	root_iri = 
+	root_https = 
+	root_allegro = 
+	onto_suffix = 
 
 callisto-conf-generic:
 	close_enough = 0.28
 
 callisto-conf-dataverse:
 	host_port = CallistoDataverse:8080
-	host_url= dataverse.calmip.univ-toulouse.fr
+	host_url= 
 
 callisto-conf-portal:
-	host = callisto-dev.calmip.univ-toulouse.fr/
+	host = 
 	logs = /usr/local/callisto/logs/
 	html = /html/
 	temp = TempFiles/
