@@ -93,29 +93,29 @@
   loop:
      - demonstration.nt
      
-       #- name: creating /var/log/callisto directory
-       #  file:
-       #    path: /var/log/callisto
-       #    state: directory
-       #    owner: apache
-       #    group: root
-       #    mode: '0740'
+ - name: creating log directory
+   file:
+     path: /usr/local/callisto/logs
+     state: directory
+     owner: apache
+     group: root
+     mode: '0740'
 
-       #- name: creating /usr/local/callisto/html/TempFiles directory
-       #  file:
-       #    path: /usr/local/callisto/html/TempFiles
-       #    state: directory
-       #    owner: apache
-       #    group: apache
-       #    mode: '0740'
+ - name: creating /usr/local/callisto/html/TempFiles directory
+   file:
+     path: /usr/local/callisto/html/TempFiles
+     state: directory
+     owner: apache
+     group: apache
+     mode: '0740'
 
-       #- name: creating /usr/local/callisto/cgi-bin/TempFiles directory
-       #  file:
-       #    path: /usr/local/callisto/cgi-bin/TempFiles
-       #    state: directory
-       #    owner: apache
-       #    group: apache
-       #    mode: '0740'
+ - name: creating /usr/local/callisto/cgi-bin/TempFiles directory
+   file:
+     path: /usr/local/callisto/cgi-bin/TempFiles
+     state: directory
+     owner: apache
+     group: apache
+     mode: '0740'
 
 - name: create the vars.php file 
   delegate_to: localhost
