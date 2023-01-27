@@ -1,0 +1,11 @@
+service name = WORD_COUNTING_WITH_IGNORE
+input = http://www.callisto.calmip.univ-toulouse.fr/demonstration.rdf#AsciiTextFile
+input = http://www.callisto.calmip.univ-toulouse.fr/demonstration.rdf#IgnoredWordsList
+output = http://www.callisto.calmip.univ-toulouse.fr/demonstration.rdf#csv_text_mining_report
+description = This service counts the number of words of given letters from an input ascii file, ignoring words from a given list. 
+base url = http://www.callisto-dev.calmip.univ-toulouse.fr/cgi-bin/
+scriptfile = ExempleService4.py
+resultfile = ExempleService4_results.txt
+label = Exemple de service a deux entrees
+repository = demonstration
+operations = Word count&Letter count

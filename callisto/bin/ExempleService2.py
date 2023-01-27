@@ -1,6 +1,6 @@
 import sys
 dic = {}
-for line in input_file.readlines():
+for line in AsciiTextFile_file.readlines():
     splitted = line.split(" ")
     for word in splitted:
         count = len(word.replace("\n","").replace(",",""))

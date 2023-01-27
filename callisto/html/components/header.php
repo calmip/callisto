@@ -8,6 +8,7 @@
     <a href="https://www.calmip.univ-toulouse.fr/" target="_blank" class="flex flex--center">
 	<h5 class="text--primary m--l--1">Proposed by</h5>
     	<img src="public/img/my_logo.png" alt="My logo">
+	<h6 class="text--primary m--l--1">v 1.2</h6>
     </a>
     <nav>
         <ul class="flex">

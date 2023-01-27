@@ -1154,11 +1154,8 @@ div:has(.workflow__element) {
   transform: translate(-50%, -50%);
 }
 #cy {
-  width: 600px;
-  height: 300px;
-  position: absolute;
-  top: 50%;
-  left: 5%;
+  width: 1200px;
+  height: 600px;
 }
 #cyresults {
   width: 600px;
@@ -1171,9 +1168,6 @@ div:has(.workflow__element) {
 #cydetails {
   width: 600px;
   height: 300px;
-  position: absolute;
-  top: 15%;
-  left: 1%;
 }
 #runflow {
   width: 600px;
@@ -1212,3 +1206,9 @@ div:has(.workflow__element) {
   display: block;
 }
 /*# sourceMappingURL=style.css.map */
+.wrapper {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 10px;
+  grid-auto-rows: minmax(100px, auto);
+}

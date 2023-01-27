@@ -1,12 +1,6 @@
-service_name = WORD_AND_LETTER_COUNTING
-output:
-	name = scatterpoints
-	format = PNG
-	unit = UNITLESS
-input:
-	name = http://edamontology.org/data_0972
-	format = CSV
-	unit = UNITLESS
+service name = PLOTTING_RESULTS
+output = http://www.callisto.calmip.univ-toulouse.fr/demonstration.rdf#png_scatterpoints_display
+input = http://www.callisto.calmip.univ-toulouse.fr/demonstration.rdf#csv_text_mining_report
 description = This service plots contents from a csv file
 base url = http://www.callisto-dev.calmip.univ-toulouse.fr/cgi-bin/
 scriptfile = ExempleService3.py

@@ -31,22 +31,29 @@ import ReadConfig
 
 readconf = ReadConfig.ReadConfig()
 timer = str(time.time())
-try:
-    os.system("rm "+self.portalog+"get_dataset.log")
-except:
-    pass
-log.basicConfig(filename=readconf.portalog+'get_dataset.log', level=log.DEBUG, format='%(levelname)s:%(asctime)s %(message)s ')
+os.system("rm "+readconf.portalog+"get_dataset.log")
+os.system("touch "+readconf.portalog+"get_dataset.log")
+
+#log.basicConfig(filename=readconf.portalog+'get_dataset.log', level=log.DEBUG, format='%(levelname)s:%(asctime)s %(message)s ')
 
 form = cgi.FieldStorage()
-url = str(form.getvalue("url"))
+url = str(form.getvalue("url")).replace("\"","")
 outputs = str(form.getvalue("outputs"))
-key =  str(form.getvalue("ApiKeyValue")).replace(" ","").replace("\"","")
+logfile=open(readconf.portalog+"get_dataset.log",'w')
+logfile.write("\n url:"+url)
+logfile.write("\n outputs:"+outputs)
+#log.debug(url)
+#log.debug(outputs)
+
+key =  str(form.getvalue("ApiKey")).replace(" ","").replace("\"","")
 ord = "wget "+url+key+" --no-check-certificate -O TempFiles/"+timer
 ordre=ord.replace("None","")
-log.debug(ordre)
+#log.debug(ordre)
+logfile.write("\n ordre:"+ordre)
 os.system (ordre)
 os.system ("cp TempFiles/"+timer+" .."+readconf.portalhtml+"TempFiles")
 print ("Content-Type: text/xml\n")
 print ("<options>\n")
 print("<"+outputs+">"+readconf.portalhost+readconf.portaltemp+timer+"</"+outputs+">\n")
 print ("</options>\n")
+logfile.close()

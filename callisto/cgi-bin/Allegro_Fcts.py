@@ -81,149 +81,57 @@ class Allegro(object):
         Send returns to the internet brower.
         """
         if self.usecase == "seek_operations":
+            log.debug("OPERATIONS:\n"+str(self.operations)+"\n")
             self.general_file.write("source,target\n")
-            url_soft = self.get_soft_and_url("<" + self.input_svc + ">")
-            log.debug("---> operation 0:"+str(self.operations[0]))
-            try:
-                soft = str(url_soft[0]).replace(">", "").replace("<", "").replace("\"", "")
-                log.debug("---> url_soft:"+str(url_soft) + "soft:" + soft)
-                url = str(url_soft[1])
-                if "#" in str(self.operations[0][4]):
-                    out_svc = str(self.operations[0][4]).replace(">", "").replace("<", "").split("#")[1]
-                else:
-                    out_svc = str(self.operations[0][4]).replace(">", "").replace("<", "")
-                out_svc_definition = str(self.operations[0][6]).replace(">", "").replace("<", "")
-                svc_definition = str(self.operations[0][7]).replace(">", "").replace("<", "")
+            liste_services_retournes = []
+            for svc in range(len(self.operations)):
+                current = self.operations[svc]
+                if current in liste_services_retournes:
+                    continue
+                liste_services_retournes.append(current)
+                log.debug("---> operation "+str(svc)+":"+str(current))
                 print("<service>\n")
+                print("<nom>S"+str(svc)+"</nom>\n")
+                print("<ontology_id>" + current[0] + "</ontology_id>\n")
+                soft = str(current[2])
+                url = str(current[4]).replace(">","").replace("<","")
+                if "#" in url:
+                    url = url.split("#")[1]
                 print("<url>" + url + "</url>\n")
-                print("<soft>" + soft + "</soft>\n")
-                print("<ontology_id>" + self.input_svc.replace(">", "").replace("<", "") + "</ontology_id>\n")
-                print("<nom>S0</nom>\n")
-                print("<output>" + out_svc + "</output>\n")
-                if "http://" in out_svc:
-                    if "#" in out_svc:
-                        short_output = out_svc.split("#")[len(out_svc.split("#")) - 1]
-                    else:
-                        short_output = out_svc.split("/")[len(out_svc.split("/")) - 1]
-                else:
-                    short_output = out_svc
-                print("<short_output>" + short_output + "</short_output>\n")
-                print("<output_definition>" + out_svc_definition + "</output_definition>\n")
-                print("<information>ToBD</information>\n")
-                print("<information_label>" + out_svc_definition + "</information_label>\n")
-                print("<definition>ToBD</definition>\n")
-                print("<profdef>" + svc_definition + "</profdef>\n")
-            except:
-                log.debug("Gestion Exception")
-                print("<service>\n")
-                print("<url>void</url>\n")
-                print("<soft>void</soft>\n")
-                print("<ontology_id>" + self.input_svc.replace(">", "").replace("<", "") + "</ontology_id>\n")
-                print("<nom>S0</nom>\n")
-                print("<output>void</output>\n")
-                print("<short_output>void</short_output>\n")
-                print("<output_definition>void</output_definition>\n")
-                print("<information>ToBD</information>\n")
-                print("<definition>ToBD</definition>\n")
-                print("<profdef>void</profdef>\n")
-                out_svc_definition = ""
-            log.debug("Next debugging message is general file content")
-            log.debug(out_svc_definition)
-            log.debug("service:S0," + out_svc + "\n")
-            self.general_file.write("service:S0," + out_svc + "\n")
-            try:
-                in_svc = self.operations[0][5].replace(">", "").replace("<", "").split("#")[1]
-                print("<input>" + in_svc + "</input>\n")
-                if "http://" in in_svc:
+                print("<soft>" + soft.replace("\"","") + "</soft>\n")
+                for out in current[6]:
+                    log.debug("output:"+str(out))
+                    if str(out[0]).replace(">","").replace("<","").split("#")[1] == "None":
+                        continue                   
+                    print("<output>" + str(out[0]).replace(">","").replace("<","").replace(".","").split("#")[1] + "</output>\n")
+                    self.general_file.write("service:S0," + str(out[0]).replace(">","").replace("<","").replace(".","") + "\n")
+                    print("<output_definition>"+ str(out[2]).replace("\"","") + "</output_definition>\n")
+                    print("<information>ToBD</information>\n")
+                    print("<information_label>" + str(out[2]).replace("\"","") + "</information_label>\n")
+                    short_output = str(out[0]).replace(">","").replace("<","").replace(".","").split("#")[1]
+                    print("<short_output>" + short_output + "</short_output>\n")
+                for inpt in current[7]:
+                    log.debug("input:"+str(inpt))
+                    in_svc = str(inpt[0]).replace(">", "").replace("<", "").replace(".","")
                     if "#" in in_svc:
-                        short_input = in_svc.split("#")[len(in_svc.split("#")) - 1]
-                    else:
-                        short_input = in_svc.split("/")[len(in_svc.split("/")) - 1]
-                else:
-                    short_input = in_svc
-                print("<short_input>" + short_input + "</short_input>\n")
-                print("<input_definition>" + str(self.operations[0][5]).replace(">", "").replace("<", "").split("#")[1] + "</input_definition>\n")
-                self.general_file.write(in_svc + ",service:S0\n")
-            except:
-                try:
-                    in_svc = str(self.operations[0][5]).replace(">", "").replace("<", "").split("#")[1]
+                        in_svc = in_svc.split("#")[1]
+                    if in_svc == "None":
+                        #print("<input>None</input>\n")
+                        #print("<short_input>None</short_input>\n")
+                        #print("<input_definition>None</input_definition>\n")
+                        continue
                     print("<input>" + in_svc + "</input>\n")
-                    if "http://" in in_svc:
-                        if "#" in in_svc:
-                            short_input = in_svc.split("#")[len(in_svc.split("#")) - 1]
-                        else:
-                            short_input = in_svc.split("/")[len(in_svc.split("/")) - 1]
-                    else:
+                    try:
+                        short_input = in_svc.split("#")[1]
+                    except:
                         short_input = in_svc
                     print("<short_input>" + short_input + "</short_input>\n")
-                    print("<input_definition>" + str(self.operations[0][5]).replace(">", "").replace("<", "").split("#")[1]+ "</input_definition>\n")
-                    self.general_file.write(in_svc + "," + "service:S0\n")
-                except:
-                    print("<input>void</input>\n")
-                    print("<short_input>void</short_input>\n")
-                    print("<input_definition>void</input_definition>\n")
-
-            print("</service>\n")
-            cpt_op = 0
-            for operation in self.operations:
-                log.debug("---> operation audela de 0:"+str(operation))
-                cpt_op += 1
-                url_soft = self.get_soft_and_url(operation[0])
-                soft = str(url_soft[0]).replace(">", "").replace("<", "").replace("\"", "")
-                url = str(url_soft[1])
-                out_svc_definition = str(operation[6]).replace(">", "").replace("<", "").replace('\"', '')
-                print("<service>\n")
-                print("<nom>S" + str(cpt_op) + "</nom>\n")
-                print("<url>" + url + "</url>\n")
-                print("<soft>" + soft + "</soft>\n")
-                print("<ontology_id>" + str(operation[0]).replace(">", "").replace("<", "") + "</ontology_id>\n")
-                if "#" in str(operation[1]):
-                    out_svc = str(operation[1]).replace(">", "").replace("<", "").split("#")[1]
-                else:
-                    out_svc = str(operation[1]).replace(">", "").replace("<", "")
-                print("<information>" + out_svc + "</information>\n")
-                info_lab = str(operation[8]).replace(">", "").replace("<", "")
-                print("<information_label>" + info_lab + "</information_label>\n")
-                if "#" in str(operation[4]):
-                    in_svc = str(operation[4]).replace(">", "").replace("<", "").split("#")[1]
-                else:
-                    in_svc = str(operation[4]).replace(">", "").replace("<", "")
-                print("<output>" + out_svc + "</output>\n")
-                if "http://" in out_svc:
-                    if "#" in out_svc:
-                        short_output = out_svc.split("#")[len(out_svc.split("#")) - 1]
+                    if str(inpt[1]) == "None":
+                        print("<input_definition>None</input_definition>\n")
                     else:
-                        short_output = out_svc.split("/")[len(out_svc.split("/")) - 1]
-                else:
-                    short_output = out_svc
-                print("<short_output>" + short_output + "</short_output>\n")
-                print("<input>" + in_svc + "</input>\n")
-                if "http://" in in_svc:
-                        if "#" in in_svc:
-                            short_input = in_svc.split("#")[len(in_svc.split("#")) - 1]
-                        else:
-                            short_input = in_svc.split("/")[len(in_svc.split("/")) - 1]
-                else:
-                    short_input = in_svc
-                print("<short_input>" + short_input + "</short_input>\n")
-                try:
-                    if "#" in out_svc_definition:
-                        print("<input_definition>" + out_svc_definition.split("#")[1] + "</input_definition>\n")
-                    else:
-                        print("<input_definition>" + out_svc_definition + "</input_definition>\n")
-                except:
-                    print("<input_definition>" + out_svc_definition + "</input_definition>\n")
-                
-                if "#" in str(operation[2]):
-                    print("<output_definition>" + str(operation[2]).replace(">", "").replace("<", "").split("#")[1] + "</output_definition>\n")
-                else:
-                    print("<output_definition>" + str(operation[2]).replace(">", "").replace("<", "") + "</output_definition>\n")
-                print("<profdef>" + str(operation[3]) + "</profdef>\n")
-                self.general_file.write("service:S" + str(cpt_op) + "," + out_svc + "\n")
-                try:
-                    self.general_file.write(in_svc + "," + "service:S" + str(cpt_op) + "\n")
-                except:
-                    self.general_file.write(in_svc + "," + "service:S" + str(cpt_op) + "\n")
+                        print("<input_definition>" + str(inpt[2]).replace(">", "").replace("<", "").replace("\"","") + "</input_definition>\n")
+                print("<definition>ToBD</definition>\n")
+                print("<profdef>" +str(current[5]) + "</profdef>\n")
                 print("</service>\n")
         if self.usecase == "generic":
             for key in self.services:
@@ -478,7 +386,6 @@ class Allegro(object):
                 if self.metadata_dict[key][0] not in self.final_services:
                     self.final_services.append(self.metadata_dict[key][0])
 
-
     def get_soft_and_url(self, index):
         """
         gets software and url for service passed as index
@@ -683,79 +590,163 @@ class Allegro(object):
         """
         new_step_found = 0
         new_list_svc = []
+        log.debug("Entering get operations:")
+        log.debug(self.list_inputs_svc)
         for svc in self.list_inputs_svc:
+            log.debug("Testing:"+str(svc))
+            if str(svc) == 'None':
+                continue
+            next_steps = []
+            inputs = []
+            outputs = []
             queryString = """PREFIX profile: <http://www.daml.org/services/owl-s/1.2/Profile.owl#>
             PREFIX service: <http://www.daml.org/services/owl-s/1.2/Service.owl#>
             PREFIX arcas: <http://www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf#>
             PREFIX rdfsns: <http://www.w3.org/2000/01/rdf-schema#>
-            SELECT DISTINCT ?service ?information ?information_label ?definition ?profdef ?param_out ?param_in ?label_first_out ?firstdef
+            SELECT DISTINCT ?soft_profile ?soft ?address ?url ?service_description
             WHERE { 
-            <%s> arcas:hasOutput ?out .
             <%s> service:presents ?firstprofile .
-            OPTIONAL {
-                <%s> arcas:hasInput ?in2 .
-                ?in2 arcas:isCombinedToParam ?param_in .
-            }
-            ?firstprofile profile:textDescription ?firstdef.
-            ?out arcas:isCombinedToParam ?param_out .
-            ?out arcas:isCombinedToFormat ?format_out .
-            ?out arcas:isCombinedToUnit ?unit_out .
-            ?param_out rdfs:label ?label_first_out .
-            ?service profile:hasInput ?out2 .
-            ?out2 arcas:isCombinedToParam ?param_out .
-            ?service arcas:hasOutput ?out3 .
-            ?out3 arcas:isCombinedToParam ?information .
-            ?information rdfsns:isDefinedBy ?definition.
-            OPTIONAL {
-                ?information rdfs:label ?information_label .
-            }
-            ?service service:presents ?profile .
-            ?profile  profile:textDescription ?profdef.
-            }""" % (svc, svc, svc)
+            ?firstprofile profile:textDescription ?description . 
+            ?firstprofile arcas:hasQuerySoftware ?soft_profile .
+            OPTIONAL {?soft_profile rdfsns:label ?soft .}
+            <%s> arcas:isAccessedThrough ?address .
+            ?address rdfsns:isDefinedBy ?url .
+            <%s> service:presents ?firstprofile .
+            ?firstprofile profile:textDescription ?service_description .
+            } 
+            """ % (svc, svc, svc)
+            log.debug(queryString)
+            tupleQuery = self.conn.prepareTupleQuery(QueryLanguage.SPARQL, queryString)
+            result = tupleQuery.evaluate()
+            with result:
+                for binding_set in result:
+                    soft_profile = binding_set.getValue("soft_profile")
+                    soft = binding_set.getValue("soft")
+                    address = binding_set.getValue("address")
+                    url = binding_set.getValue("url")
+                    service_description = binding_set.getValue("service_description")
+            queryString = """PREFIX profile: <http://www.daml.org/services/owl-s/1.2/Profile.owl#>
+            PREFIX arcas: <http://www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf#>
+            SELECT DISTINCT ?service                                                                             
+            WHERE { <%s> arcas:hasOutput ?out .                 
+            ?out arcas:isCombinedToParam ?p .
+            ?out arcas:isCombinedToUnit ?u .
+            ?out arcas:isCombinedToFormat ?f .
+            ?suite arcas:isCombinedToParam ?p .
+            ?suite arcas:isCombinedToUnit ?u .
+            ?suite arcas:isCombinedToFormat ?f .
+            ?service profile:hasInput ?suite .
+            }                                                                                                                                  
+            """ % (svc)
             log.debug(queryString)
             tupleQuery = self.conn.prepareTupleQuery(QueryLanguage.SPARQL, queryString)
             result = tupleQuery.evaluate()
             with result:
                 for binding_set in result:
                     new_step_found = 1
-                    service = binding_set.getValue("service")
-                    information = binding_set.getValue("information")
-                    definition = binding_set.getValue("definition")
-                    profdef = binding_set.getValue("profdef")
+                    next_service = binding_set.getValue("service")
+                    if str(next_service).replace("<", "").replace(">", "") not in new_list_svc:
+                        new_list_svc.append(str(next_service).replace("<", "").replace(">", ""))
+                        log.debug("Adding "+ str(next_service).replace("<", "").replace(">", "") + " To the list of operations")
+                        next_steps.append(next_service)
+            queryString = """PREFIX profile: <http://www.daml.org/services/owl-s/1.2/Profile.owl#>
+            PREFIX service: <http://www.daml.org/services/owl-s/1.2/Service.owl#>
+            PREFIX arcas: <http://www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf#>
+            PREFIX rdfsns: <http://www.w3.org/2000/01/rdf-schema#>
+            SELECT DISTINCT ?out ?param_out ?label_out ?definition_out
+            WHERE { <%s> arcas:hasOutput ?out .
+            ?out arcas:isCombinedToParam ?param_out .
+            ?param_out rdfs:label ?label_out .
+            OPTIONAL {
+            ?param_out rdfs:isDefinedBy ?definition_out .
+            }
+            }
+            """ % (svc)
+            log.debug(queryString)
+            tupleQuery = self.conn.prepareTupleQuery(QueryLanguage.SPARQL, queryString)
+            result = tupleQuery.evaluate()
+            with result:
+                for binding_set in result:
+                    agg_out = binding_set.getValue("out")
                     param_out = binding_set.getValue("param_out")
+                    label_out = binding_set.getValue("label_out")
+                    definition_out = binding_set.getValue("definition_out")
+                    fd_o = 0
+                    for output_scan in outputs:
+                        if agg_out == output_scan[0]:
+                            fd_o = 1
+                    if fd_o == 0:
+                        outputs.append([agg_out,param_out,label_out,definition_out])
+            queryString = """PREFIX profile: <http://www.daml.org/services/owl-s/1.2/Profile.owl#>                                                      
+            PREFIX service: <http://www.daml.org/services/owl-s/1.2/Service.owl#>       
+            PREFIX arcas: <http://www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf#>               
+            PREFIX rdfsns: <http://www.w3.org/2000/01/rdf-schema#>                                     
+            SELECT DISTINCT ?in ?param_in ?in_definition ?in2 ?param_in2 ?in2_definition ?in3 ?param_in3 ?in3_definition
+            WHERE
+            {
+            OPTIONAL {                                                                                                                              
+                <%s> arcas:hasInput ?in .                                                                                                        
+                ?in arcas:isCombinedToParam ?param_in .
+                ?param_in rdfsns:isDefinedBy ?in_definition . 
+            }                                                                                                             
+            OPTIONAL { 
+                <%s> service:presents ?firstprofile .
+                ?firstprofile  arcas:hasInput ?in2 .
+                ?in2 arcas:isCombinedToParam ?param_in2 .
+                ?param_in2 rdfsns:isDefinedBy ?in2_definition .
+            }
+            OPTIONAL {
+            <%s> profile:hasInput ?in3 .
+            ?in3 arcas:isCombinedToParam ?param_in3 .
+            ?param_in3 rdfsns:isDefinedBy ?in3_definition .
+            }    
+            }                                   
+            """ % (svc, svc, svc)
+            log.debug(queryString)
+            tupleQuery = self.conn.prepareTupleQuery(QueryLanguage.SPARQL, queryString)
+            result = tupleQuery.evaluate()
+            with result:
+                for binding_set in result:
+                    inp = binding_set.getValue("in")
                     param_in = binding_set.getValue("param_in")
-                    label_first_out = binding_set.getValue("label_first_out")
-                    firstdef = binding_set.getValue("firstdef")
-                    information_label = binding_set.getValue("information_label")
-                    # self.operations.append([service,information,definition,profdef,input_svc,param_in,label_first_out,firstdef])
-                    newservice = str(service).replace("<", "").replace(">", "")
-                    log.info("New service:"+newservice)
-                    if str(service).replace("<", "").replace(">", "") not in self.tested_services:
-                        new_list_svc.append(str(service).replace("<", "").replace(">", ""))
-                        self.tested_services.append(str(service).replace("<", "").replace(">", ""))
-                        log.debug("Adding "+ str(service).replace("<", "").replace(">", "") + " To the list of operations") 
-                        log.debug(information)
-                        log.debug(definition)
-                        log.debug(profdef)
-                        log.debug(param_out)
-                        log.debug(param_in)
-                        log.debug(label_first_out)
-                        log.debug(firstdef)   
-                        log.debug(information_label)
-                        self.operations.append(
-                            [service, 
-                            information, 
-                            definition, 
-                            profdef, 
-                            param_out, 
-                            param_in, 
-                            label_first_out, 
-                            firstdef,
-                            information_label])
-            log.info("Removing "+svc+" from the list of input services")
+                    inp2 = binding_set.getValue("in2")
+                    param_in2 = binding_set.getValue("param_in2")
+                    in_definition = binding_set.getValue("in_definition")
+                    in2_definition = binding_set.getValue("in2_definition")
+                    inp3 = binding_set.getValue("in3")
+                    param_in3 = binding_set.getValue("param_in3")
+                    in3_definition = binding_set.getValue("in3_definition")
+                    fd_1 = 0
+                    fd_2 = 0
+                    fd_3 = 0
+                    for input_scan in inputs:
+                        if inp == input_scan[0]:
+                            fd_1 = 1
+                        if inp2 == input_scan[0]:
+                            fd_2 = 1
+                        if inp3 == input_scan[0]:
+                            fd_3 = 1
+                    if fd_1 == 0 :
+                        inputs.append([inp,param_in,in_definition])
+                    if fd_2 == 0 :
+                        inputs.append([inp2,param_in2,in2_definition])
+                    if fd_3 == 0:
+                        inputs.append([inp3,param_in3,in3_definition])
+            fd_svc = 0
+            for svc_scan in self.operations:
+                if svc_scan[0] == svc:
+                    fd_svc = 1
+            if fd_svc == 0:
+                self.operations.append([svc,soft_profile,soft,address,url,service_description,outputs,inputs])
+            log.debug("Removing "+svc+" from the list of input services")
+            log.debug("Operations:")
+            log.debug(self.operations)
+            self.tested_services.append(svc)
             self.list_inputs_svc.remove(svc)
-        for elt in new_list_svc:
-            self.list_inputs_svc.append(elt)
+            for elt in new_list_svc:
+                if elt not in self.tested_services:
+                    log.debug("Adding:"+str(elt)+" to services list")
+                    self.list_inputs_svc.append(elt)
         return new_step_found
     def return_suggestions(self):
         """
@@ -795,6 +786,132 @@ class Allegro(object):
                 print("<library>" + library + "</library>")
                 print("<svc>" + svc + "</svc>")
                 print("</service>")
+    
+    def backward_chain(self):
+        """
+        Backward chaining part of services composition, allowing multiple 
+        inputs for a single service call.
+        """
+        line_back = 0
+        new_list_svc = []
+        log.debug("Entering backward chaining process")
+        for service in self.operations:
+            log.debug(str(service))
+            svc = str(service[0])
+            if svc in self.back_tested_services:
+                continue
+            else:
+                self.back_tested_services.append(svc)
+            inpt = str(service[5])
+            log.debug("service: "+svc+" input: "+inpt)
+            queryString = """PREFIX profile: <http://www.daml.org/services/owl-s/1.2/Profile.owl#>                                                
+            SELECT DISTINCT ?input
+            WHERE { <%s> profile:hasInput ?input .}""" % (svc.replace("<","").replace(">",""))
+            log.debug(queryString)
+            tupleQuery = self.conn.prepareTupleQuery(QueryLanguage.SPARQL, queryString)
+            result = tupleQuery.evaluate()
+            with result:
+                for binding_set in result:
+                    inpt = str(binding_set.getValue("input")).replace("<","").replace(">","")
+                    log.debug("input found:"+inpt)
+                    if inpt != "None":
+                        inputs = []
+                        outputs = []
+                        queryString = """PREFIX profile: <http://www.daml.org/services/owl-s/1.2/Profile.owl#>                                    
+                        PREFIX service: <http://www.daml.org/services/owl-s/1.2/Service.owl#>                                                     
+                        PREFIX arcas: <http://www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf#>
+                        PREFIX rdfsns: <http://www.w3.org/2000/01/rdf-schema#>                                                                    
+                        SELECT DISTINCT ?service  
+                        WHERE { ?service arcas:hasOutput <%s> .}""" % (inpt)
+                        log.debug(queryString)
+                        tupleQuery = self.conn.prepareTupleQuery(QueryLanguage.SPARQL, queryString)
+                        result = tupleQuery.evaluate()
+                        with result:
+                            for binding_set in result:
+                                service = str(binding_set.getValue("service")).replace("<","").replace(">","")
+                                line_back = 1
+                                log.debug("Service found:"+service)
+                                queryString = """
+                                PREFIX profile: <http://www.daml.org/services/owl-s/1.2/Profile.owl#>
+                                PREFIX service: <http://www.daml.org/services/owl-s/1.2/Service.owl#>
+                                PREFIX arcas: <http://www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf#>
+                                PREFIX rdfsns: <http://www.w3.org/2000/01/rdf-schema#>
+                                SELECT DISTINCT ?soft_profile ?soft ?address ?url ?service_description                                                                                               WHERE {                                                                                                                                                              <%s> service:presents ?firstprofile .                                                                                                                                ?firstprofile profile:textDescription ?description .                                                                                                                 ?firstprofile arcas:hasQuerySoftware ?soft_profile .                                                                                                                 OPTIONAL {?soft_profile rdfsns:label ?soft .}                                                                                                                        <%s> arcas:isAccessedThrough ?address .                                                                                                                              ?address rdfsns:isDefinedBy ?url .                                                                                                                                   <%s> service:presents ?firstprofile .                                                                                                                                ?firstprofile profile:textDescription ?service_description .                                                                                                         }                                                                                                                                                                    """ % (service, service, service)
+                                log.debug(queryString)
+                                tupleQuery = self.conn.prepareTupleQuery(QueryLanguage.SPARQL, queryString)
+                                result = tupleQuery.evaluate()
+                                with result:
+                                    for binding_set in result:
+                                        soft_profile = binding_set.getValue("soft_profile")
+                                        soft = binding_set.getValue("soft")
+                                        address = binding_set.getValue("address")
+                                        url = binding_set.getValue("url")
+                                        service_description = binding_set.getValue("service_description")
+                                        queryString = """PREFIX profile: <http://www.daml.org/services/owl-s/1.2/Profile.owl#>
+                                        PREFIX service: <http://www.daml.org/services/owl-s/1.2/Service.owl#>
+                                        PREFIX arcas: <http://www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf#>
+                                        PREFIX rdfsns: <http://www.w3.org/2000/01/rdf-schema#>
+                                        SELECT DISTINCT ?in ?param_in ?in2 ?param_in2 ?in_definition ?in2_definition ?in3 ?param_in3 ?in3_definition
+                                        WHERE                                                                                                                        
+                                        {
+                                        OPTIONAL {                                                                                                                                                            <%s> arcas:hasInput ?in .                                                                                                                                            ?in arcas:isCombinedToParam ?param_in .                                                                                                                              ?param_in rdfsns:isDefinedBy ?in_definition .                                                                                                                        }                                                                                                                                                                    OPTIONAL {                                                                                                                                                           <%s> service:presents ?firstprofile .                                                                                                                                ?firstprofile  arcas:hasInput ?in2 .                                                                                                                                 ?in2 arcas:isCombinedToParam ?param_in2 .                                                                                                                            ?param_in2 rdfsns:isDefinedBy ?in2_definition .      
+                                        }
+                                        OPTIONAL {
+                                        <%s> profile:hasInput ?in3 .
+                                        ?in3 arcas:isCombinedToParam ?param_in3 .
+                                        ?param_in3 rdfsns:isDefinedBy ?in3_definition .
+                                        }     
+                                        }               
+                                        """ % (service, service, service)
+                                        log.debug(queryString)
+                                tupleQuery = self.conn.prepareTupleQuery(QueryLanguage.SPARQL, queryString)
+                                result = tupleQuery.evaluate()
+                                with result:
+                                    for binding_set in result:
+                                        inp = binding_set.getValue("in")
+                                        param_in = binding_set.getValue("param_in")
+                                        inp2 = binding_set.getValue("in2")
+                                        param_in2 = binding_set.getValue("param_in2")
+                                        in_definition= binding_set.getValue("in_definition")
+                                        in2_definition= binding_set.getValue("in2_definition")
+                                        inp3 = binding_set.getValue("in3")
+                                        param_in3 = binding_set.getValue("param_in3")
+                                        in3_definition = binding_set.getValue("in3_definition")
+                                        inputs.append([inp,param_in,in_definition])
+                                        inputs.append([inp2,param_in2,in2_definition])
+                                        inputs.append([inp3,param_in3,in3_definition])
+                                queryString = """PREFIX profile: <http://www.daml.org/services/owl-s/1.2/Profile.owl#>
+                                PREFIX service: <http://www.daml.org/services/owl-s/1.2/Service.owl#>
+                                PREFIX arcas: <http://www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf#>                                                               
+                                PREFIX rdfsns: <http://www.w3.org/2000/01/rdf-schema#>                                       
+                                SELECT DISTINCT ?out ?param_out ?label_out ?definition_out 
+                                WHERE {                       
+                                <%s> arcas:hasOutput ?out .
+                                ?out arcas:isCombinedToParam ?param_out .
+                                ?param_out rdfs:label ?label_out . 
+                            OPTIONAL {
+                                ?param_out rdfs:isDefinedBy ?definition_out .
+                                }
+                                }                                                                                                
+                                """ % (service)
+                                log.debug(queryString)
+                                tupleQuery = self.conn.prepareTupleQuery(QueryLanguage.SPARQL, queryString)
+                                result = tupleQuery.evaluate()
+                                with result:
+                                    for binding_set in result:
+                                        agg_out = binding_set.getValue("out")
+                                        param_out = binding_set.getValue("param_out")
+                                        label_out = binding_set.getValue("label_out")
+                                        definition_out = binding_set.getValue("definition_out")
+                                        outputs.append([agg_out,param_out,label_out,definition_out])
+                                fd_svc = 0
+                                for svc_scan in self.operations:
+                                    if svc_scan[0] == service:
+                                        fd_svc = 1
+                                if fd_svc == 0:
+                                    self.operations.append([service,soft_profile,soft,address,url,service_description,outputs,inputs])
+        return line_back
+
 
     def switch_case(self):
         """
@@ -802,11 +919,22 @@ class Allegro(object):
         the use-case sent through http request
         """
         if self.usecase == "seek_operations":
+            self.get_definitions()
+            self.get_metadatas()
+            self.render_best_data()
+            for key in self.final_services:
+                log.debug("cle final services:"+str(key).lstrip("<").rstrip(">"))
+                self.list_inputs_svc.append(str(key).lstrip("<").rstrip(">"))
+                break
             log.debug("Call get_operations")
             while self.get_operations() == 1:
                 log.info("New operation Found")
                 self.get_operations()
-        log.info("No further operation")    
+        log.info("No further operation")
+        back_sack = 1
+        while (back_sack):
+            back_sack = self.backward_chain()
+        log.info("Backward chaining comlplete")
         self.send_response()
         if self.usecase == "data":
             self.get_definitions()
@@ -902,7 +1030,7 @@ class Allegro(object):
         self.citation = []
         self.services = []
         self.tested_services = []
-
+        self.back_tested_services = []
         self.send_header()
         if repo == "all":
             log.debug("Seeking available repositories in catalog")

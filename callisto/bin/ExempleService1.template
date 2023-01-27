@@ -1,12 +1,6 @@
-service_name = WORD_AND_LETTER_COUNTING
-input:
-	name = textualcontent
-	format = ASCII
-	unit = UNITLESS
-output:
-	name = http://edamontology.org/data_0972
-	format = CSV
-	unit = UNITLESS
+service name = WORD_AND_LETTER_COUNTING
+input = http://www.callisto.calmip.univ-toulouse.fr/demonstration.rdf#AsciiTextFile
+output = http://www.callisto.calmip.univ-toulouse.fr/demonstration.rdf#csv_text_mining_report
 description = This service counts the number of words of given letters from an input ascii file 
 base url = http://www.callisto-dev.calmip.univ-toulouse.fr/cgi-bin/
 scriptfile = ExempleService1.py

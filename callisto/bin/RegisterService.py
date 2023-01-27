@@ -55,7 +55,7 @@ class RegisterService(object):
         print('Repository contains %d statement(s).' % self.conn.size())
 
         timer = str(time.time())
-        svc = timer
+        svc = self.svc_name_tplt
         print("registering service:"+str(svc))
         profile_id = svc + "_Profile"
         short_url = timer + "_url"
@@ -65,25 +65,22 @@ class RegisterService(object):
         hasQuerySoftware = self.conn.createURI(URIRef(arcas.hasQuerySoftware))
         hasOutput = self.conn.createURI(URIRef(arcas.hasOutput))
         hasInput =  self.conn.createURI(URIRef(profile.hasInput))
-        isCombinedToParam =  self.conn.createURI(URIRef(arcas.isCombinedToParam))
-        isCombinedToFormat =  self.conn.createURI(URIRef(arcas.isCombinedToFormat))
-        isCombinedToUnit =  self.conn.createURI(URIRef(arcas.isCombinedToUnit))
-                
+                        
         labels = self.conn.createURI("<http://www.w3.org/2000/01/rdf-schema#label>")
         isDefined = self.conn.createURI("<http://www.w3.org/2000/01/rdf-schema#isDefinedBy>")
         servi = self.conn.createURI("<"+self.readconf.rootiri+self.svc_repo_tplt+".rdf#"+ svc+">")
         profile = self.conn.createURI("<"+self.readconf.rootiri+self.svc_repo_tplt+".rdf#" + profile_id+">")
-        #data_tim = self.conn.createURI("<"+self.readconf.rootiri+self.svc_repo_tplt+".rdf#" + timer+">")
         data_url = self.conn.createURI("<"+self.readconf.rootiri+self.svc_repo_tplt+".rdf#" + short_url+">")
         
         self.conn.add(servi, RDF.TYPE, URIRef(service.Service))
         self.conn.add(profile, RDF.TYPE, URIRef(service.ServiceProfile))
-        #self.conn.add(data_tim,RDF.TYPE, URIRef(arcas.MeasuredQuantity))
         
         self.conn.add(servi, presents, profile)
-        print("service name:"+"<"+self.readconf.rootiri+self.svc_repo_tplt+".rdf#" + timer+">")
-        soft = self.conn.createURI("<"+self.readconf.rootiri+self.svc_repo_tplt+".rdf#" +self.svc_script_tplt +">")
-        operations = self.svc_opt_tplt.split("&")
+        
+        try:
+            operations = self.svc_opt_tplt.split("&")
+        except:
+            operations = "No operations indicated"
         labelsoft = self.svc_script_tplt
         labeldef = self.svc_label_tplt
         
@@ -92,63 +89,21 @@ class RegisterService(object):
         self.conn.add(data_url, "<http://www.w3.org/2000/01/rdf-schema#isDefinedBy>", Literal(self.svc_url_tplt))
         self.conn.add(servi,"<http://www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf#isAccessedThrough>",data_url)
         self.conn.add(profile,"<http://www.daml.org/services/owl-s/1.2/Profile.owl#textDescription>", Literal(self.svc_desc_tplt))
+        if self.svc_script_tplt != "get_dataset.py":
+            soft = self.conn.createURI("<"+self.readconf.rootiri+self.svc_repo_tplt+".rdf#" +self.svc_script_tplt +">")
+        else:
+            soft = self.conn.createURI("<http://www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf#get_dataset>")
         self.conn.add(profile, hasQuerySoftware, soft)
         self.conn.add(soft,labels,Literal(labelsoft))
-        #self.conn.add(servi,"<http://www.w3.org/2000/01/rdf-schema#isDefinedBy>", Literal(self.svc_desc_tplt))
-        
-        timer = str(time.time())
-        aggregate = timer + "_agg"
-        agg = self.conn.createURI("<"+self.readconf.rootiri+self.svc_repo_tplt+".rdf#" + aggregate+">")
-        self.conn.add(agg, RDF.TYPE, URIRef(arcas.Aggregate))
-        self.conn.add(servi, hasInput, agg)
-        quantity = self.svc_input
-        print("input:"+quantity)
-        if "http" in quantity:
-            #La quantite exprimee est decrite dans un vocabulaire importe
-            q = self.conn.createURI(quantity.replace(" ", ""))
-        else:
-            #La quantite exprimee vient d'ARCADIE
-            q = self.conn.createURI("<"+self.readconf.rootiri+self.svc_repo_tplt+".rdf#" + quantity +">")
-        self.conn.add(agg,isCombinedToParam, q)
-        form = self.svc_input_format
-        f = self.conn.createURI("<"+self.readconf.rootiri+self.svc_repo_tplt+".rdf#" + form +">")
-        self.conn.add(agg, isCombinedToFormat, f)
-        unit = self.svc_input_unit
-        if unit != "UNITLESS":
-            u = self.conn.createURI("<"+self.readconf.rootiri+self.svc_repo_tplt+".rdf#"+unit+">")
-            self.conn.add(agg, isCombinedToUnit, u)
-        else:
-            self.conn.add(agg, isCombinedToUnit, "http://www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf#unitless")
-   
-        timer = str(time.time())
-        aggregate = timer + "_agg"
-        agg = self.conn.createURI("<"+self.readconf.rootiri+self.svc_repo_tplt+".rdf#" + aggregate+">")
-        self.conn.add(agg, RDF.TYPE, URIRef(arcas.Aggregate))
-        self.conn.add(servi, hasOutput, agg)
-        print ("svc output"+self.svc_output)
-        quantity = self.svc_output
-        print("Q: "+str(q))
-        print("Quantity: "+str(quantity))
-        if "http" in quantity:
-            #La quantite exprimee est decrite dans un vocabulaire importe
-            q = self.conn.createURI(quantity.replace(" ", ""))
-        else:
-            #La quantite exprimee vient d'ARCADIE
-            q = self.conn.createURI("<"+self.readconf.rootiri+self.svc_repo_tplt+".rdf#" + quantity +">")
-            self.conn.add(q,isDefined,Literal(quantity))
-        print("New Q: "+str(q))
-        self.conn.add(agg,isCombinedToParam, q)
-        form = self.svc_output_format
-        f = self.conn.createURI("<"+self.readconf.rootiri+self.svc_repo_tplt+".rdf#" + form +">")
-        self.conn.add(agg, isCombinedToFormat, f)
-        unit = self.svc_output_unit
-        if unit != "UNITLESS":
-            u = self.conn.createURI("<"+self.readconf.rootiri+self.svc_repo_tplt+".rdf#"+unit+">")
-            self.conn.add(agg, isCombinedToUnit, u)
-        else:
-            self.conn.add(agg, isCombinedToUnit, "http://www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf#unitless")
-        #self.conn.add(agg, isCombinedToUnit, u)
-        print('Repository contains %d statement(s).' % self.conn.size())
+        for inp in self.input:
+            print("Adding input:"+"<"+self.readconf.rootiri+self.svc_repo_tplt+".rdf#"+inp+">")
+            data_input = self.conn.createURI("<"+self.readconf.rootiri+self.svc_repo_tplt+".rdf#"+inp+">")
+            self.conn.add(servi, hasInput, data_input)
+        for outp in self.output:
+            print("Adding output:"+"<"+self.readconf.rootiri+self.svc_repo_tplt+".rdf#"+outp+">")
+            data_output =  self.conn.createURI("<"+self.readconf.rootiri+self.svc_repo_tplt+".rdf#"+outp+">")
+            self.conn.add(servi, hasOutput, data_output)
+        self.conn.add(servi, isDefined, Literal(self.svc_desc_tplt))
 
     def open_connection(self):
         """
@@ -174,36 +129,17 @@ class RegisterService(object):
         config_file = open(config, 'r')
         case = ""
         lines = config_file.readlines()
+        self.output = []
+        self.input = []
         for line in lines:
-            if "input:" in line:
-                case = "input"
-            if "output:" in line:
-                case = "output"
+            if "input =" in line:
+                self.input.append(str(line.split("input = ")[1].split("#")[1].replace("\n","")))
+            if "output =" in line:
+                print(line)
+                self.output.append(str(line.split("output = ")[1].split("#")[1].replace("\n","")))
             if "service name =" in line:
-                self.svc_name_tplt = str(line.split("service name = ")[1].replace("\n","")).toupper()
+                self.svc_name_tplt = str(line.split("service name = ")[1].replace("\n",""))
                 log.debug("Service name:"+str(self.svc_name_tplt)+".")
-            if "name =" in line:
-                if case == "input":
-                    self.svc_input = str(line.split("name = ")[1].replace("\n",""))
-                    log.debug("input name:"+str(self.svc_input)+".")
-                if case == "output":
-                    self.svc_output = str(line.split("name = ")[1].replace("\n",""))
-                    log.debug("output name:"+str(self.svc_output)+".")
-                    print("output name:"+str(self.svc_output)+".")
-            if "format =" in line:
-                if case == "input":
-                    self.svc_input_format = str(line.split("format = ")[1].replace("\n",""))
-                    log.debug("input format:"+str(self.svc_input_format)+".")
-                if case == "output":
-                    self.svc_output_format = str(line.split("format = ")[1].replace("\n",""))
-                    log.debug("output format:"+str(self.svc_output_format)+".")
-            if "unit =" in line:
-                if case == "input":
-                    self.svc_input_unit = str(line.split("unit = ")[1].replace("\n",""))
-                    log.debug("input unit:"+str(self.svc_input_unit)+".")
-                if case == "output":
-                    self.svc_output_unit = str(line.split("unit = ")[1].replace("\n",""))
-                    log.debug("output unit:"+str(self.svc_output_unit)+".")
             if "description =" in line:
                 self.svc_desc_tplt = str(line.split("description = ")[1].replace("\n",""))
                 log.debug("Service description:"+str(self.svc_desc_tplt)+".")
@@ -234,21 +170,24 @@ class RegisterService(object):
         lines = skel_file.readlines()
         for line in lines:
             if "MyNewTerm" in line:
-                if "#" in self.svc_input:
-                    line = line.replace("MyNewTerm",self.svc_input.split("#")[1])
-                elif "/" in self.svc_input:
-                    line = line.replace("MyNewTerm",self.svc_input.split("/")[len(self.svc_input.split("/")) - 1])
-                else:
-                    line = line.replace("MyNewTerm",self.svc_input)
-            if "... your script will be put here ..." in line:
+                for inp in self.input:
+                    newline = line.replace("MyNewTerm",inp).replace("inp",inp)
+                    res_file.write(newline)
+            elif "... your script will be put here ..." in line:
                 res_file.write("# ------- Beginning of your script. You may change things from here\n")
                 for line_script in script.readlines():
                     res_file.write(line_script)
                 res_file.write("# ------- Ending of your script. You should not change things after this line\n")
                 continue
-            if "myresult" in line:
+            elif "myresult" in line:
                 line = line.replace("myresult",self.svc_result_tplt.rstrip(" ").lstrip(" "))
-            res_file.write(line)
+                res_file.write(line)
+            elif "input_file" in line:
+                for inp in self.input:
+                    newline = line.replace("input_file",inp+"_file").replace("inp",inp)
+                    res_file.write(newline)
+            else:
+                res_file.write(line)
         res_file.close()
         skel_file.close()
         script.close()

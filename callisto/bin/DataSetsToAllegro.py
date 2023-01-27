@@ -49,12 +49,7 @@ class DatasetsToOntology(object):
         liste de listes de 4 elements comprenant: id, titre, description, et liste de sujets lies au dataset
         prototype de chaque liste: [string, string, string, [string,...,string]]
         """
-        #API_TOKEN = "e0967c6e-4679-4c4b-b74f-4e165bd6866c"
-        API_TOKEN = "9ec41056-85e6-461d-925f-d29fde9cb6e1"
-        API_TOKEN = "cb606579-8270-4c3b-a970-43340189499d"
-        API_TOKEN = "bea7b84d-3a41-4282-aac0-3a7593271b71"
         API_TOKEN = "a8ca1699-09db-48d2-8717-87780f850238"
-        #API_TOKEN = "9ebc9be4-3601-471a-a0aa-cc2931090d6a"
         SERVER_URL = "Callistodataverse:8080"
         liste_results = []
         log.debug("get_detail, repos:"+str(self.repos))
@@ -132,10 +127,10 @@ class DatasetsToOntology(object):
                     #Gestion des metadonnes specifiques a un projet
                     try:
                         print("Testing SMS metadata")
-                        #print(str(liste_datasets['data']['latestVersion']['metadataBlocks']['SMS_04Mars2020_v3']).encode('ascii', 'ignore').decode('ascii'))
+    
                         for elt in liste_datasets['data']['latestVersion']['metadataBlocks']:
                             print(str(elt.encode('ascii', 'ignore').decode('ascii')))
-                            #print(elt["displayName"])
+                            
                             if elt == "SMS_04Mars2020_v3":
                                 print ("Here we are")
                                 try:
@@ -188,51 +183,32 @@ class DatasetsToOntology(object):
                 	
     def update_ontology(self, details):
         """
-        Met a jour l'ontologie avec les elements recueillis dans get_details
+        Construit le fichier "template" de description de service
+        a partir des elements recuperes dans get_details
+        Appelle registerservicepour enregistrement dans l'ontologie
         :return:
-        Ontologie mise a jour
         """
-        print ("------------> Maj ontology")
-        service = Namespace("http://www.daml.org/services/owl-s/1.2/Service.owl#")
-        profile = Namespace("http://www.daml.org/services/owl-s/1.2/Profile.owl#")
-        mp = Namespace("http://purl.org/mp/")
-        mp2 = Namespace("http://purl.org/mp#")
-        provo = Namespace("http://www.w3.org/ns/prov#")
-        dc = Namespace("http://purl.org/dc/terms#")
-        arcas = Namespace("http://www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf#")
-        print("details:")
-        #for elt in details:
-            #print(elt)
-        mode = Repository.OPEN
-        # Add the OWL data to the graph
+        
         for elt in details:
             timer = str(time.time())
             svc = "FDV_" + str(elt[0])
             log.debug("regisering service:"+svc)
-            profile_id = svc + "_Profile"
-            short_url = timer + "_url"
-            aggregate = timer + "_agg"
-
+                        
             measurement = "Quantity that is measured"
             keywords = elt[5]
             elt_type =  elt[6]
             resume = str(elt[1])
-            description = str(elt[2])
+            description = str(elt[2])            
             subjects = str(elt[3])
-            url = str(elt[4])
-            unit = "UNITLESS"
             repo = elt[7]
+            url = str(elt[4])
+            mode = Repository.OPEN
             repository = self.catalog.getRepository(repo, mode)
+            
             self.conn = repository.getConnection()
             self.get_registered_datasets()
-            datatypes = elt[8]
-            datatypes_values = elt[9]
-            myont = Namespace(self.rootiri+repo+".rdf#")
-            print("svc: "+svc)
-            #print("URL is: --> "+url)
+            
             print("keywords:" + str(keywords))
-            for type in range (len(datatypes)):
-                print(svc+self.rootiri+repo+".rdf#"+datatypes[type]+">value:"+datatypes_values[type])
             same = 0
             for reg_desc in self.registered_services:
                 print("service:" + svc)
@@ -241,82 +217,32 @@ class DatasetsToOntology(object):
                 if svc in str(reg_desc):
                     same = 1
                     print("matching found")
-                    #break
+                    break
             if same == 1:
                 continue
-            #print("measurement:" + measurement)
-            #print("Adding the dataset:" + resume)
-            #print("subjects:" + subjects)
-            #print(URIRef(service.Service))
-
-            qualifies = self.conn.createURI(URIRef(mp2.qualifies))
-            presents = self.conn.createURI(URIRef(service.presents))
-            hasoperation = self.conn.createURI(URIRef(arcas.hasOperation))
-            hasQuerySoftware = self.conn.createURI(URIRef(arcas.hasQuerySoftware))
-            hasOutput = self.conn.createURI(URIRef(arcas.hasOutput))
-            hasInput =  self.conn.createURI(URIRef(arcas.hasInput))
-            isCombinedToParam =  self.conn.createURI(URIRef(arcas.isCombinedToParam))
-            isCombinedToFormat =  self.conn.createURI(URIRef(arcas.isCombinedToFormat))
-            isCombinedToUnit =  self.conn.createURI(URIRef(arcas.isCombinedToUnit))
-            ApiKey = self.conn.createURI(URIRef(arcas.ApiKey))
-
-            labels = self.conn.createURI("<http://www.w3.org/2000/01/rdf-schema#label>")
-            isDefined = self.conn.createURI("<http://www.w3.org/2000/01/rdf-schema#isDefinedBy>")
-            servi = self.conn.createURI(self.rootiri+repo+".rdf#"+ svc)
-            profile = self.conn.createURI(self.rootiri+repo+".rdf#" + profile_id)
-            data_tim = self.conn.createURI(self.rootiri+repo+".rdf#" + timer)
-            data_url = self.conn.createURI(self.rootiri+repo+".rdf#" + url)
-            #agg = self.conn.createURI(self.rootiri+repo+".rdf#" + aggregate)
-            
-            #log.debug(" --> Adding service: "+servi,profile,data_tim,data_url,agg)
-            
-            self.conn.add(servi, RDF.TYPE, URIRef(service.Service))
-            self.conn.add(profile, RDF.TYPE, URIRef(service.ServiceProfile))
-            #self.conn.add(data_tim,RDF.TYPE, URIRef(arcas.MeasuredQuantity))
-            self.conn.add(servi, presents, profile)
-            
-            self.conn.add(servi, hasoperation,  URIRef(arcas.retrieve_dataset))
-            self.conn.add(servi, hasoperation, URIRef(arcas.retrieve_metadata))
-            
-            qsoft = self.conn.createURI("<http://www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf#get_dataset>")
-            self.conn.add(profile, hasQuerySoftware, qsoft)
-            self.conn.add(profile,"<http://www.daml.org/services/owl-s/1.2/Profile.owl#textDescription>", Literal(description))
-            #self.conn.add(agg, RDF.TYPE, URIRef(arcas.Aggregate))
-
-            self.conn.add(servi, hasInput, ApiKey)
-            for type in range (len(datatypes)):
-                self.conn.add(servi, self.rootiri+repo+".rdf#"+datatypes[type]+">",datatypes_values[type])
-            self.conn.add(servi,"<http://www.w3.org/2000/01/rdf-schema#isDefinedBy>", Literal(measurement))
+            template_file = open(svc+".template",'w')
+            template_file.write("service name = "+svc+"\n")
+            template_file.write("input = http://www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf#ApiKey\n")
+            try:
+                template_file.write("description = "+description+"\n")
+            except:
+                template_file.write("description = Unspecified \n")
+            template_file.write("repository = "+repo+"\n")
+            template_file.write("scriptfile = get_dataset.py\n")                                                                                                                           
+            template_file.write("resultfile = "+svc+".csv\n")                      
+            template_file.write("label = Dataset access "+svc+"\n")
             for word in range(len(keywords)):
-                print ("Registering:"+str(keywords[word]))
-                if isinstance(keywords[word],str):
-                    clean_word = keywords[word].rstrip("']").lstrip("['").replace("'","").replace(",","")
-                    #La quantite exprimee vient d'ARCADIE
-                    quantity = clean_word.replace(" ", "")
-                    qri = self.conn.createURI(self.rootiri+repo+".rdf#"+quantity)
-                    self.conn.add(servi, hasOutput, qri)
-                        #label = self.conn.createURI(self.rootiri+repo+".rdf#" + clean_word)
-                        #self.conn.add(quantity,isDefined,label)
-                        #self.conn.add(quantity,labels,label)
-                    #self.conn.add(agg,isCombinedToParam,quantity)
-                else:
-                    for stage2 in range(len(keywords[word])):
-                        clean_word = keywords[word][stage2].rstrip("']").lstrip("['").replace("'","").replace(",","")
-                        #label = self.conn.createURI(self.rootiri+repo+".rdf#" + clean_word)
-                        quantity = clean_word.replace(" ", "")
-                        qri = self.conn.createURI(self.rootiri+repo+".rdf#"+quantity)
-                        self.conn.add(servi, hasOutput, qri)                        
-            #agg = self.conn.createURI(self.rootiri+repo+".rdf#" + aggregate)
-            
-
-            self.conn.add(data_tim, RDF.TYPE, URIRef(mp.Data))
-            self.conn.add(data_tim,"<http://www.w3.org/2000/01/rdf-schema#isDefinedBy>",Literal(description))
-
-            # AccessURL:
-            self.conn.add(data_url, RDF.TYPE, URIRef(arcas.accessURL))
-            self.conn.add(data_url, "<http://www.w3.org/2000/01/rdf-schema#isDefinedBy>", Literal(url))
-            self.conn.add(servi,"<http://www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf#isAccessedThrough>",data_url)
-            print('Repository contains %d statement(s).' % self.conn.size())
+                print("word:"+str(word))
+                try:
+                    clean_word = keywords[word].rstrip("']").lstrip("['").replace("'","").replace(",","").replace(" ", "")
+                    print("Outputs ontology aggregate:"+clean_word)
+                    template_file.write("output = "+self.rootiri+repo+".rdf#"+clean_word+"\n")
+                except:
+                    continue
+            template_file.write("base url = "+url+"\n")
+            template_file.close()
+            print("calling: python3 ./RegisterService.py "+svc+".template register")
+            os.system("python3 ./RegisterService.py "+svc+".template register")
             repository.shutDown()
             self.conn.close()
         print ("Maj ontology ----> FIN MAJ")

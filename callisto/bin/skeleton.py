@@ -25,6 +25,7 @@
 import cgi
 import ReadConfig
 import os
+import time
 readconf = ReadConfig.ReadConfig()
 form = cgi.FieldStorage()
 outputs = str(form.getvalue("outputs"))
@@ -34,8 +35,9 @@ input_file = open(inp,'r',encoding="utf-8")
 
 ... your script will be put here ...
 
-os.system("mv myresult ../html/"+readconf.portaltemp+"myresult")
+timer = str(time.time())
+os.system("mv myresult ../html/"+readconf.portaltemp+"myresult"+timer)
 print ("Content-Type: text/xml\n")
 print ("<options>\n")
-print("<"+outputs+">"+readconf.portalhost+readconf.portaltemp+"myresult</"+outputs+">\n")
+print("<"+outputs+">"+readconf.portalhost+readconf.portaltemp+"myresult"+timer+"</"+outputs+">\n")
 print ("</options>\n")

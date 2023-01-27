@@ -1,4 +1,4 @@
-var active_repo = 'demonstration';
+var active_repo = 'sms';
 var w;
 function Ouvrir() {
   w=window.open("popup.html","pop1","width=200,height=200");
@@ -80,7 +80,7 @@ function drawGraph() {
         }
         ],
     });
-    cy.mount(document.getElementById('cydetails'));
+    cy.mount(document.getElementById('cy'));
 };
 
 
@@ -107,12 +107,12 @@ function SeekOntology() {
 }
 
 function returnFromWorkflow() {
-    activateLoadscreen()
+    //activateLoadscreen()
 
-    sadaResults.wrapper.classList.add('flex')
-    sadaWorkflow.wrapper.classList.remove('flex')
-    hideLoadscreen()
-    hideGetFilesResultBox()
+    //sadaResults.wrapper.classList.add('flex')
+    //sadaWorkflow.wrapper.classList.remove('flex')
+    //hideLoadscreen()
+    //hideGetFilesResultBox()
     
 }
 
@@ -139,8 +139,8 @@ function query_repository() {
     }
 }
 function BackToSearch() {
-    activateLoadscreen();
-    hideLoadscreen();
+    //activateLoadscreen();
+    //hideLoadscreen();
 }
 // onload sem-search
 function handleQueryArcadie (request) {
@@ -158,7 +158,7 @@ function handleQueryArcadie (request) {
     }
 
     semSearchResults.wrapper.classList.add('flex')
-    hideLoadscreen()
+    //hideLoadscreen()
     semSearchResults.container.innerHTML = ''
 
     var xmlDoc = fetchResults()
@@ -283,20 +283,21 @@ function handleQueryArcadie (request) {
 function SeekInformation() {
 
     var query = document.querySelector('#information').value
-    var case1 = "data";
+    var case1 = "seek_operations";
     
     ajaxArgs = 'repo='+ active_repo + '&' + 'case='+ case1 + '&' + 'query='+ query + '&';
-    
+    $("#cy").html("Please wait... Workflow composition running.");
+    $("body").css("cursor", "progress");
+    $("#seekInfo").hide();
+    $("#getRes").hide();
     var remote=$.ajax({
         url: "/cgi-bin/Allegro_Fcts.py",
         method: 'POST',
         data:ajaxArgs,
         dataType: "text",
-        success: handleSeekInformation
+        success: handleOperationsWorkflow
     });    
 
-    loadscreen.title.textContent = "Now loading"
-    loadscreen.subtitle.textContent = "This may take a few moments"
 }
 
 function handleSeekInformation(request)  {
@@ -312,12 +313,6 @@ function handleSeekInformation(request)  {
     }
     var x=xmlDoc.getElementsByTagName("service");
 
-    // DISPLAY
-
-    hideLoadscreen();
-    // Display results wrapper (display hidden by default)
-    sadaResults.wrapper.classList.add('flex');
-    sadaWorkflow.wrapper.classList.remove('flex');
 
     // Delete previous result(s)
     sadaResults.container.innerHTML = '';
@@ -354,7 +349,7 @@ function handleSeekInformation(request)  {
 		}
         $("#seekInfo").hide();
 	} else {
-		// no results
+	// no results
         appendElement(sadaResults.container, 'h2', 'No results found', {'className': 'text--center m--b--2'})
 	}
 }
@@ -398,33 +393,64 @@ function deselectEquivalents() {
     */
     var nodes_graph = cy.nodes();
         for (i = 0; i < nodes_graph.length; i++) {
+	    if (nodes_graph[i].style('shape') != "diamond") {
+                    continue
+                }
+
             var cl = nodes_graph[i].classes();
-           
             if (! cl.includes("selectednode")) {
                 continue
             }
-            
+            console.log("testing i:"+nodes_graph[i].style('label'));
             var vois =  nodes_graph[i].neighborhood();
-            for (j = 0; j < nodes_graph.length; j++) {
-                if(i == j) {continue}
-                var vois2 =  nodes_graph[j].neighborhood();
-                console.log( 'same ? ' + vois.same(vois2) );
-                if (vois.filter("nodes").same(vois2.filter("nodes"))) {
-                    //On devalide les equivalents 
-                    //on ne garde que le dernier par defaut
-                    nodes_graph[j].removeClass("selectednode");
-		    edges_toblack = nodes_graph.edgesWith(nodes_graph[j]);
-		    //alert(edges_toblack);
-		    for (tb = 0; tb < edges_toblack.length; tb++) {
-			edges_toblack[tb].addClass("blackenedEdge");
+            //modif 26Jan pour selection de services par defaut
+	      for (j = 0; j < nodes_graph.length; j++) {
+		if (i == j) {
+		  continue    
+		}
+		//console.log("Counting outgoers");
+		//Si deux noeuds ont un edge qui a un meme successeur on devalide un des noeuds
+		if (nodes_graph[j].style('shape') != "diamond") {
+		    continue
+		}
+		var jcl = nodes_graph[j].classes();
+		if (! jcl.includes("selectednode")) {
+                    continue
+		}
+		console.log("testing j:"+nodes_graph[j].style('label'));
+		outgo = nodes_graph[i].outgoers();
+		outgo2 = nodes_graph[j].outgoers();
+		for (o1 = 0; o1 < outgo.length; o1 ++) {
+		    for (o2 = 0; o2 < outgo2.length; o2 ++) {
+			console.log("is node:"+outgo2[o2].isNode());
+			console.log("label:"+outgo2[o2].style('label'));
+			if ((outgo2[o2].isNode())) {
+			    if((outgo[o1].isNode())) {
+				console.log("outgo 1:"+outgo[o1].style('label'));
+				if (outgo2[o2].same(outgo[o1])) {
+				    console.log("same target detected");
+				    nodes_graph[j].removeClass("selectednode");
+				    edges_toblack = nodes_graph.edgesWith(nodes_graph[j]);
+				    for (tb = 0; tb < edges_toblack.length; tb++) {
+					edges_toblack[tb].addClass("blackenedEdge");
+				    }
+				    
+				}
+			    }
+			}
+			
 		    }
-                }
-            }
+		}
         }
+    }
 }
 function handleOperationsWorkflow (request) {
      // INIT
-     function fetchWorkflow() {
+    $("#cy").html(""); 
+    $("body").css("cursor", "default");
+    $("#seekInfo").show();
+    $("#getRes").show();
+    function fetchWorkflow() {
         if (window.DOMParser)
         {
             parser=new DOMParser();
@@ -445,7 +471,7 @@ function handleOperationsWorkflow (request) {
     $("#sada-wrapper").hide();
     $("#sada-workflow").show();
     
-    hideLoadscreen()
+    //hideLoadscreen()
     outputs_generaux = []
     tab_inout = []
     tab_inputs = []
@@ -468,51 +494,69 @@ function handleOperationsWorkflow (request) {
     if (x.length > 0) {
         for (i = 0; i < x.length; i++) {
             service_name = x[i].getElementsByTagName("nom")[0].childNodes[0].nodeValue;
-            input = x[i].getElementsByTagName("input")[0].childNodes[0].nodeValue;
-            short_input = x[i].getElementsByTagName("short_input")[0].childNodes[0].nodeValue;
-            input_definition = x[i].getElementsByTagName("input_definition")[0].childNodes[0].nodeValue;
-            output =  x[i].getElementsByTagName("output")[0].childNodes[0].nodeValue;
-            short_output = x[i].getElementsByTagName("short_output")[0].childNodes[0].nodeValue;
-            output_definition = x[i].getElementsByTagName("output_definition")[0].childNodes[0].nodeValue;
-            url = x[i].getElementsByTagName("url")[0].childNodes[0].nodeValue;
+            input = x[i].getElementsByTagName("input");
+	    output =  x[i].getElementsByTagName("output");
+	    	    
+	    url = x[i].getElementsByTagName("url")[0].childNodes[0].nodeValue;
             soft = x[i].getElementsByTagName("soft")[0].childNodes[0].nodeValue;
             information_label = x[i].getElementsByTagName("information_label")[0].childNodes[0].nodeValue;
-	        ontology_id = x[i].getElementsByTagName("ontology_id")[0].childNodes[0].nodeValue;
+	    ontology_id = x[i].getElementsByTagName("ontology_id")[0].childNodes[0].nodeValue;
             definition =  x[i].getElementsByTagName("profdef")[0].childNodes[0].nodeValue;
-            
-            tab_services[i] = service_name;
             tab_urls[service_name] = url;
-            tab_inputs[service_name] = short_input;
-            tab_outputs[service_name] = short_output;
-            outputs_generaux.push(short_output);
-            tab_softs[service_name] = soft;
-            console.log("register soft:",soft, " for ",service_name)
-            info_values[input] = "";
-            tab_inout[service_name] = ontology_id;
+	    tab_services[i] = service_name;
+	    tab_softs[service_name] = soft;
+            console.log("register soft:",soft, " for ",service_name);
+	    tab_inout[service_name] = ontology_id;
             tab_definition[service_name] = definition;
             tab_ontologies[service_name] = allegro.prefix + active_repo + "/node/<" + ontology_id;
-            pos = i+1;
-            if (! tab_inout.includes(input)) {
-                tab_inout.push(input);
-                tab_definition[input] = input_definition;
-                tab_ontologies[input] = allegro.prefix + active_repo + allegro.suffix + active_repo + '.rdf%23' + input;
-                cy.add([{ group: 'nodes', data: { id: input, label: input}, position: { x: pos*100, y: 100 }, isCircle: false }]);
-            }
-            if (! tab_inout.includes(output)) {
-                tab_inout.push(output);
-                tab_definition[output] = output_definition;
-                if (output.includes("http:")) {
-                    tab_ontologies[output] = allegro.prefix + active_repo + "/node/<" + output; }
-                else {
-                    tab_ontologies[output] = allegro.prefix + active_repo + allegro.suffix + active_repo + '.rdf%23' + output;
-                }
-                cy.add([{ group: 'nodes', data: { id: output, label: information_label}, position: { x: pos*100, y: 250 }, isCircle: false }]);
-            }
-            cy.add([ 
-                { group: 'nodes', data: { id: service_name, label: service_name, shape: 'diamond'}, position: { x: pos*100, y: 150 } },
-                { group: 'edges', data: { id: input+service_name, source: input, target: service_name }, style: {'background-color': 'white','border-color': 'blue'}},
-                { group: 'edges', data: { id: service_name+output, source: service_name, target: output } }
-            ]);
+	    tab_inputs[service_name] = [];
+            tab_outputs[service_name] = [];
+
+	    cy.add([{ group: 'nodes', data: { id: service_name, label: service_name, shape: 'diamond'}, position: { x: pos*100, y: 150 } }]);
+            
+
+	    for (input_count = 0; input_count < input.length; input_count ++) { 
+		short_input = x[i].getElementsByTagName("short_input")[input_count].childNodes[0].nodeValue;
+		current_input_definition = x[i].getElementsByTagName("input_definition")[input_count].childNodes[0].nodeValue;
+		current_input = input[input_count].childNodes[0].nodeValue;
+		if (! tab_inputs[service_name].includes(short_input)) {
+		    tab_inputs[service_name].push(short_input);
+		}
+		info_values[current_input] = "";
+		pos = i+1;
+		if (! tab_inout.includes(current_input)) {
+                    tab_inout.push(current_input);
+                    tab_definition[current_input] = current_input_definition;
+                    tab_ontologies[current_input] = allegro.prefix + active_repo + allegro.suffix + active_repo + '.rdf%23' + current_input;
+                    cy.add([{ group: 'nodes', data: { id: current_input, label: current_input}, position: { x: pos*100+input_count, y: 100 }, isCircle: false }]);
+		}
+		cy.add([{ group: 'edges', data: { id: current_input+service_name, source: current_input, target: service_name }, 
+			  style: {'background-color': 'white','border-color': 'blue'}}]);
+
+		}
+		for (output_count = 0; output_count < output.length; output_count ++) {
+		    current_output =  x[i].getElementsByTagName("output")[output_count].childNodes[0].nodeValue;
+		    short_output = x[i].getElementsByTagName("short_output")[output_count].childNodes[0].nodeValue;
+		    output_definition = x[i].getElementsByTagName("output_definition")[output_count].childNodes[0].nodeValue;
+		    if (! tab_outputs[service_name].includes(short_output)) {
+			tab_outputs[service_name].push(short_output);
+		    }
+		    if (! outputs_generaux.includes(short_output)) { 
+			outputs_generaux.push(short_output);
+			}
+		  if (! tab_inout.includes(current_output)) {
+                    tab_inout.push(current_output);
+                    tab_definition[current_output] = output_definition;
+                    if (current_output.includes("http:")) {
+			tab_ontologies[current_output] = allegro.prefix + active_repo + "/node/<" + current_output; }
+                    else {
+                    tab_ontologies[current_output] = allegro.prefix + active_repo + allegro.suffix + active_repo+ '.rdf%23' + current_output;
+                    }
+                    cy.add([{ group: 'nodes', data: { id: current_output, label: information_label}, position: { x: pos*100+output_count, y: 250 }, isCircle: false }]);
+		}
+		cy.add([ 
+                    { group: 'edges', data: { id: service_name+current_output, source: service_name, target: current_output }}]);
+	      }
 	    }
     }
     allSet();
@@ -527,10 +571,11 @@ function handleOperationsWorkflow (request) {
 		edges_tohighlight[th].removeClass("blackenedEdge");
 	    }
 	}
-        $("#cy").html(tab_definition[node.id()]);
-        $("#cy").append("<br/><br/><a href='"+tab_ontologies[node.id()]+">'>Find out more</a>");
+        $("#sem_information").html(tab_definition[node.id()]);
+        $("#sem_information").append("<br/><br/><a href='"+tab_ontologies[node.id()]+">'>Find out more</a><br/><br/>");
         var vois = node.neighborhood();
-        for (i = 0; i < nodes_graph.length; i++) {
+        
+	/*for (i = 0; i < nodes_graph.length; i++) {
             if (node.id() == nodes_graph[i].id()){continue}
             var cl = nodes_graph[i].classes();
             if (! cl.includes("selectednode")) {
@@ -544,37 +589,341 @@ function handleOperationsWorkflow (request) {
 		    edges_toblack[tb].addClass("blackenedEdge");
 		}
             }
+        }*/
+	for (i = 0; i < nodes_graph.length; i++) {
+                if (node.id() == nodes_graph[i].id()){continue}
+                //Si deux noeuds ont un edge qui a un meme successeur on devalide un des noeuds                                                 
+                if (nodes_graph[i].style('shape') != "diamond") {
+                    continue
+                }
+                var jcl = nodes_graph[i].classes();
+                if (! jcl.includes("selectednode")) {
+                    continue
+                }
+                console.log("testing i:"+nodes_graph[i].style('label'));
+                outgo = node.outgoers();
+                outgo2 = nodes_graph[i].outgoers();
+                for (o1 = 0; o1 < outgo.length; o1 ++) {
+                    for (o2 = 0; o2 < outgo2.length; o2 ++) {
+                        console.log("is node:"+outgo2[o2].isNode());
+                        console.log("label:"+outgo2[o2].style('label'));
+                        if ((outgo2[o2].isNode())) {
+                            if((outgo[o1].isNode())) {
+                                console.log("outgo 1:"+outgo[o1].style('label'));
+                                if (outgo2[o2].same(outgo[o1])) {
+                                    console.log("same target detected");
+                                    nodes_graph[i].removeClass("selectednode");
+                                    edges_toblack = nodes_graph.edgesWith(nodes_graph[i]);
+                                    for (tb = 0; tb < edges_toblack.length; tb++) {
+                                        edges_toblack[tb].addClass("blackenedEdge");
+                                    }
+
+                                }
+                            }
+                        }
+
+                    }
+                }
         }
+
       });
+    
+    var layout = cy.layout({
+	
+	name: 'breadthfirst',
+	
+	fit: true, // whether to fit the viewport to the graph
+	directed: false, // whether the tree is directed downwards (or edges can point in any direction if false)
+	padding: 30, // padding on fit
+	circle: false, // put depths in concentric circles if true, put depths top down if false
+	grid: false, // whether to create an even grid into which the DAG is placed (circle:false only)
+	spacingFactor: 1.75, // positive spacing factor, larger => more space between nodes (N.B. n/a if causes overlap)
+	boundingBox: undefined, // constrain layout bounds; { x1, y1, x2, y2 } or { x1, y1, w, h }
+	avoidOverlap: true, // prevents node overlap, may overflow boundingBox if not enough space
+	nodeDimensionsIncludeLabels: false, // Excludes the label when calculating node bounding boxes for the layout algorithm
+	roots: undefined, // the roots of the trees
+	maximal: false, // whether to shift nodes down their natural BFS depths in order to avoid upwards edges (DAGS only)
+	depthSort: undefined, // a sorting function to order nodes at equal depth. e.g. function(a, b){ return a.data('weight') - b.data('weight') }
+	animate: false, // whether to transition the node positions
+	animationDuration: 500, // duration of animation in ms if enabled
+	animationEasing: undefined, // easing of animation if enabled,
+	animateFilter: function ( node, i ){ return true; }, // a function that determines whether the node should be animated.  All nodes animated by default on animate enabled.  Non-animated nodes are positioned immediately when the layout starts
+	ready: undefined, // callback on layoutready
+	stop: undefined, // callback on layoutstop
+	transform: function (node, position ){ return position; } // transform a given node position. Useful for changing flow direction in discrete layouts
+    });
+    layout.run();
+    
 };
+function Toggle_layout (lay) {
+    if (lay == 1) {
+	var layout = cy.layout({
+            name: 'breadthfirst',
+            fit: true, // whether to fit the viewport to the graph
+	    directed: false, // whether the tree is directed downwards (or edges can point in any direction if false)                                                                                      
+            padding: 30, // padding on fit                                                                                                   
+            circle: false, // put depths in concentric circles if true, put depths top down if false                              
+            grid: false, // whether to create an even grid into which the DAG is placed (circle:false only)                              
+            spacingFactor: 1.75, // positive spacing factor, larger => more space between nodes (N.B. n/a if causes overlap)                             
+            boundingBox: undefined, // constrain layout bounds; { x1, y1, x2, y2 } or { x1, y1, w, h }                                                                                           
+            avoidOverlap: true, // prevents node overlap, may overflow boundingBox if not enough space                                                                     
+            nodeDimensionsIncludeLabels: false, // Excludes the label when calculating node bounding boxes for the layout algorithm                          
+            roots: undefined, // the roots of the trees                                                                                                                         
+            maximal: false, // whether to shift nodes down their natural BFS depths in order to avoid upwards edges (DAGS only)                                       
+            depthSort: undefined, // a sorting function to order nodes at equal depth. e.g. function(a, b){ return a.data('weight') - b.data('weight') }       
+            animate: false, // whether to transition the node positions                                                                                                             
+            animationDuration: 500, // duration of animation in ms if enabled                                                                                                 
+            animationEasing: undefined, // easing of animation if enabled,                                                 
+            animateFilter: function ( node, i ){ return true; },
+	    ready: undefined,
+	    stop: undefined,                                                                                                                                                       
+            transform: function (node, position ){ return position; } // transform a given node position. Useful for changing flow direction in discrete layouts                                               
+	});
+	layout.run();
+    } else if (lay == 2) {
+	var layout = cy.layout({
+	    name: 'circle',
+
+	    fit: true, // whether to fit the viewport to the graph
+	    padding: 30, // the padding on fit
+	    boundingBox: undefined, // constrain layout bounds; { x1, y1, x2, y2 } or { x1, y1, w, h }
+	    avoidOverlap: true, // prevents node overlap, may overflow boundingBox and radius if not enough space
+	    nodeDimensionsIncludeLabels: false, // Excludes the label when calculating node bounding boxes for the layout algorithm
+	    spacingFactor: undefined, // Applies a multiplicative factor (>0) to expand or compress the overall area that the nodes take up
+	    radius: undefined, // the radius of the circle
+	    startAngle: 3 / 2 * Math.PI, // where nodes start in radians
+	    sweep: undefined, // how many radians should be between the first and last node (defaults to full circle)
+	    clockwise: true, // whether the layout should go clockwise (true) or counterclockwise/anticlockwise (false)
+	    sort: undefined, // a sorting function to order the nodes; e.g. function(a, b){ return a.data('weight') - b.data('weight') }
+	    animate: false, // whether to transition the node positions
+	    animationDuration: 500, // duration of animation in ms if enabled
+	    animationEasing: undefined, // easing of animation if enabled
+	    animateFilter: function ( node, i ){ return true; }, // a function that determines whether the node should be animated.  All nodes animated by default on animate enabled.  Non-animated nodes are positioned immediately when the layout starts
+	    ready: undefined, // callback on layoutready
+	    stop: undefined, // callback on layoutstop
+	    transform: function (node, position ){ return position; } // transform a given node position. Useful for changing flow direction in discrete layouts 
+	    
+	});
+	layout.run();
+    } else if (lay == 3) {
+        var layout = cy.layout({
+            name: 'concentric',
+	    fit: true, // whether to fit the viewport to the graph
+	    padding: 30, // the padding on fit
+	    startAngle: 3 / 2 * Math.PI, // where nodes start in radians
+	    sweep: undefined, // how many radians should be between the first and last node (defaults to full circle)
+	    clockwise: true, // whether the layout should go clockwise (true) or counterclockwise/anticlockwise (false)
+	    equidistant: true, // whether levels have an equal radial distance betwen them, may cause bounding box overflow
+	    minNodeSpacing: 10, // min spacing between outside of nodes (used for radius adjustment)
+	    boundingBox: undefined, // constrain layout bounds; { x1, y1, x2, y2 } or { x1, y1, w, h }
+	    avoidOverlap: true, // prevents node overlap, may overflow boundingBox if not enough space
+	    nodeDimensionsIncludeLabels: false, // Excludes the label when calculating node bounding boxes for the layout algorithm
+	    height: undefined, // height of layout area (overrides container height)
+	    width: undefined, // width of layout area (overrides container width)
+	    spacingFactor: undefined, // Applies a multiplicative factor (>0) to expand or compress the overall area that the nodes take up
+	    concentric: function( node ){ // returns numeric value for each node, placing higher nodes in levels towards the centre
+		return node.degree();
+	    },
+	    levelWidth: function( nodes ){ // the variation of concentric values in each level
+		return nodes.maxDegree() / 4;
+	    },
+	    animate: false, // whether to transition the node positions
+	    animationDuration: 500, // duration of animation in ms if enabled
+	    animationEasing: undefined, // easing of animation if enabled
+	    animateFilter: function ( node, i ){ return true; }, // a function that determines whether the node should be animated.  All nodes animated by default on animate enabled.  Non-animated nodes are positioned immediately when the layout starts
+	    ready: undefined, // callback on layoutready
+	    stop: undefined, // callback on layoutstop
+	    transform: function (node, position ){ return position; } 
+        });
+	layout.run();
+    } else if (lay == 4) {
+	var layout = cy.layout({
+	    name: 'cose',
+	    // Called on `layoutready`
+	    ready: function(){},
+	    
+	    // Called on `layoutstop`
+	    stop: function(){},
+	    
+	    // Whether to animate while running the layout
+	    // true : Animate continuously as the layout is running
+	    // false : Just show the end result
+	    // 'end' : Animate with the end result, from the initial positions to the end positions
+	    animate: true,
+	    
+	    // Easing of the animation for animate:'end'
+	    animationEasing: undefined,
+	    
+	    // The duration of the animation for animate:'end'
+	    animationDuration: undefined,
+	    
+	    // A function that determines whether the node should be animated
+	    // All nodes animated by default on animate enabled
+	    // Non-animated nodes are positioned immediately when the layout starts
+	    animateFilter: function ( node, i ){ return true; },
+	    
+	    
+	    // The layout animates only after this many milliseconds for animate:true
+	    // (prevents flashing on fast runs)
+	    animationThreshold: 250,
+	    
+	    // Number of iterations between consecutive screen positions update
+	    refresh: 20,
+	    
+	    // Whether to fit the network view after when done
+	    fit: true,
+	    
+	    // Padding on fit
+	    padding: 30,
+	    
+	    // Constrain layout bounds; { x1, y1, x2, y2 } or { x1, y1, w, h }
+	    boundingBox: undefined,
+	    
+	    // Excludes the label when calculating node bounding boxes for the layout algorithm
+	    nodeDimensionsIncludeLabels: false,
+	    
+	    // Randomize the initial positions of the nodes (true) or use existing positions (false)
+	    randomize: false,
+	    
+	    // Extra spacing between components in non-compound graphs
+	    componentSpacing: 40,
+	    
+	    // Node repulsion (non overlapping) multiplier
+	    nodeRepulsion: function( node ){ return 2048; },
+	    
+	    // Node repulsion (overlapping) multiplier
+	    nodeOverlap: 4,
+	    
+	    // Ideal edge (non nested) length
+	    idealEdgeLength: function( edge ){ return 32; },
+	    
+	    // Divisor to compute edge forces
+	    edgeElasticity: function( edge ){ return 32; },
+	    
+	    // Nesting factor (multiplier) to compute ideal edge length for nested edges
+	    nestingFactor: 1.2,
+	    
+	    // Gravity force (constant)
+	    gravity: 1,
+	    
+	    // Maximum number of iterations to perform
+	    numIter: 1000,
+	    
+	    // Initial temperature (maximum node displacement)
+	    initialTemp: 1000,
+	    
+	    // Cooling factor (how the temperature is reduced between consecutive iterations
+	    coolingFactor: 0.99,
+	    
+	    // Lower temperature threshold (below this point the layout will end)
+	    minTemp: 1.0
+	});
+	layout.run();
+    }
+
+    
+}
+function freeze_commands() {
+    $("#seekInfo").hide();
+    $("#getRes").hide();
+    $("body").css("cursor", "progress");
+}
+function release_commands() {
+    $("#seekInfo").show();
+    $("#getRes").show();
+    $("body").css("cursor", "default");
+}
+
 function AutomateServices() {
+    
+    //Etablir la liste des services a appeler
+    var svc_to_call = [];
     var nodes_graph = cy.nodes();
     for (i = 0; i < nodes_graph.length; i++) {
             if (nodes_graph[i].hasClass("selectednode")) {
                 service_name = nodes_graph[i].id();
-                if (! tab_services.includes(service_name)) {continue}
-                url = tab_urls[service_name];
-                input = tab_inputs[service_name];
-                var usrinput = 0;
-                console.log("|"+input+"|");
-                console.log(outputs_generaux);
-                if ((!outputs_generaux.includes(input)) && (input != "void")) {usrinput = 1;}
-                if(usrinput == 1){info_values[input]=prompt("user input required for"+input);}
-                output = tab_outputs[service_name];
-                soft = tab_softs[service_name];
-                console.log("found soft:",soft, " for ",service_name)
-                console.log(service_name,url,input,output,soft);
-                ajaxArgs = '';
-                ajaxArgs += input + '=' + info_values[input] + '&';
-                ajaxArgs += 'url=' + url + '&';
-                ajaxArgs += 'outputs=' + output;
-                requestService(ajaxArgs, soft);
-        }
-    
+                if (! tab_services.includes(service_name)) {
+		    continue
+		}
+		else{
+		    svc_to_call.push(service_name);
+		}
+	    }
     }
+    //Si aucun des inputs n'est un output d'un autre service ou si tous les inputs sont connus
+    // on appelle le service
+    var left_calling = 1;
+    var called = [];
+    for (run_svc = 0; run_svc < svc_to_call.length; run_svc ++){        
+            service_name = svc_to_call[run_svc];
+            input = tab_inputs[service_name];
+            for (individual_input = 0; individual_input < input.length; individual_input ++) {
+                info_values[input[individual_input]] ="";
+	    }
+    }
+    left_calling = svc_to_call.length;
+    while (left_calling > 0) {
+	for (run_svc = 0; run_svc < svc_to_call.length; run_svc ++){
+	    ajaxArgs = '';
+	    service_name = svc_to_call[run_svc];
+	    //Si le service a deja ete appele on passe
+	    if (service_name in called) {
+		continue
+	    }
+	    console.log("testing calling of: "+service_name);
+	    var missing_info = 0;
+	    input = tab_inputs[service_name];
+	    console.log(input);
+	    for (individual_input = 0; individual_input < input.length; individual_input ++) {
+		//que inputs est un output d'un autre service? quel input vient de l'utilisateur?
+		console.log("Testing:" + input[individual_input]);
+		if (info_values[input[individual_input]] =="") {
+                    missing_info = 1;
+		    console.log("Missing information:"+input[individual_input]);                                                   
+		    if (!outputs_generaux.includes(input[individual_input])) {
+			info_values[input[individual_input]]=prompt("user input required for"+input[individual_input]);
+			ajaxArgs += input[individual_input] + '=' + info_values[input[individual_input]] + '&';
+			missing_info =0;
+		    }
+		} else {
+		    ajaxArgs += input[individual_input] + '=' + info_values[input[individual_input]] + '&';
+		}
+	    }
+	    //Si aucun des inputs n'est un output d'un autre service ou si tous les inputs sont connus                                                 
+            // on appelle le service
+	    if ((! missing_info)) {
+		if (called.includes(service_name)) {
+		    console.log("Service "+service_name+" already called");
+		} else {
+		    console.log("calling service:"+service_name);
+		    called.push(service_name);
+		    left_calling -= 1;
+		    //alert("reste a appeler: "+left_calling);
+		    for (out_retrieve = 0; out_retrieve < tab_outputs[service_name].length; out_retrieve ++) {
+			ajaxArgs += 'outputs=' + tab_outputs[service_name][out_retrieve]+ '&';
+		    }
+		    active_service = service_name;
+		    soft = tab_softs[service_name];
+		    ajaxArgs += 'url=' + tab_urls[service_name] + '&';
+		    requestService(ajaxArgs, soft);        
+		}
+	    } else {
+		//On attend que le service ait assez d'info en input disponible pour le lancer
+		if (left_calling == 1) {
+		    //Impossible de lancer le dernier service: on abandonne.
+		    left_calling = 0
+		    console.log("Withdrawing call to "+service_name+" due to lack of information");
+		}
+	    }
+	    
+	}
+    }
+    
+    
 }
 
 function requestService (chaine,software) {
+    
     var remote=$.ajax({
         url: '/cgi-bin/'+software.replace("\"",""),
         method: 'POST',
@@ -597,13 +946,28 @@ function handleServicesAutomation (request) {
         xmlDoc.async="false";
         xmlDoc.loadXML(request);
     }
-    var x = xmlDoc.getElementsByTagName("options");
-    var result = x[0].getElementsByTagName(output)[0].childNodes[0].nodeValue;
-    info_values[output]=result;
+    console.log("handling return of:"+active_service);
+    for (out_retrieve = 0; out_retrieve < tab_outputs[active_service].length; out_retrieve ++) {
+	//initialise les valeurs avec des valeurs par défaut
+	info_values[tab_outputs[active_service][out_retrieve]] = "default return value";
+    }
+    x = xmlDoc.getElementsByTagName("options");
+    console.log(x[0]);
+    for (out_retrieve = 0; out_retrieve < tab_outputs[active_service].length; out_retrieve ++) {
+	console.log("parsing:"+tab_outputs[active_service][out_retrieve]);
+	result = x[0].getElementsByTagName(tab_outputs[active_service][out_retrieve])[0].childNodes[0].nodeValue;
+         info_values[tab_outputs[active_service][out_retrieve]] = result;
+    
+    console.log("updating result:"+ tab_outputs[active_service][out_retrieve]+" with " +result);
     var link = 'https://' + result;
-    $("#cyresults").append("|");
-    $("#cyresults").append("<a href='"+link+"'>"+output+"</a>");
-    $("#cyresults").append("| ");
+    $("#linktoresults").append("<br/>");
+    if (link.includes(".png")) {
+	$("#linktoresults").append("<a href='"+link+"'>"+tab_definition[tab_outputs[active_service][out_retrieve]]+"<img src=\""+link+"\" width=\"100\" height = \"100\"></a>");
+    } 
+    else {
+	$("#linktoresults").append("<a href='"+link+"'>"+tab_definition[tab_outputs[active_service][out_retrieve]]+"</a>");
+    }
+    }
 }
 
 // onclick abr
