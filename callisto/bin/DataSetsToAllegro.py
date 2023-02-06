@@ -49,7 +49,7 @@ class DatasetsToOntology(object):
         liste de listes de 4 elements comprenant: id, titre, description, et liste de sujets lies au dataset
         prototype de chaque liste: [string, string, string, [string,...,string]]
         """
-        API_TOKEN = "a8ca1699-09db-48d2-8717-87780f850238"
+        API_TOKEN = ""
         SERVER_URL = "Callistodataverse:8080"
         liste_results = []
         log.debug("get_detail, repos:"+str(self.repos))

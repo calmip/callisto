@@ -1,3 +1,11 @@
+v 1.2
+-------
+    Major update in ervices composition algorithm, multiple input services allowed. Major update in workflows rendering and sada use.
+
+v 1.1
+-------
+    Inclusion of automatic services registration and code generation for services composition
+
 v 1.0.5
 -------
     Updated the documentation for open data dataverse and proxy configuration

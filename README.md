@@ -206,11 +206,16 @@ Installing Allegro:
 
 **Start** Allegro:
 
-    systemctl start agraph 
+    systemctl start agraph
+
+Configuring your dataverse API Key for ontological datasets update
+----------------------------
+In the CallistoPortal container, go to /usr/local/callisto/bin
+In DataSetsToAllegro.py, update line 52
+replace API_TOKEN = "" by API_TOKEN = "YOUR DATAVERSE ADMIN API TOKEN" 
 
 Creating your first workflow
 ----------------------------
-
 Read the document (in french) inside the directory callisto/doc
 
 Running Callisto
