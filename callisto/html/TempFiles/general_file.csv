@@ -1,9 +1,1 @@
 source,target
-service:S0,textualcontent
-ApiKeyValue,service:S0
-service:S1,http://edamontology.org/data_0972
-textualcontent,service:S1
-service:S2,http://edamontology.org/data_0972
-textualcontent,service:S2
-service:S3,scatterpoints
-http://edamontology.org/data_0972,service:S3

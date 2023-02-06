@@ -1,13 +1,13 @@
-DEBUG:2023-01-27 14:53:34,473 host=CallistoAllegro. 
-DEBUG:2023-01-27 14:53:34,473 port=10035. 
-DEBUG:2023-01-27 14:53:34,473 user=thierry. 
-DEBUG:2023-01-27 14:53:34,473 password=thierry74. 
-DEBUG:2023-01-27 14:53:34,474 close_enough=0.28. 
-DEBUG:2023-01-27 14:53:34,474 Service name:WORD_COUNTING_WITH_IGNORE. 
-DEBUG:2023-01-27 14:53:34,474 Service description:This service counts the number of words of given letters from an input ascii file, ignoring words from a given list. . 
-DEBUG:2023-01-27 14:53:34,474 Service url:http://www.callisto-dev.calmip.univ-toulouse.fr/cgi-bin/. 
-DEBUG:2023-01-27 14:53:34,474 Service script name:ExempleService4.py. 
-DEBUG:2023-01-27 14:53:34,474 Service results: ExempleService4_results.txt. 
-DEBUG:2023-01-27 14:53:34,474 Service label:Exemple de service a deux entrees. 
-DEBUG:2023-01-27 14:53:34,474 Service repository:demonstration. 
-DEBUG:2023-01-27 14:53:34,474 Service operations: Word count&Letter count. 
+DEBUG:2023-02-02 12:01:57,323 host=CallistoAllegro. 
+DEBUG:2023-02-02 12:01:57,323 port=10035. 
+DEBUG:2023-02-02 12:01:57,324 user=thierry. 
+DEBUG:2023-02-02 12:01:57,324 password=thierry74. 
+DEBUG:2023-02-02 12:01:57,324 close_enough=0.28. 
+DEBUG:2023-02-02 12:01:57,324 Service name:PLOTTING_RESULTS. 
+DEBUG:2023-02-02 12:01:57,324 Service description:This service plots contents from a csv file. 
+DEBUG:2023-02-02 12:01:57,325 Service url:http://www.callisto-dev.calmip.univ-toulouse.fr/cgi-bin/. 
+DEBUG:2023-02-02 12:01:57,325 Service script name:ExempleService3.py. 
+DEBUG:2023-02-02 12:01:57,325 Service results: ExempleService3_results.png. 
+DEBUG:2023-02-02 12:01:57,325 Service label:Troisieme exemple de service . 
+DEBUG:2023-02-02 12:01:57,325 Service repository:demonstration. 
+DEBUG:2023-02-02 12:01:57,325 Service operations: Histogram plot. 
