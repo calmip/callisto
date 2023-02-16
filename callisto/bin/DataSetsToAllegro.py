@@ -49,7 +49,7 @@ class DatasetsToOntology(object):
         liste de listes de 4 elements comprenant: id, titre, description, et liste de sujets lies au dataset
         prototype de chaque liste: [string, string, string, [string,...,string]]
         """
-        API_TOKEN = ""
+        API_TOKEN = "a8ca1699-09db-48d2-8717-87780f850238"
         SERVER_URL = "Callistodataverse:8080"
         liste_results = []
         log.debug("get_detail, repos:"+str(self.repos))
@@ -59,36 +59,36 @@ class DatasetsToOntology(object):
                 "wget " + SERVER_URL + "/api/dataverses/" + store + "/contents?key=" + \
                 API_TOKEN + " --no-check-certificate -O contenu.json" , \
                 stderr=subprocess.STDOUT, shell=True)
-            print("wget " + SERVER_URL + "/api/dataverses/" + store + "/contents?key=" + \
-                  API_TOKEN + " --no-check-certificate -O contenu.json" )
+            #print("wget " + SERVER_URL + "/api/dataverses/" + store + "/contents?key=" + \
+            #      API_TOKEN + " --no-check-certificate -O contenu.json" )
             with open('contenu.json', 'r') as f:
                 data_dict = json.load(f)
             
             for data in data_dict["data"]:
-              
+                files_urls = []
                 keywords = []
                 datatypes = []
                 datatypes_values = [] 
                 print("New data contact id:"+str(data['id']))
                 try:
                     output = subprocess.check_output("wget " + SERVER_URL + "/api/datasets/" + str(data['id']) + "?key=" + API_TOKEN + " --no-check-certificate -O data.json" , stderr=subprocess.STDOUT, shell=True)
-                    print("wget " + SERVER_URL + "/api/datasets/" + str(data['id']) + "?key=" + API_TOKEN + " --no-check-certificate -O data.json")
+                    #print("wget " + SERVER_URL + "/api/datasets/" + str(data['id']) + "?key=" + API_TOKEN + " --no-check-certificate -O data.json")
                 except:
-                    print("Pb. contact dataset id:"+str(data['id']))
+                    #print("Pb. contact dataset id:"+str(data['id']))
                     continue
                 with open('data.json', encoding='utf-8') as datasets:
-                    print("Opening JSON")
+                    #print("Opening JSON")
                     try:
                         liste_datasets = json.load(datasets)
                     except:
                         print("pb lecture json")
-                    print("OK open JSON")    
-                    try:
-                        print("metaBlocks:"+str(liste_datasets['data']['latestVersion']['metadataBlocks']))
-                    except UnicodeEncodeError:
-                        print ("metaBlocks:"+str(liste_datasets['data']['latestVersion']['metadataBlocks']).encode('ascii', 'ignore').decode('ascii'))
+                    #print("OK open JSON")    
+                    #try:
+                    #    print("metaBlocks:"+str(liste_datasets['data']['latestVersion']['metadataBlocks']))
+                    #except UnicodeEncodeError:
+                    #    print ("metaBlocks:"+str(liste_datasets['data']['latestVersion']['metadataBlocks']).encode('ascii', 'ignore').decode('ascii'))
                     if len(liste_datasets['data']['latestVersion']['files']) == 0:
-                        print("No files registered")
+                        #print("No files registered")
                         id_elt = str(data['id'])
                         type_elt = "None"
                         url = SERVER_URL + "/api/access/dataset/" + str(id_elt) + "?key=" 
@@ -97,11 +97,18 @@ class DatasetsToOntology(object):
                         #print("Element of ['data']['latestVersion']['files']:")
                         #print(elt)
                         if isinstance(elt, dict):
+                            print(elt)
                             id_elt = elt['dataFile']['id']
-                            #print("id datafile:" + str(id_elt))
+                            try:
+                                id_tags = elt['categories']
+                            except:
+                                id_tags = []
+                            print("tags: "+str(id_tags))
+                            print("id datafile:" + str(id_elt))
                             type_elt = elt['dataFile']['contentType']
-                            #print("type datafile:" + str(type_elt))
                             url = SERVER_URL + "/api/access/datafile/" + str(id_elt) + "?key="
+                            #print("individual file url:"+url)
+                            files_urls.append([url,str(id_elt),id_tags])
                     for elt in liste_datasets['data']['latestVersion']['metadataBlocks']['citation']['fields']:
                         #print(str(type(elt)) + "-->" + str(elt))
                         if elt["typeName"] == "title":
@@ -126,13 +133,11 @@ class DatasetsToOntology(object):
                                 keywords.append(path["keywordValue"]["value"])
                     #Gestion des metadonnes specifiques a un projet
                     try:
-                        print("Testing SMS metadata")
-    
+                        #print("Testing SMS metadata")
                         for elt in liste_datasets['data']['latestVersion']['metadataBlocks']:
                             print(str(elt.encode('ascii', 'ignore').decode('ascii')))
-                            
                             if elt == "SMS_04Mars2020_v3":
-                                print ("Here we are")
+                                #print ("Here we are")
                                 try:
                                     valeurs = liste_datasets['data']['latestVersion']['metadataBlocks'][elt]['fields'][0]['value']
                                     print(valeurs)
@@ -142,7 +147,8 @@ class DatasetsToOntology(object):
                                         datatypes.append(valeur)
                                         datatypes_values.append(liste_datasets['data']['latestVersion']['metadataBlocks'][elt]['fields'][0]['value'][valeur]['value'])
                                 except:
-                                    print("No value")
+                                    pass
+                                    #print("No value")
                                 #signification = elt["typeName"]
                                 #print(signification+" : "+valeur)
                                 #keywords.append(signification)
@@ -150,8 +156,23 @@ class DatasetsToOntology(object):
                         print ("metaBlocks:"+str(liste_datasets['data']['latestVersion']['metadataBlocks']).encode('ascii', 'ignore').decode('ascii'))
                     except KeyError:
                         print("No SMS MetaData found")
-  
-                    liste_results.append([id_elt, resume, description, subjects, url, keywords, type_elt, store, datatypes, datatypes_values])
+                    ### gestion des fichiers individuels
+                    for indiv in files_urls:
+                        f_url = indiv[0]
+                        id_indiv = indiv[1]
+                        print("indiv:"+str(id_indiv))
+                        tags = indiv[2]
+                        print("keywords:"+str(keywords))
+                        new_keys = []
+                        for ke in keywords:
+                            new_keys.append(ke)
+                        for tag in tags:
+                            new_keys.append(tag)
+                        liste_results.append([id_indiv, resume, description, subjects, f_url, new_keys, type_elt, store, \
+                                             datatypes, datatypes_values])
+                    #liste_results.append([id_elt, resume, description, subjects, url, keywords, type_elt, store, datatypes, datatypes_values])
+        for elt in liste_results:
+            print(elt[0])
         return liste_results
 
     def get_registered_datasets(self):
@@ -192,7 +213,7 @@ class DatasetsToOntology(object):
         for elt in details:
             timer = str(time.time())
             svc = "FDV_" + str(elt[0])
-            log.debug("regisering service:"+svc)
+            #print("regisering service:"+svc)
                         
             measurement = "Quantity that is measured"
             keywords = elt[5]
@@ -208,21 +229,19 @@ class DatasetsToOntology(object):
             self.conn = repository.getConnection()
             self.get_registered_datasets()
             
-            print("keywords:" + str(keywords))
+            #print("keywords:" + str(keywords))
             same = 0
             for reg_desc in self.registered_services:
-                print("service:" + svc)
-                print("comparing with:")
-                print(reg_desc)
-                if svc in str(reg_desc):
+                #print("service:" + svc + " comparing with:" + str(reg_desc).split("#")[1].split(">")[0])
+                if svc == str(reg_desc).split("#")[1].split(">")[0]:
                     same = 1
-                    print("matching found")
+                    #print("matching found")
                     break
             if same == 1:
                 continue
             template_file = open(svc+".template",'w')
             template_file.write("service name = "+svc+"\n")
-            template_file.write("input = http://www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf#ApiKey\n")
+            template_file.write("input = http://www.callisto.calmip.univ-toulouse.fr/"+repo+".rdf#ApiKey\n")
             try:
                 template_file.write("description = "+description+"\n")
             except:
@@ -235,13 +254,13 @@ class DatasetsToOntology(object):
                 print("word:"+str(word))
                 try:
                     clean_word = keywords[word].rstrip("']").lstrip("['").replace("'","").replace(",","").replace(" ", "")
-                    print("Outputs ontology aggregate:"+clean_word)
+                    #print("Outputs ontology aggregate:"+clean_word)
                     template_file.write("output = "+self.rootiri+repo+".rdf#"+clean_word+"\n")
                 except:
                     continue
             template_file.write("base url = "+url+"\n")
             template_file.close()
-            print("calling: python3 ./RegisterService.py "+svc+".template register")
+            #print("calling: python3 ./RegisterService.py "+svc+".template register")
             os.system("python3 ./RegisterService.py "+svc+".template register")
             repository.shutDown()
             self.conn.close()
@@ -307,4 +326,5 @@ class DatasetsToOntology(object):
         log.basicConfig(filename='/usr/local/callisto/logs/Datasets_to_allegro.log', level=log.DEBUG, format='%(levelname)s:%(asctime)s %(message)s ')
         self.read_config()
         self.repos = self.open_connection()
+        self.repos = ['demonstration']
         log.debug("trouve repos:"+str(self.repos))

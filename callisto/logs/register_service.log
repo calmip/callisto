@@ -1,13 +1,31 @@
-DEBUG:2023-02-02 12:01:57,323 host=CallistoAllegro. 
-DEBUG:2023-02-02 12:01:57,323 port=10035. 
-DEBUG:2023-02-02 12:01:57,324 user=thierry. 
-DEBUG:2023-02-02 12:01:57,324 password=thierry74. 
-DEBUG:2023-02-02 12:01:57,324 close_enough=0.28. 
-DEBUG:2023-02-02 12:01:57,324 Service name:PLOTTING_RESULTS. 
-DEBUG:2023-02-02 12:01:57,324 Service description:This service plots contents from a csv file. 
-DEBUG:2023-02-02 12:01:57,325 Service url:http://www.callisto-dev.calmip.univ-toulouse.fr/cgi-bin/. 
-DEBUG:2023-02-02 12:01:57,325 Service script name:ExempleService3.py. 
-DEBUG:2023-02-02 12:01:57,325 Service results: ExempleService3_results.png. 
-DEBUG:2023-02-02 12:01:57,325 Service label:Troisieme exemple de service . 
-DEBUG:2023-02-02 12:01:57,325 Service repository:demonstration. 
-DEBUG:2023-02-02 12:01:57,325 Service operations: Histogram plot. 
+DEBUG:2023-02-15 16:35:59,831 host=CallistoAllegro. 
+DEBUG:2023-02-15 16:35:59,831 port=10035. 
+DEBUG:2023-02-15 16:35:59,831 user=thierry. 
+DEBUG:2023-02-15 16:35:59,831 password=thierry74. 
+DEBUG:2023-02-15 16:35:59,831 close_enough=0.28. 
+DEBUG:2023-02-15 16:35:59,832 Service name:WORD_AND_LETTER_COUNTING. 
+DEBUG:2023-02-15 16:35:59,832 Service description:This service counts the number of words of given letters from an input ascii file . 
+DEBUG:2023-02-15 16:35:59,832 Service url:http://www.callisto-dev.calmip.univ-toulouse.fr/cgi-bin/. 
+DEBUG:2023-02-15 16:35:59,832 Service script name:ExempleService1.py. 
+DEBUG:2023-02-15 16:35:59,832 Service results: ExempleService1_results.txt. 
+DEBUG:2023-02-15 16:35:59,832 Service label:Exemple de service. 
+DEBUG:2023-02-15 16:35:59,832 Service repository:demonstration. 
+DEBUG:2023-02-15 16:35:59,832 Service operations: Word count&Letter count. 
+DEBUG:2023-02-15 16:35:59,837 Starting new HTTP connection (1): callistoallegro:10035 
+DEBUG:2023-02-15 16:35:59,841 http://callistoallegro:10035 "GET /catalogs HTTP/1.1" 200 None 
+DEBUG:2023-02-15 16:35:59,844 Starting new HTTP connection (1): callistoallegro:10035 
+DEBUG:2023-02-15 16:35:59,852 http://callistoallegro:10035 "GET /repositories HTTP/1.1" 200 None 
+DEBUG:2023-02-15 16:35:59,854 Starting new HTTP connection (1): callistoallegro:10035 
+DEBUG:2023-02-15 16:35:59,857 http://callistoallegro:10035 "GET /repositories/demonstration/size HTTP/1.1" 200 None 
+DEBUG:2023-02-15 16:35:59,865 http://callistoallegro:10035 "PUT /repositories/demonstration/statement?subj=%3Chttp%3A//www.callisto.calmip.univ-toulouse.fr/demonstration.rdf%23WORD_AND_LETTER_COUNTING%3E&pred=%3Chttp%3A//www.w3.org/1999/02/22-rdf-syntax-ns%23type%3E&obj=%22http%3A//www.daml.org/services/owl-s/1.2/Service.owl%23Service%22&context=null HTTP/1.1" 200 None 
+DEBUG:2023-02-15 16:35:59,871 http://callistoallegro:10035 "PUT /repositories/demonstration/statement?subj=%3Chttp%3A//www.callisto.calmip.univ-toulouse.fr/demonstration.rdf%23WORD_AND_LETTER_COUNTING_Profile%3E&pred=%3Chttp%3A//www.w3.org/1999/02/22-rdf-syntax-ns%23type%3E&obj=%22http%3A//www.daml.org/services/owl-s/1.2/Service.owl%23ServiceProfile%22&context=null HTTP/1.1" 200 None 
+DEBUG:2023-02-15 16:35:59,877 http://callistoallegro:10035 "PUT /repositories/demonstration/statement?subj=%3Chttp%3A//www.callisto.calmip.univ-toulouse.fr/demonstration.rdf%23WORD_AND_LETTER_COUNTING%3E&pred=%3Chttp%3A//www.daml.org/services/owl-s/1.2/Service.owl%23presents%3E&obj=%3Chttp%3A//www.callisto.calmip.univ-toulouse.fr/demonstration.rdf%23WORD_AND_LETTER_COUNTING_Profile%3E&context=null HTTP/1.1" 200 None 
+DEBUG:2023-02-15 16:35:59,884 http://callistoallegro:10035 "PUT /repositories/demonstration/statement?subj=%3Chttp%3A//www.callisto.calmip.univ-toulouse.fr/demonstration.rdf%231676475359.858517_url%3E&pred=%3Chttp%3A//www.w3.org/1999/02/22-rdf-syntax-ns%23type%3E&obj=%22http%3A//www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf%23accessURL%22&context=null HTTP/1.1" 200 None 
+DEBUG:2023-02-15 16:35:59,891 http://callistoallegro:10035 "PUT /repositories/demonstration/statement?subj=%3Chttp%3A//www.callisto.calmip.univ-toulouse.fr/demonstration.rdf%231676475359.858517_url%3E&pred=%3Chttp%3A//www.w3.org/2000/01/rdf-schema%23isDefinedBy%3E&obj=%22http%3A//www.callisto-dev.calmip.univ-toulouse.fr/cgi-bin/%22&context=null HTTP/1.1" 200 None 
+DEBUG:2023-02-15 16:35:59,899 http://callistoallegro:10035 "PUT /repositories/demonstration/statement?subj=%3Chttp%3A//www.callisto.calmip.univ-toulouse.fr/demonstration.rdf%23WORD_AND_LETTER_COUNTING%3E&pred=%3Chttp%3A//www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf%23isAccessedThrough%3E&obj=%3Chttp%3A//www.callisto.calmip.univ-toulouse.fr/demonstration.rdf%231676475359.858517_url%3E&context=null HTTP/1.1" 200 None 
+DEBUG:2023-02-15 16:35:59,906 http://callistoallegro:10035 "PUT /repositories/demonstration/statement?subj=%3Chttp%3A//www.callisto.calmip.univ-toulouse.fr/demonstration.rdf%23WORD_AND_LETTER_COUNTING_Profile%3E&pred=%3Chttp%3A//www.daml.org/services/owl-s/1.2/Profile.owl%23textDescription%3E&obj=%22This%20service%20counts%20the%20number%20of%20words%20of%20given%20letters%20from%20an%20input%20ascii%20file%20%22&context=null HTTP/1.1" 200 None 
+DEBUG:2023-02-15 16:35:59,913 http://callistoallegro:10035 "PUT /repositories/demonstration/statement?subj=%3Chttp%3A//www.callisto.calmip.univ-toulouse.fr/demonstration.rdf%23WORD_AND_LETTER_COUNTING_Profile%3E&pred=%3Chttp%3A//www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf%23hasQuerySoftware%3E&obj=%3Chttp%3A//www.callisto.calmip.univ-toulouse.fr/demonstration.rdf%23ExempleService1.py%3E&context=null HTTP/1.1" 200 None 
+DEBUG:2023-02-15 16:35:59,919 http://callistoallegro:10035 "PUT /repositories/demonstration/statement?subj=%3Chttp%3A//www.callisto.calmip.univ-toulouse.fr/demonstration.rdf%23ExempleService1.py%3E&pred=%3Chttp%3A//www.w3.org/2000/01/rdf-schema%23label%3E&obj=%22ExempleService1.py%22&context=null HTTP/1.1" 200 None 
+DEBUG:2023-02-15 16:35:59,925 http://callistoallegro:10035 "PUT /repositories/demonstration/statement?subj=%3Chttp%3A//www.callisto.calmip.univ-toulouse.fr/demonstration.rdf%23WORD_AND_LETTER_COUNTING%3E&pred=%3Chttp%3A//www.daml.org/services/owl-s/1.2/Profile.owl%23hasInput%3E&obj=%3Chttp%3A//www.callisto.calmip.univ-toulouse.fr/demonstration.rdf%23AsciiTextFile%3E&context=null HTTP/1.1" 200 None 
+DEBUG:2023-02-15 16:35:59,930 http://callistoallegro:10035 "PUT /repositories/demonstration/statement?subj=%3Chttp%3A//www.callisto.calmip.univ-toulouse.fr/demonstration.rdf%23WORD_AND_LETTER_COUNTING%3E&pred=%3Chttp%3A//www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf%23hasOutput%3E&obj=%3Chttp%3A//www.callisto.calmip.univ-toulouse.fr/demonstration.rdf%23csv_text_mining_report%3E&context=null HTTP/1.1" 200 None 
+DEBUG:2023-02-15 16:35:59,935 http://callistoallegro:10035 "PUT /repositories/demonstration/statement?subj=%3Chttp%3A//www.callisto.calmip.univ-toulouse.fr/demonstration.rdf%23WORD_AND_LETTER_COUNTING%3E&pred=%3Chttp%3A//www.w3.org/2000/01/rdf-schema%23isDefinedBy%3E&obj=%22This%20service%20counts%20the%20number%20of%20words%20of%20given%20letters%20from%20an%20input%20ascii%20file%20%22&context=null HTTP/1.1" 200 None 
