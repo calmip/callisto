@@ -1,4 +1,5 @@
 *.bkp
+*~
 vars.yml
 callisto_conf.cfg
 *.rpm
@@ -16,5 +17,6 @@ callisto/logs/**
 
 callisto/bin/contenu.json
 callisto/bin/data.json
+callisto/bin/contenu_indiv.json
 callisto/html/TempFiles/general_file.csv
 callisto/logs/register_service.log
