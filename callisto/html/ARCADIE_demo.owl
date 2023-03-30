@@ -3520,33 +3520,6 @@ dcterms:identifier rdf:type owl:DatatypeProperty .
                                                                         rdfs:label "outer time scheme" .
 
 
-###  http://www.callisto.calmip.univ-toulouse.fr/demonstration.rdf#Metadata_values_examples
-:Metadata_values_examples rdf:type owl:DatatypeProperty ;
-                          rdfs:domain :MetadataExample ;
-                          rdfs:range [ rdf:type rdfs:Datatype ;
-                                       owl:oneOf [ rdf:type rdf:List ;
-                                                   rdf:first "Value 1" ;
-                                                   rdf:rest [ rdf:type rdf:List ;
-                                                              rdf:first "Value 2" ;
-                                                              rdf:rest [ rdf:type rdf:List ;
-                                                                         rdf:first "Value 3" ;
-                                                                         rdf:rest rdf:nil
-                                                                       ]
-                                                            ]
-                                                 ]
-                                     ] ;
-                          rdfs:isDefinedBy "An example of values for some metadata field" ;
-                          rdfs:label "metadata values" .
-
-
-###  http://www.callisto.calmip.univ-toulouse.fr/demonstration.rdf#metadata_values2
-:metadata_values2 rdf:type owl:DatatypeProperty ;
-                  rdfs:domain :MetadataExample ;
-                  rdfs:range xsd:integer ;
-                  rdfs:isDefinedBy "Another metadata example but without predefined values" ;
-                  rdfs:label "Another metadata value" .
-
-
 ###  http://www.daml.org/services/owl-s/1.2/Profile.owl#serviceName
 <http://www.daml.org/services/owl-s/1.2/Profile.owl#serviceName> rdf:type owl:DatatypeProperty ;
                                                                  rdfs:subPropertyOf owl:topDataProperty .
@@ -14424,14 +14397,6 @@ Same goes for CorrelatedInformations, I1,I2...In correlated are linked to an agg
                                                                    rdfs:label "python file" .
 
 
-###  http://www.callisto.calmip.univ-toulouse.fr/demonstration.rdf#MetadataExample
-:MetadataExample rdf:type owl:Class ;
-                 rdfs:subClassOf <http://www.ebi.ac.uk/efo/swo/SWO_0000620> ;
-                 <http://www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf#metadataLevel> 1 ;
-                 rdfs:isDefinedBy "An example of some metadata use" ;
-                 rdfs:label "metadata example" .
-
-
 ###  http://www.daml.org/services/owl-s/1.2/Process.owl#Input
 <http://www.daml.org/services/owl-s/1.2/Process.owl#Input> rdf:type owl:Class ;
                                                            rdfs:subClassOf <http://www.daml.org/services/owl-s/1.2/Profile.owl#ServiceParameter> .
@@ -24246,10 +24211,10 @@ Ce module utilise le modèle de performances BADA.""" .
           rdfs:label "unitless" .
 
 
-[ <http://www.ebi.ac.uk/swo/SWO_0000144> ""
+[ rdfs:label "get_dataset.py"
 ] .
 
-[ rdfs:label "get_dataset.py"
+[ <http://www.ebi.ac.uk/swo/SWO_0000144> ""
  ] .
 
 [ rdfs:label "get_dataset.py"
@@ -24285,9 +24250,9 @@ Ce module utilise le modèle de performances BADA.""" .
                                      <http://purl.obolibrary.org/obo/is_symmetric> "false" .
 
 
-<http://edamontology.org/has_function> <http://www.geneontology.org/formats/oboInOwl#hasDefinition> "'A has_function B' defines for the subject A, that it has the object B as its function." ;
+<http://edamontology.org/has_function> <http://www.geneontology.org/formats/oboInOwl#inSubset> "edam" ;
                                        <http://purl.obolibrary.org/obo/is_anti_symmetric> "false" ;
-                                       <http://www.geneontology.org/formats/oboInOwl#inSubset> "edam" ;
+                                       <http://www.geneontology.org/formats/oboInOwl#hasDefinition> "'A has_function B' defines for the subject A, that it has the object B as its function." ;
                                        <http://purl.obolibrary.org/obo/is_symmetric> "false" ;
                                        rdfs:label "has function" ;
                                        rdfs:seeAlso "http://www.loa-cnr.it/ontologies/DOLCE-Lite.owl#has-quality\"" ;
@@ -24322,14 +24287,14 @@ Ce module utilise le modèle de performances BADA.""" .
                                          rdfs:comment "Subject A can be any concept or entity outside of an ontology (or an ontology concept in a role of an entity being semantically annotated). Object B can either be a concept that is an 'Identifier', or an entity outside of an ontology that is an 'Identifier' or is in the role of an 'Identifier'. In EDAM, 'has_identifier' is not explicitly defined between EDAM concepts, only the inverse 'is_identifier_of'." ;
                                          <http://www.geneontology.org/formats/oboInOwl#isCyclic> "false" ;
                                          <http://purl.obolibrary.org/obo/is_anti_symmetric> "false" ;
-                                         rdfs:label "has identifier" ;
                                          <http://www.geneontology.org/formats/oboInOwl#inSubset> "edam" ;
-                                         <http://www.geneontology.org/formats/oboInOwl#hasDefinition> "'A has_identifier B' defines for the subject A, that it has the object B as its identifier." .
+                                         <http://www.geneontology.org/formats/oboInOwl#hasDefinition> "'A has_identifier B' defines for the subject A, that it has the object B as its identifier." ;
+                                         rdfs:label "has identifier" .
 
 
 <http://edamontology.org/has_input> <http://purl.obolibrary.org/obo/is_symmetric> "false" ;
-                                    rdfs:comment "Subject A can either be concept that is or has an 'Operation' function, or an entity outside of an ontology (or an ontology concept in a role of an entity being semantically annotated) that has an 'Operation' function or is an 'Operation'. Object B can be any concept or entity. In EDAM, only 'has_input' is explicitly defined between EDAM concepts ('Operation' 'has_input' 'Data'). The inverse, 'is_input_of', is not explicitly defined." ;
                                     rdfs:seeAlso "\"http://purl.obolibrary.org/obo/OBI_0000293\"" ;
+                                    rdfs:comment "Subject A can either be concept that is or has an 'Operation' function, or an entity outside of an ontology (or an ontology concept in a role of an entity being semantically annotated) that has an 'Operation' function or is an 'Operation'. Object B can be any concept or entity. In EDAM, only 'has_input' is explicitly defined between EDAM concepts ('Operation' 'has_input' 'Data'). The inverse, 'is_input_of', is not explicitly defined." ;
                                     <http://purl.obolibrary.org/obo/is_reflexive> "false" ;
                                     <http://purl.obolibrary.org/obo/is_anti_symmetric> "false" ;
                                     <http://www.geneontology.org/formats/oboInOwl#inSubset> "relations" ;
@@ -24338,21 +24303,21 @@ Ce module utilise le modèle de performances BADA.""" .
                                     <http://purl.obolibrary.org/obo/transitive_over> "OBO_REL:is_a" ;
                                     <http://www.geneontology.org/formats/oboInOwl#hasDefinition> "'A has_input B' defines for the subject A, that it has the object B as a necessary or actual input or input argument." ;
                                     <http://www.geneontology.org/formats/oboInOwl#inSubset> "edam" ;
-                                    <http://www.geneontology.org/formats/oboInOwl#hasRelatedSynonym> "OBO_REL:has_participant" ;
-                                    <http://www.geneontology.org/formats/oboInOwl#isCyclic> "true" .
-
-[ rdf:type owl:Axiom ;
-   owl:annotatedSource <http://edamontology.org/has_input> ;
-   owl:annotatedProperty <http://www.geneontology.org/formats/oboInOwl#hasRelatedSynonym> ;
-   owl:annotatedTarget "OBO_REL:has_participant" ;
-   rdfs:comment "'OBO_REL:has_participant' is narrower in the sense that it only relates ontological categories (concepts) that are a 'process' (span:Process) with ontological categories that are a 'continuant' (snap:Continuant), and broader in the sense that it relates with any participating objects not just inputs or input arguments of the subject."
- ] .
+                                    <http://www.geneontology.org/formats/oboInOwl#isCyclic> "true" ;
+                                    <http://www.geneontology.org/formats/oboInOwl#hasRelatedSynonym> "OBO_REL:has_participant" .
 
 [ rdf:type owl:Axiom ;
    owl:annotatedSource <http://edamontology.org/has_input> ;
    owl:annotatedProperty <http://www.geneontology.org/formats/oboInOwl#isCyclic> ;
    owl:annotatedTarget "true" ;
    rdfs:comment "In very unusual cases."
+ ] .
+
+[ rdf:type owl:Axiom ;
+   owl:annotatedSource <http://edamontology.org/has_input> ;
+   owl:annotatedProperty <http://www.geneontology.org/formats/oboInOwl#hasRelatedSynonym> ;
+   owl:annotatedTarget "OBO_REL:has_participant" ;
+   rdfs:comment "'OBO_REL:has_participant' is narrower in the sense that it only relates ontological categories (concepts) that are a 'process' (span:Process) with ontological categories that are a 'continuant' (snap:Continuant), and broader in the sense that it relates with any participating objects not just inputs or input arguments of the subject."
  ] .
 
 
@@ -24385,8 +24350,8 @@ Ce module utilise le modèle de performances BADA.""" .
  ] .
 
 
-<http://edamontology.org/has_topic> rdfs:comment "Subject A can be any concept or entity outside of an ontology (or an ontology concept in a role of an entity being semantically annotated). Object B can either be a concept that is a 'Topic', or in unexpected cases an entity outside of an ontology that is a 'Topic' or is in the role of a 'Topic'. In EDAM, only 'has_topic' is explicitly defined between EDAM concepts ('Operation' or 'Data' 'has_topic' 'Topic'). The inverse, 'is_topic_of', is not explicitly defined." ;
-                                    rdfs:seeAlso "http://www.loa-cnr.it/ontologies/DOLCE-Lite.owl#has-quality" ;
+<http://edamontology.org/has_topic> rdfs:seeAlso "http://www.loa-cnr.it/ontologies/DOLCE-Lite.owl#has-quality" ;
+                                    rdfs:comment "Subject A can be any concept or entity outside of an ontology (or an ontology concept in a role of an entity being semantically annotated). Object B can either be a concept that is a 'Topic', or in unexpected cases an entity outside of an ontology that is a 'Topic' or is in the role of a 'Topic'. In EDAM, only 'has_topic' is explicitly defined between EDAM concepts ('Operation' or 'Data' 'has_topic' 'Topic'). The inverse, 'is_topic_of', is not explicitly defined." ;
                                     <http://purl.obolibrary.org/obo/is_symmetric> "false" ;
                                     <http://www.geneontology.org/formats/oboInOwl#inSubset> "relations" ;
                                     <http://purl.obolibrary.org/obo/is_anti_symmetric> "false" ;
@@ -24396,9 +24361,9 @@ Ce module utilise le modèle de performances BADA.""" .
                                     <http://purl.obolibrary.org/obo/transitive_over> "OBO_REL:is_a" ;
                                     <http://purl.obolibrary.org/obo/is_reflexive> "false" ;
                                     <http://www.geneontology.org/formats/oboInOwl#hasDefinition> "'A has_topic B' defines for the subject A, that it has the object B as its topic (A is in the scope of a topic B)." ;
-                                    rdfs:seeAlso "\"http://purl.obolibrary.org/obo/OBI_0000298\"" ;
-                                    <http://www.geneontology.org/formats/oboInOwl#inSubset> "edam" ;
-                                    rdfs:seeAlso "http://annotation-ontology.googlecode.com/svn/trunk/annotation-core.owl#hasTopic" .
+                                    rdfs:seeAlso "\"http://purl.obolibrary.org/obo/OBI_0000298\"" ,
+                                                 "http://annotation-ontology.googlecode.com/svn/trunk/annotation-core.owl#hasTopic" ;
+                                    <http://www.geneontology.org/formats/oboInOwl#inSubset> "edam" .
 
 [ rdf:type owl:Axiom ;
    owl:annotatedSource <http://edamontology.org/has_topic> ;
@@ -24443,8 +24408,8 @@ Ce module utilise le modèle de performances BADA.""" .
                                          rdfs:seeAlso "http://www.loa-cnr.it/ontologies/DOLCE-Lite.owl#inherent-in" ;
                                          rdfs:label "is function of" ;
                                          rdfs:seeAlso "http://wsio.org/is_function_of" ;
-                                         <http://purl.obolibrary.org/obo/transitive_over> "OBO_REL:is_a" ;
                                          <http://purl.obolibrary.org/obo/is_reflexive> "false" ;
+                                         <http://purl.obolibrary.org/obo/transitive_over> "OBO_REL:is_a" ;
                                          rdfs:comment "Subject A can either be concept that is (or is in a role of) a function, or an entity outside of an ontology (or an ontology concept in a role of an entity being semantically annotated) that is (or is in a role of) a function specification. Object B can be any concept or entity. Within EDAM itself, 'is_function_of' is not used." ;
                                          <http://www.geneontology.org/formats/oboInOwl#inSubset> "edam" ;
                                          <http://www.geneontology.org/formats/oboInOwl#hasDefinition> "'A is_function_of B' defines for the subject A, that it is a function of the object B." ;
@@ -24478,8 +24443,8 @@ Ce module utilise le modèle de performances BADA.""" .
 <http://edamontology.org/is_identifier_of> <http://www.geneontology.org/formats/oboInOwl#inSubset> "relations" ;
                                            <http://purl.obolibrary.org/obo/transitive_over> "OBO_REL:is_a" ;
                                            <http://purl.obolibrary.org/obo/is_symmetric> "false" ;
-                                           <http://purl.obolibrary.org/obo/is_anti_symmetric> "false" ;
                                            <http://www.geneontology.org/formats/oboInOwl#hasDefinition> "'A is_identifier_of B' defines for the subject A, that it is an identifier of the object B." ;
+                                           <http://purl.obolibrary.org/obo/is_anti_symmetric> "false" ;
                                            <http://www.geneontology.org/formats/oboInOwl#isCyclic> "false" ;
                                            rdfs:label "is identifier of" ;
                                            <http://www.geneontology.org/formats/oboInOwl#inSubset> "edam" ;
@@ -24491,15 +24456,15 @@ Ce module utilise le modèle de performances BADA.""" .
                                       <http://www.geneontology.org/formats/oboInOwl#inSubset> "relations" ;
                                       <http://purl.obolibrary.org/obo/is_symmetric> "false" ;
                                       <http://purl.obolibrary.org/obo/transitive_over> "OBO_REL:is_a" ;
-                                      <http://www.geneontology.org/formats/oboInOwl#inSubset> "edam" ;
                                       <http://www.geneontology.org/formats/oboInOwl#hasDefinition> "'A is_input_of B' defines for the subject A, that it as a necessary or actual input or input argument of the object B." ;
+                                      <http://www.geneontology.org/formats/oboInOwl#inSubset> "edam" ;
                                       rdfs:seeAlso "\"http://purl.obolibrary.org/obo/OBI_0000295\"" ;
                                       <http://www.geneontology.org/formats/oboInOwl#isCyclic> "true" ;
                                       rdfs:label "is input of" ;
                                       rdfs:comment "Subject A can be any concept or entity outside of an ontology (or an ontology concept in a role of an entity being semantically annotated). Object B can either be a concept that is or has an 'Operation' function, or an entity outside of an ontology that has an 'Operation' function or is an 'Operation'. In EDAM, 'is_input_of' is not explicitly defined between EDAM concepts, only the inverse 'has_input'." ;
                                       <http://purl.obolibrary.org/obo/is_reflexive> "false" ;
-                                      rdfs:seeAlso "http://wsio.org/is_input_of" ;
-                                      <http://purl.obolibrary.org/obo/is_anti_symmetric> "false" .
+                                      <http://purl.obolibrary.org/obo/is_anti_symmetric> "false" ;
+                                      rdfs:seeAlso "http://wsio.org/is_input_of" .
 
 [ rdf:type owl:Axiom ;
    owl:annotatedSource <http://edamontology.org/is_input_of> ;
@@ -24546,8 +24511,8 @@ Ce module utilise le modèle de performances BADA.""" .
 
 
 <http://edamontology.org/is_topic_of> <http://www.geneontology.org/formats/oboInOwl#hasRelatedSynonym> "OBO_REL:quality_of" ;
-                                      rdfs:comment "Subject A can either be a concept that is a 'Topic', or in unexpected cases an entity outside of an ontology (or an ontology concept in a role of an entity being semantically annotated) that is a 'Topic' or is in the role of a 'Topic'. Object B can be any concept or entity outside of an ontology. In EDAM, 'is_topic_of' is not explicitly defined between EDAM concepts, only the inverse 'has_topic'." ;
                                       <http://www.geneontology.org/formats/oboInOwl#isCyclic> "true" ;
+                                      rdfs:comment "Subject A can either be a concept that is a 'Topic', or in unexpected cases an entity outside of an ontology (or an ontology concept in a role of an entity being semantically annotated) that is a 'Topic' or is in the role of a 'Topic'. Object B can be any concept or entity outside of an ontology. In EDAM, 'is_topic_of' is not explicitly defined between EDAM concepts, only the inverse 'has_topic'." ;
                                       <http://purl.obolibrary.org/obo/is_symmetric> "false" ;
                                       rdfs:seeAlso "http://www.loa-cnr.it/ontologies/DOLCE-Lite.owl#inherent-in" ;
                                       <http://www.geneontology.org/formats/oboInOwl#inSubset> "relations" ;
@@ -24608,8 +24573,8 @@ dcterms:conformsTo rdfs:label "Conforms To"@en ;
 
 
 dcterms:coverage rdfs:label "Coverage"@en ;
-                 dcterms:description "Spatial topic and spatial applicability may be a named place or a location specified by its geographic coordinates. Temporal topic may be a named period, date, or date range. A jurisdiction may be a named administrative entity or a geographic place to which the resource applies. Recommended best practice is to use a controlled vocabulary such as the Thesaurus of Geographic Names [TGN]. Where appropriate, named places or time periods can be used in preference to numeric identifiers such as sets of coordinates or date ranges."@en ;
                  dcterms:hasVersion <http://dublincore.org/usage/terms/history/#coverageT-001> ;
+                 dcterms:description "Spatial topic and spatial applicability may be a named place or a location specified by its geographic coordinates. Temporal topic may be a named period, date, or date range. A jurisdiction may be a named administrative entity or a geographic place to which the resource applies. Recommended best practice is to use a controlled vocabulary such as the Thesaurus of Geographic Names [TGN]. Where appropriate, named places or time periods can be used in preference to numeric identifiers such as sets of coordinates or date ranges."@en ;
                  dcterms:issued "2008-01-14"^^xsd:date ;
                  rdfs:comment "The spatial or temporal topic of the resource, the spatial applicability of the resource, or the jurisdiction under which the resource is relevant."@en ;
                  dcterms:modified "2008-01-14"^^xsd:date .
@@ -24657,8 +24622,8 @@ dcterms:language rdfs:label "Language"@en ;
 dcterms:license dcterms:issued "2004-06-14"^^xsd:date ;
                 rdfs:label "License"@en ;
                 rdfs:comment "A legal document giving official permission to do something with the resource."@en ;
-                dcterms:hasVersion <http://dublincore.org/usage/terms/history/#license-002> ;
-                dcterms:modified "2008-01-14"^^xsd:date .
+                dcterms:modified "2008-01-14"^^xsd:date ;
+                dcterms:hasVersion <http://dublincore.org/usage/terms/history/#license-002> .
 
 
 dcterms:medium rdfs:label "Medium"@en ;
@@ -24677,8 +24642,8 @@ dcterms:rights dcterms:issued "2008-01-14"^^xsd:date ;
 
 
 dcterms:rightsHolder dcterms:hasVersion <http://dublincore.org/usage/terms/history/#rightsHolder-002> ;
-                     rdfs:comment "A person or organization owning or managing rights over the resource."@en ;
                      dcterms:modified "2008-01-14"^^xsd:date ;
+                     rdfs:comment "A person or organization owning or managing rights over the resource."@en ;
                      dcterms:issued "2004-06-14"^^xsd:date ;
                      rdfs:label "Rights Holder"@en .
 
@@ -24705,10 +24670,10 @@ dcterms:temporal dcterms:modified "2008-01-14"^^xsd:date ;
 <http://www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf#Timestamp> rdfs:isDefinedBy "An indication of when a measurement/simulation/calculation has taken place" .
 
 
-<http://www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf#1598349102.7129216> rdf:type "http://purl.org/mp/Data" ,
-                                                                                    "http://www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf#MeasuredQuantity" ;
+<http://www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf#1598349102.7129216> rdf:type "http://purl.org/mp/Data" ;
                                                                            rdfs:isDefinedBy """BEWARE - TESTING PURPOSES only, those files should NOT be used for scientific analysis, they DO NOT belong to any real-world measurements.
-Signal for PSD processing""" .
+Signal for PSD processing""" ;
+                                                                           rdf:type "http://www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf#MeasuredQuantity" .
 
 
 <http://www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf#1598349102.8541331> rdfs:isDefinedBy "Exemple d'un vol IAGOS au départ de Frankfort. Le fichier est au format texte." ;
@@ -24716,14 +24681,14 @@ Signal for PSD processing""" .
                                                                                     "http://purl.org/mp/Data" .
 
 
-<http://www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf#1598349102.9933054> rdf:type "http://purl.org/mp/Data" ,
-                                                                                    "http://www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf#MeasuredQuantity" ;
+<http://www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf#1598349102.9933054> rdf:type "http://purl.org/mp/Data" ;
                                                                            rdfs:isDefinedBy """ASCII files with aerodynamic coefficients (1st column = time, 2nd column = CD, 3rd column = CL) obtained with NSMB unsteady simulations of the 2D model of the Large Scale A320 wing+flap landing configuration (flap deflection 25°) representative of PoliMi experimental tests model, including test section walls.
 Configurations and computational parameters are indicated in the filename:
 - m for Mach number
 - aoa for Angle of Attack (degree)
 - camb for cambering of the flap (% of cambering max = 0.1m)
-- flap for flapping frequency in Hz (flapping amplitude fixed at 0.00035m)""" .
+- flap for flapping frequency in Hz (flapping amplitude fixed at 0.00035m)""" ;
+                                                                           rdf:type "http://www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf#MeasuredQuantity" .
 
 
 <http://www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf#1598349103.1384735> rdf:type "http://www.callisto.calmip.univ-toulouse.fr/ARCAS.rdf#MeasuredQuantity" ;
@@ -25001,9 +24966,9 @@ The files contains three rows with wavelength data, each row corresponds to the 
                                        dc:creator "James Malone" .
 
 
-<http://www.ebi.ac.uk/swo/SWO_0040005> dc:creator "OBI" ;
+<http://www.ebi.ac.uk/swo/SWO_0040005> dc:creator "OBI" ,
+                                                  "Allyson Lister" ;
                                        <http://purl.obolibrary.org/obo/IAO_0000119> "Allyson Lister" ;
-                                       dc:creator "Allyson Lister" ;
                                        rdfs:label "is executed in" ;
                                        <http://purl.obolibrary.org/obo/IAO_0000115> "is executed in defines the relationship between a software class and an appropriate process in the information processing hierarchy. Specifically, it allows the linking of a particular piece of software to a process of a particular purpose, " .
 
@@ -25291,11 +25256,11 @@ The files contains three rows with wavelength data, each row corresponds to the 
                                              <http://www.callisto.calmip.univ-toulouse.fr/ARCAS.rdfconstraints> "http://www.w3.org/TR/2013/REC-prov-constraints-20130430/#prov-dm-constraints-fig"^^xsd:anyURI .
 
 
-<http://www.w3.org/ns/prov#wasRevisionOf> rdfs:label "wasRevisionOf" ;
-                                          <http://www.callisto.calmip.univ-toulouse.fr/ARCAS.rdfqualifiedForm> <http://www.w3.org/ns/prov#Revision> ;
+<http://www.w3.org/ns/prov#wasRevisionOf> <http://www.callisto.calmip.univ-toulouse.fr/ARCAS.rdfqualifiedForm> <http://www.w3.org/ns/prov#Revision> ;
+                                          rdfs:label "wasRevisionOf" ;
                                           <http://www.callisto.calmip.univ-toulouse.fr/ARCAS.rdfcategory> "expanded" ;
-                                          <http://www.callisto.calmip.univ-toulouse.fr/ARCAS.rdfqualifiedForm> <http://www.w3.org/ns/prov#qualifiedRevision> ;
                                           <http://www.callisto.calmip.univ-toulouse.fr/ARCAS.rdfinverse> "hadRevision" ;
+                                          <http://www.callisto.calmip.univ-toulouse.fr/ARCAS.rdfqualifiedForm> <http://www.w3.org/ns/prov#qualifiedRevision> ;
                                           rdfs:isDefinedBy <http://www.w3.org/ns/prov-o#> ;
                                           <http://www.callisto.calmip.univ-toulouse.fr/ARCAS.rdfcomponent> "derivations" ;
                                           rdfs:comment "A revision is a derivation that revises an entity into a revised version."@en .

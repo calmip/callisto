@@ -198,8 +198,8 @@ class RegisterService(object):
         """
         use: CSV inputs(uris) quantity,format,unit CSV of outputs(URIs) quantity,format,unit "description","url","driver name" [operations by uris]]
         """
-        os.system("rm ../logs/register_service.log")
-        log.basicConfig(filename='../logs/register_service.log', level=log.DEBUG, format='%(levelname)s:%(asctime)s %(message)s ')
+        os.system("rm /usr/local/callisto/logs/register_service.log")
+        log.basicConfig(filename='/usr/local/callisto/logs/register_service.log', level=log.DEBUG, format='%(levelname)s:%(asctime)s %(message)s ')
         self.readconf = ReadConfig.ReadConfig()
         for elt in sys.argv:
             print(elt)

@@ -49,7 +49,7 @@ class DatasetsToOntology(object):
         liste de listes de 4 elements comprenant: id, titre, description, et liste de sujets lies au dataset
         prototype de chaque liste: [string, string, string, [string,...,string]]
         """
-        API_TOKEN = "a8ca1699-09db-48d2-8717-87780f850238"
+        API_TOKEN = "02ba007d-ec99-4669-98e1-f3b18abfa19b"
         SERVER_URL = "Callistodataverse:8080"
         liste_results = []
         log.debug("get_detail, repos:"+str(self.repos))
@@ -72,7 +72,7 @@ class DatasetsToOntology(object):
                 print("New data contact id:"+str(data['id']))
                 try:
                     output = subprocess.check_output("wget " + SERVER_URL + "/api/datasets/" + str(data['id']) + "?key=" + API_TOKEN + " --no-check-certificate -O data.json" , stderr=subprocess.STDOUT, shell=True)
-                    #print("wget " + SERVER_URL + "/api/datasets/" + str(data['id']) + "?key=" + API_TOKEN + " --no-check-certificate -O data.json")
+                    print("wget " + SERVER_URL + "/api/datasets/" + str(data['id']) + "?key=" + API_TOKEN + " --no-check-certificate -O data.json")
                 except:
                     #print("Pb. contact dataset id:"+str(data['id']))
                     continue
@@ -97,18 +97,22 @@ class DatasetsToOntology(object):
                         #print("Element of ['data']['latestVersion']['files']:")
                         #print(elt)
                         if isinstance(elt, dict):
-                            print(elt)
                             id_elt = elt['dataFile']['id']
                             try:
                                 id_tags = elt['categories']
                             except:
                                 id_tags = []
+                            try:
+                                filedescription = elt['description']
+                                print("filedescription:"+str(filedescription))
+                            except:
+                                filedescription = ""
                             print("tags: "+str(id_tags))
                             print("id datafile:" + str(id_elt))
                             type_elt = elt['dataFile']['contentType']
                             url = SERVER_URL + "/api/access/datafile/" + str(id_elt) + "?key="
                             #print("individual file url:"+url)
-                            files_urls.append([url,str(id_elt),id_tags])
+                            files_urls.append([url,str(id_elt),id_tags,filedescription])
                     for elt in liste_datasets['data']['latestVersion']['metadataBlocks']['citation']['fields']:
                         #print(str(type(elt)) + "-->" + str(elt))
                         if elt["typeName"] == "title":
@@ -118,8 +122,8 @@ class DatasetsToOntology(object):
                         if elt["typeName"] == "dsDescription":
                                 # Recupere la description du dataset
                             for description_index in elt['value']:
-                                description = description_index['dsDescriptionValue']['value']
-                            #print("description:" + str(description))
+                                dataset_description = description_index['dsDescriptionValue']['value']
+                                print("description:" + str(dataset_description.encode('utf-8')))
                         if elt["typeName"] == "subject":
                             # Recupere les mots-cles des vocabulaires controles lies au dataset
                             subjects = elt["value"]
@@ -164,6 +168,8 @@ class DatasetsToOntology(object):
                         tags = indiv[2]
                         print("keywords:"+str(keywords))
                         new_keys = []
+                        description = indiv[3]
+                        description = description.replace("\\x","")
                         for ke in keywords:
                             new_keys.append(ke)
                         for tag in tags:
@@ -201,7 +207,7 @@ class DatasetsToOntology(object):
         with result:
             for binding_set in result:
                 self.registered_services.append(str(binding_set.getValue("service")).replace("\"","").replace("\\n","").replace("\\r"," ").replace("\\","").encode('utf8'))
-                	
+                
     def update_ontology(self, details):
         """
         Construit le fichier "template" de description de service
@@ -214,12 +220,12 @@ class DatasetsToOntology(object):
             timer = str(time.time())
             svc = "FDV_" + str(elt[0])
             #print("regisering service:"+svc)
-                        
+            #print (elt)
             measurement = "Quantity that is measured"
             keywords = elt[5]
             elt_type =  elt[6]
             resume = str(elt[1])
-            description = str(elt[2])            
+            description = str(elt[2].encode('utf-8', errors='ignore')).replace("b","")            
             subjects = str(elt[3])
             repo = elt[7]
             url = str(elt[4])
@@ -261,7 +267,7 @@ class DatasetsToOntology(object):
             template_file.write("base url = "+url+"\n")
             template_file.close()
             #print("calling: python3 ./RegisterService.py "+svc+".template register")
-            os.system("python3 ./RegisterService.py "+svc+".template register")
+            os.system("python3 /usr/local/callisto/bin/RegisterService.py "+svc+".template register")
             repository.shutDown()
             self.conn.close()
         print ("Maj ontology ----> FIN MAJ")
@@ -326,5 +332,5 @@ class DatasetsToOntology(object):
         log.basicConfig(filename='/usr/local/callisto/logs/Datasets_to_allegro.log', level=log.DEBUG, format='%(levelname)s:%(asctime)s %(message)s ')
         self.read_config()
         self.repos = self.open_connection()
-        self.repos = ['demonstration']
+        #self.repos = ['demonstration']
         log.debug("trouve repos:"+str(self.repos))

@@ -1,7 +1,7 @@
 import logging as log
 class ReadConfig(object):
     def read_config(self):
-        config_file = open("../etc/callisto_conf.cfg", 'r')
+        config_file = open("/usr/local/callisto/etc/callisto_conf.cfg", 'r')
         case = ""
         lines = config_file.readlines()
         for line in lines:
